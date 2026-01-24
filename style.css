@@ -37,6 +37,78 @@ body { background-color: var(--bg); padding-bottom: 40px; }
     flex-wrap: wrap;
 }
 
+/* ✅ ១. រចនាប៊ូតុង Navbar ខាងលើអោយស្អាត (ដូចរូបទី ១) */
+.nav-buttons {
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+}
+
+.btn {
+    border: none;
+    padding: 8px 16px;
+    border-radius: 30px; /* មូលសងខាង */
+    color: white;
+    font-family: 'Siemreap', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 13px;
+    display: flex; align-items: center; gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    outline: none;
+}
+
+/* Effect ពេលដាក់ Mouse ពីលើ */
+.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.2); }
+.btn:active { transform: translateY(0); }
+
+/* ពណ៌ប៊ូតុង */
+.btn-green { 
+    background: linear-gradient(135deg, #43a047, #2e7d32); 
+}
+.btn-blue { 
+    background: linear-gradient(135deg, #42a5f5, #1565c0); 
+    opacity: 0.6; /* ធ្វើឱ្យសងងឹតបន្តិចពេលមិនទាន់ចុច */
+}
+.btn-red { 
+    background: linear-gradient(135deg, #ef5350, #c62828); 
+    opacity: 0.6;
+}
+
+/* ពេលប៊ូតុងកំពុង Active (ត្រូវបានជ្រើសរើស) */
+.btn-blue.active, .btn-red.active {
+    opacity: 1;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.4); /* ថែមរង្វង់ពណ៌សជុំវិញ */
+    transform: scale(1.05);
+}
+
+
+/* ✅ ២. រចនាប៊ូតុងនៅលើកាត (Print មុខ/ក្រោយ) អោយស្អាត */
+.card-actions {
+    display: flex; 
+    justify-content: center; 
+    gap: 8px; 
+    padding: 6px 0 8px 0;
+}
+
+.btn-action {
+    border: none;
+    padding: 6px 14px;
+    border-radius: 8px; /* មូលតិចៗ */
+    color: white;
+    font-size: 10px;
+    font-family: 'Siemreap', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 4px;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.btn-action:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+
+.btn-small-blue { background-color: #1976d2; }
+.btn-small-red { background-color: #d32f2f; }
+
 /* ✅ Button Styles */
 .btn {
     border: none;
@@ -113,3 +185,4 @@ body { background-color: var(--bg); padding-bottom: 40px; }
     .nav-buttons { width: 100%; justify-content: center; }
     .btn { font-size: 12px; padding: 6px 10px; }
 }
+
