@@ -1,0 +1,82 @@
+:root {
+    --primary: #0d1b3e;
+    --accent: #d32f2f;
+    --bg: #f4f7fa;
+    --cardW: 300px; /* កំណត់ទំហំកាតអោយសមនឹងអេក្រង់ទូរសព្ទ */
+    --cardH: 470px; /* មាត្រដ្ឋានប្រហាក់ប្រហែលកាតពិត */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Siemreap', sans-serif; }
+body { background-color: var(--bg); padding-bottom: 40px; }
+
+/* Navbar */
+.navbar {
+    background: var(--primary); color: white;
+    padding: 15px; text-align: center;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+.brand { font-family: 'Moul', serif; font-size: 1.1rem; }
+
+/* Container */
+.container { padding: 20px 10px; max-width: 600px; margin: 0 auto; }
+
+/* Grid System */
+.grid {
+    display: flex;
+    flex-direction: column; /* តម្រៀបពីលើចុះក្រោមសម្រាប់ទូរសព្ទ */
+    gap: 25px;
+    align-items: center;
+}
+
+/* ID Card Design */
+.id-card {
+    width: var(--cardW);
+    height: var(--cardH);
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    display: flex; flex-direction: column;
+    border-top: 6px solid var(--accent);
+    transition: transform 0.3s;
+}
+
+.id-card:active { transform: scale(0.98); } /* Effect ពេលចុចលើទូរសព្ទ */
+
+/* Header */
+.card-header { text-align: center; padding-top: 15px; }
+.ministry { font-size: 10px; font-weight: bold; }
+.school-name { 
+    font-family: 'Moul', serif; color: var(--accent); 
+    font-size: 11px; margin-top: 5px; padding: 0 10px;
+}
+
+/* Photo */
+.photo-box {
+    width: 130px; height: 170px; margin: 10px auto;
+    border: 3px solid #fff; border-radius: 8px;
+    background: #eee; overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.photo-box img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Body Info */
+.card-body { text-align: center; flex: 1; display: flex; flex-direction: column; gap: 5px; }
+.khmer-name { font-family: 'Moul', serif; color: var(--primary); font-size: 16px; margin-top: 5px; }
+.latin-name { font-weight: bold; color: var(--accent); text-transform: uppercase; font-size: 12px; }
+.role-badge { 
+    background: #e3f2fd; color: #1565c0; 
+    padding: 4px 12px; border-radius: 15px; 
+    font-size: 11px; font-weight: bold; display: inline-block; margin: 5px auto;
+}
+
+/* Footer */
+.card-footer {
+    background: var(--primary); color: white;
+    text-align: center; padding: 8px; font-size: 10px;
+}
+
+/* Loading */
+.loading { text-align: center; margin-top: 50px; color: #666; font-size: 1.2rem; }
