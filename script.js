@@ -1,5 +1,5 @@
 // ⚠️ ដាក់ URL API របស់អ្នកនៅទីនេះ
-const API_URL = "https://script.google.com/macros/s/XXXXXXXXXXXXXXXXXXXX/exec"; 
+const API_URL = "https://script.google.com/macros/s/AKfycbwSbCRDF1lhxwDcxtsAMJ-N8HVDytPrhPJNKRZoMyJ459YnKjS8hQqKopjYGb-RPPEJ/exec"; 
 
 let allTeachers = [];
 let globalConfig = {};
@@ -143,3 +143,4 @@ function printSingleCard(t, side) {
         }, 500);
     };
 }
+
