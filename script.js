@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbxkxwIqeazDXxNykUhXA4BN3edOOMKdh3ZrMhH99YpCXT3nhzHvfrKEvQTBFoOzuLJz/exec"; // ⚠️ កុំភ្លេចដាក់ URL របស់អ្នក
+const API_URL = "https://script.google.com/macros/s/AKfycbyPt2gnoU6jHqMddKITYjzBgpAS04UR6wmGosd0b5I45wJWIHCXl3LwMvxlrWzGkAGZ/exec"; // ⚠️ កុំភ្លេចដាក់ URL របស់អ្នក
 
 let allTeachers = [];
 let globalConfig = {};
@@ -280,6 +280,7 @@ function printSingleCard(t, side) {
      // ... ដាក់កូដ HTML សម្រាប់ Print នៅទីនេះ ...
      w.document.write('<h1>Testing Print</h1>'); // ឧទាហរណ៍
 }
+
 
 
 
