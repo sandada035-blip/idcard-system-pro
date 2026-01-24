@@ -2,9 +2,7 @@
     --primary: #0d1b3e;
     --accent: #d32f2f;
     --bg: #f0f2f5;
-    
-    /* ✅ កំណត់ទំហំតាមស្តង់ដារដើម */
-    --cardW: 54mm; 
+    --cardW: 54mm;
     --cardH: 86mm;
     --radius: 18px;
     --shadow: 0 10px 25px rgba(0,0,0,0.15);
@@ -13,84 +11,105 @@
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Siemreap', sans-serif; }
 body { background-color: var(--bg); padding-bottom: 40px; }
 
-/* Navbar */
+/* ✅ Navbar Styling (ដូចរូប) */
 .navbar {
-    background: var(--primary); color: white;
-    padding: 15px; display: flex; justify-content: space-between; align-items: center;
-    position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    background: var(--primary);
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky; top: 0; z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    flex-wrap: wrap; gap: 10px;
 }
-.brand { font-family: 'Moul', serif; font-size: 1.1rem; }
-.btn-refresh { background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; }
 
-/* Search */
+.brand { 
+    font-family: 'Moul', serif; 
+    font-size: 1.2rem; 
+    color: white; 
+    margin-right: auto; 
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* ✅ Button Styles */
+.btn {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    color: white;
+    font-family: 'Siemreap', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex; align-items: center; gap: 6px;
+    transition: 0.2s;
+}
+.btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+
+.btn-green { background-color: #2e7d32; }
+.btn-blue { background-color: #1565c0; opacity: 0.5; } /* Inactive state */
+.btn-red { background-color: #c62828; opacity: 0.5; }   /* Inactive state */
+
+/* Active State styling */
+.btn-blue.active { opacity: 1; box-shadow: 0 0 0 2px white; }
+.btn-red.active { opacity: 1; box-shadow: 0 0 0 2px white; }
+
+/* Search Box */
 .search-container { position: relative; margin: 20px auto; max-width: 600px; padding: 0 10px; }
 .search-container input {
-    width: 100%; padding: 12px 15px 12px 45px;
-    border: 2px solid #ddd; border-radius: 25px; font-size: 1rem; outline: none;
+    width: 100%; padding: 10px 15px 10px 40px;
+    border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; outline: none;
 }
-.search-icon { position: absolute; left: 25px; top: 50%; transform: translateY(-50%); color: #888; }
+.search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #888; }
 
 /* Grid Layout */
 .container { padding: 10px; max-width: 1200px; margin: 0 auto; }
-.grid { 
-    display: flex; 
-    flex-wrap: wrap; /* អោយវាចុះបន្ទាត់ពេលអស់កន្លែង */
-    gap: 20px; 
-    justify-content: center; /* ដាក់កាតនៅកណ្តាល */
-}
+.grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
 
-/* ✅ ID Card Design (Original Size) */
+/* Card Styles (Same as before) */
 .id-card {
-    width: var(--cardW); 
-    height: var(--cardH); 
-    background: #fff;
-    border-radius: var(--radius);
-    overflow: hidden; 
-    position: relative;
-    box-shadow: var(--shadow); 
-    display: flex; flex-direction: column;
-    border-top: 6px solid var(--accent);
-    transition: transform 0.2s;
-    /* ជួយអោយកាតមិនបែកពេលមើលលើទូរសព្ទ */
-    flex-shrink: 0; 
+    width: var(--cardW); height: var(--cardH); background: #fff;
+    border-radius: var(--radius); overflow: hidden; position: relative;
+    box-shadow: var(--shadow); display: flex; flex-direction: column;
+    border-top: 6px solid var(--accent); transition: transform 0.2s; flex-shrink: 0;
 }
 .id-card:hover { transform: translateY(-5px); }
 
-/* Card Content */
+/* Elements */
 .card-header { text-align: center; padding-top: 8px; }
 .ministry { font-size: 7px; font-weight: bold; }
 .school-name { font-family: 'Moul', serif; color: var(--accent); font-size: 8px; margin-top: 3px; }
 
 .photo-box {
     width: 28mm; height: 36mm; margin: 4px auto;
-    border: 2px solid #fff; border-radius: 6px; 
-    background: #eee; overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: 2px solid #fff; border-radius: 6px; background: #eee; 
+    overflow: hidden; display: flex; justify-content: center; align-items: center;
 }
 .photo-box img { width: 100%; height: 100%; object-fit: cover; }
 
 .card-body { text-align: center; flex: 1; display: flex; flex-direction: column; gap: 2px; }
 .khmer-name { font-family: 'Moul', serif; color: var(--primary); font-size: 10px; margin-top: 2px; }
 .latin-name { font-weight: bold; color: var(--accent); text-transform: uppercase; font-size: 8px; }
-.role-badge { 
-    background: #f0f0f0; color: #333; padding: 2px 8px; 
-    border-radius: 10px; font-size: 8px; display: inline-block; margin: 2px auto;
-}
-
-/* ✅ Buttons Action (ដូចក្នុងរូបទី ១) */
-.card-actions {
-    display: flex; justify-content: center; gap: 5px; padding-bottom: 5px;
-}
-.btn-action {
-    border: none; padding: 4px 10px; border-radius: 4px; color: white;
-    font-size: 9px; cursor: pointer; font-family: 'Siemreap';
-}
-.btn-blue { background: #1976d2; } /* Print មុខ */
-.btn-red { background: #d32f2f; }  /* Print ក្រោយ */
-
+.role-badge { background: #f0f0f0; color: #333; padding: 2px 8px; border-radius: 10px; font-size: 8px; display: inline-block; margin: 2px auto; }
 .card-footer { background: var(--primary); color: white; text-align: center; padding: 3px; font-size: 7px; margin-top: auto;}
-.loading { text-align: center; margin-top: 50px; color: #666; }
 
-/* QR Code Style for Back Side */
+/* QR Style */
 .qr-box { width: 35mm; height: 35mm; margin: 10px auto; }
 .qr-box img { width: 100%; height: 100%; }
+.back-info { font-size: 9px; color: #555; text-align: center; margin-top: 5px; }
+
+.loading { text-align: center; margin-top: 50px; color: #666; }
+
+/* Responsive Navbar for Mobile */
+@media (max-width: 600px) {
+    .navbar { flex-direction: column; gap: 10px; }
+    .nav-buttons { width: 100%; justify-content: center; }
+    .btn { font-size: 12px; padding: 6px 10px; }
+}
