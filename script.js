@@ -148,6 +148,8 @@ function renderCards(list) {
 
 // ✅ កូដ Print A4 All (ជំនាន់ចុងក្រោយ៖ មាន Logo + មូលជ្រុងស្អាត)
 
+// ✅ កូដ Print A4 All (Mobile Friendly: ធំច្បាស់ពេញភ្នែក)
+
 function printAll(side) {
     if (allTeachers.length === 0) {
         alert("មិនមានទិន្នន័យសម្រាប់ Print ទេ!");
@@ -159,13 +161,67 @@ function printAll(side) {
     const css = `
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Moul&family=Siemreap&display=swap');
+            
+            /* កំណត់ទំហំ A4 សម្រាប់ការព្រីន */
             @page { size: A4; margin: 0; }
-            body { margin: 0; padding: 0; background: #fff; font-family: 'Siemreap', sans-serif; }
+            body { margin: 0; padding: 0; background: #eee; font-family: 'Siemreap', sans-serif; }
             
-            .sheet { width: 210mm; height: 297mm; padding: 10mm; page-break-after: always; display: block; box-sizing: border-box; }
-            .grid { display: grid; grid-template-columns: repeat(2, 54mm); grid-auto-rows: 86mm; gap: 12mm 16mm; justify-content: center; align-content: start; }
+            .sheet { 
+                width: 210mm; height: 297mm; 
+                padding: 10mm; 
+                margin: 10px auto;
+                background: white;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                display: block; 
+                box-sizing: border-box; 
+                page-break-after: always; 
+            }
             
-            /* រចនាកាត (មានកោងជ្រុង) */
+            /* Grid សម្រាប់ A4 (Computer/Print Mode): ២ កាតក្នុង ១ ជួរ */
+            .grid { 
+                display: grid; 
+                grid-template-columns: repeat(2, 54mm); 
+                grid-auto-rows: 86mm; 
+                gap: 12mm 16mm; 
+                justify-content: center; 
+                align-content: start; 
+            }
+
+            /* 🔥 Mobile View: ធ្វើឱ្យកាតធំពេលមើលលើទូរសព្ទ */
+            @media only screen and (max-width: 600px) {
+                body { padding: 10px; background: #333; } /* ផ្ទៃខាងក្រោយងងឹត ដើម្បីឱ្យកាតលេចធ្លោ */
+                
+                .sheet {
+                    width: 100%; 
+                    height: auto; 
+                    padding: 20px 0;
+                    margin-bottom: 20px;
+                    border-radius: 8px;
+                }
+                
+                .grid {
+                    grid-template-columns: 1fr; /* បង្ហាញ ១ កាតក្នុង ១ ជួរ */
+                    gap: 30px;
+                    justify-items: center;
+                }
+                
+                /* Zoom កាតឱ្យធំពេលមើលលើទូរសព្ទ (Scale Up) */
+                .id-card-print {
+                    transform: scale(1.5); /* ពង្រីក ១.៥ ដង */
+                    margin: 45px 0; /* ទុកចន្លោះលើក្រោមក្រោយពេលពង្រីក */
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important; /* ដាក់ស្រមោលឱ្យស្អាត */
+                }
+            }
+
+            /* ពេល Print ជាក់ស្តែង (Printer) ត្រូវតែត្រឡប់ទៅទំហំដើមវិញ */
+            @media print {
+                body { background: white; }
+                .sheet { margin: 0; box-shadow: none; width: 210mm; height: 297mm; }
+                .grid { grid-template-columns: repeat(2, 54mm); gap: 12mm 16mm; }
+                .id-card-print { transform: none !important; margin: 0 !important; box-shadow: none !important; }
+            }
+            
+            /* រចនាកាត */
             .id-card-print { 
                 width: 54mm; height: 86mm; background: #fff;
                 border-radius: 18px !important; overflow: hidden !important;
@@ -175,22 +231,9 @@ function printAll(side) {
             }
 
             .ministry { font-size: 7px; font-weight: bold; text-align: center; line-height: 1.2; padding-top: 5px;}
-            
-            /* 🔥 បន្ថែម CSS សម្រាប់ Logo */
-            .logo-print {
-                width: 35px; height: 35px;
-                margin: 2px auto; /* ដាក់កណ្តាល */
-                display: block;
-                object-fit: contain;
-            }
-            
+            .logo-print { width: 35px; height: 35px; margin: 2px auto; display: block; object-fit: contain; }
             .school { font-family: 'Moul'; font-size: 8px; color: #d32f2f; text-align: center; margin-top: 1px; }
-            
-            .photo { 
-                width: 28mm; height: 36mm; margin: 2px auto; display: block; 
-                object-fit: cover; border: 1px solid #ccc; border-radius: 4px;
-            }
-            
+            .photo { width: 28mm; height: 36mm; margin: 2px auto; display: block; object-fit: cover; border: 1px solid #ccc; border-radius: 4px; }
             .name-kh { font-family: 'Moul'; font-size: 10px; color: #0d1b3e; text-align: center; margin-top: 4px; }
             .name-en { font-size: 8px; font-weight: bold; color: #d32f2f; text-align: center; text-transform: uppercase; }
             .role { font-size: 8px; text-align: center; color: #555; margin-top: 2px;}
@@ -210,7 +253,6 @@ function printAll(side) {
         
         chunk.forEach(t => {
             const photo = t.photoUrl || '';
-            // 🔥 ចាប់យក Logo URL
             const logo = t.logoUrl || ''; 
             const school = globalConfig.SCHOOL_NAME || 'សាលារៀន';
             const year = globalConfig.ACADEMIC_YEAR || '2025-2026';
@@ -221,9 +263,7 @@ function printAll(side) {
                 html += `
                     <div class="id-card-print">
                         <div class="ministry">ព្រះរាជាណាចក្រកម្ពុជា<br>ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-                        
                         ${logo ? `<img src="${logo}" class="logo-print">` : ''}
-                        
                         <div class="school">${school}</div>
                         <img src="${photo}" class="photo">
                         <div class="name-kh">${t.khmerName}</div>
@@ -233,7 +273,6 @@ function printAll(side) {
                     </div>
                 `;
             } else {
-                // (ផ្នែកខាងក្រោយនៅដដែល)
                 html += `
                     <div class="id-card-print">
                         <div style="padding-top:15px; text-align:center;">
@@ -256,9 +295,8 @@ function printAll(side) {
     w.document.write(html);
     w.document.close();
     
-    w.onload = function() {
-        setTimeout(() => { w.print(); }, 1500);
-    };
+    // ចំណាំ៖ សម្រាប់ Mobile មិនបាច់ Auto Print ភ្លាមទេ ទុកឱ្យមើលសិន
+    // w.onload = function() { setTimeout(() => { w.print(); }, 1500); };
 }
 // ✅ កូដ Print កាតមួយៗ (ជំនាន់ចុងក្រោយ៖ មាន Logo + មូលជ្រុង)
 
@@ -340,6 +378,7 @@ function printSingleCard(t, side) {
         // setTimeout(() => { w.print(); }, 500); 
     };
 }
+
 
 
 
