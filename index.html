@@ -11,8 +11,20 @@
 <body>
 
     <nav class="navbar">
-        <div class="brand">បុគ្គលិកសាលា</div>
-        <button onclick="fetchData()" class="btn-refresh"><i class="fas fa-sync-alt"></i></button>
+        <div class="brand">ID PRO</div>
+        
+        <div class="nav-buttons">
+            <button class="btn btn-green" onclick="printAll('front')">
+                <i class="fas fa-print"></i> Front A4 (All)
+            </button>
+
+            <button class="btn btn-blue active" id="btnFront" onclick="switchMode('front')">ខាងមុខ</button>
+            <button class="btn btn-red" id="btnBack" onclick="switchMode('back')">ខាងក្រោយ</button>
+
+            <button class="btn btn-green" onclick="printAll('back')">
+                <i class="fas fa-print"></i> Back A4 (All)
+            </button>
+        </div>
     </nav>
 
     <div class="container">
@@ -25,8 +37,6 @@
             <i class="fas fa-circle-notch fa-spin"></i>
             <p>កំពុងទាញទិន្នន័យ...</p>
         </div>
-
-        <div id="stats" style="text-align:center; font-size:12px; color:#666; margin-bottom:10px;"></div>
 
         <div id="cardGrid" class="grid"></div>
     </div>
