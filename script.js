@@ -146,6 +146,8 @@ function renderCards(list) {
 // ✅ Function Print A4 All (Version: Rounded Corners Fix)
 // ✅ កូដសម្រាប់ Print A4 ឱ្យចេញមូលជ្រុងស្អាត (Rounded)
 
+// ✅ កូដ Print A4 All (ជំនាន់ចុងក្រោយ៖ មាន Logo + មូលជ្រុងស្អាត)
+
 function printAll(side) {
     if (allTeachers.length === 0) {
         alert("មិនមានទិន្នន័យសម្រាប់ Print ទេ!");
@@ -160,69 +162,41 @@ function printAll(side) {
             @page { size: A4; margin: 0; }
             body { margin: 0; padding: 0; background: #fff; font-family: 'Siemreap', sans-serif; }
             
-            .sheet { 
-                width: 210mm; height: 297mm; 
-                padding: 10mm; 
-                page-break-after: always; 
-                display: block; 
-                box-sizing: border-box; 
-            }
+            .sheet { width: 210mm; height: 297mm; padding: 10mm; page-break-after: always; display: block; box-sizing: border-box; }
+            .grid { display: grid; grid-template-columns: repeat(2, 54mm); grid-auto-rows: 86mm; gap: 12mm 16mm; justify-content: center; align-content: start; }
             
-            .grid { 
-                display: grid; 
-                grid-template-columns: repeat(2, 54mm); 
-                grid-auto-rows: 86mm; 
-                gap: 12mm 16mm; 
-                justify-content: center; 
-                align-content: start; 
-            }
-            
-            /* 🔥 កែសម្រួល៖ ដាក់កោងជ្រុងពេល Print */
+            /* រចនាកាត (មានកោងជ្រុង) */
             .id-card-print { 
-                width: 54mm; height: 86mm; 
-                background: #fff;
-                
-                /* ✅ កូដសំខាន់សម្រាប់កោងជ្រុង */
-                border-radius: 18px !important; 
-                overflow: hidden !important;
-                border: 1px solid #ddd; /* ដាក់គែមស្តើងៗ */
-                
-                position: relative; 
-                display: flex; flex-direction: column; 
+                width: 54mm; height: 86mm; background: #fff;
+                border-radius: 18px !important; overflow: hidden !important;
+                border: 1px solid #ddd; position: relative; display: flex; flex-direction: column; 
                 border-top: 6px solid #d32f2f; 
-                
-                /* បង្ខំឱ្យ Browser Print ពណ៌ */
-                -webkit-print-color-adjust: exact; 
-                print-color-adjust: exact; 
+                -webkit-print-color-adjust: exact; print-color-adjust: exact; 
             }
 
-            /* Header */
-            .ministry { font-size: 7px; font-weight: bold; text-align: center; line-height: 1.2; padding-top: 6px;}
-            .school { font-family: 'Moul'; font-size: 8px; color: #d32f2f; text-align: center; margin-top: 2px; }
+            .ministry { font-size: 7px; font-weight: bold; text-align: center; line-height: 1.2; padding-top: 5px;}
             
-            /* Photo */
-            .photo { 
-                width: 28mm; height: 36mm; 
-                margin: 3px auto; display: block; 
-                object-fit: cover; 
-                border: 1px solid #eee;
-                border-radius: 4px; /* កោងរូបថតបន្តិច */
+            /* 🔥 បន្ថែម CSS សម្រាប់ Logo */
+            .logo-print {
+                width: 35px; height: 35px;
+                margin: 2px auto; /* ដាក់កណ្តាល */
+                display: block;
+                object-fit: contain;
             }
             
-            /* Body Text */
+            .school { font-family: 'Moul'; font-size: 8px; color: #d32f2f; text-align: center; margin-top: 1px; }
+            
+            .photo { 
+                width: 28mm; height: 36mm; margin: 2px auto; display: block; 
+                object-fit: cover; border: 1px solid #ccc; border-radius: 4px;
+            }
+            
             .name-kh { font-family: 'Moul'; font-size: 10px; color: #0d1b3e; text-align: center; margin-top: 4px; }
             .name-en { font-size: 8px; font-weight: bold; color: #d32f2f; text-align: center; text-transform: uppercase; }
             .role { font-size: 8px; text-align: center; color: #555; margin-top: 2px;}
+            .footer { position: absolute; bottom: 0; width: 100%; background: #0d1b3e; color: white; font-size: 7px; text-align: center; padding: 3px 0; }
             
-            /* Footer */
-            .footer { 
-                position: absolute; bottom: 0; width: 100%; 
-                background: #0d1b3e; color: white; 
-                font-size: 7px; text-align: center; padding: 4px 0; 
-            }
-            
-            /* QR Code Back */
-            .qr-img { width: 35mm; height: 35mm; margin: 10px auto; display: block; }
+            .qr-img { width: 35mm; height: 35mm; margin: 8px auto; display: block; }
             .info-back { font-size: 8px; text-align: center; margin-top: 5px; line-height: 1.4; }
         </style>
     `;
@@ -236,10 +210,10 @@ function printAll(side) {
         
         chunk.forEach(t => {
             const photo = t.photoUrl || '';
+            // 🔥 ចាប់យក Logo URL
+            const logo = t.logoUrl || ''; 
             const school = globalConfig.SCHOOL_NAME || 'សាលារៀន';
             const year = globalConfig.ACADEMIC_YEAR || '2025-2026';
-            
-            // Link ទៅកាន់ Detail Page (Scan ទៅចេញ Detail.html)
             const detailUrl = `${API_URL}?page=detail&id=${encodeURIComponent(t.id)}`;
             const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(detailUrl)}`;
 
@@ -247,6 +221,9 @@ function printAll(side) {
                 html += `
                     <div class="id-card-print">
                         <div class="ministry">ព្រះរាជាណាចក្រកម្ពុជា<br>ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+                        
+                        ${logo ? `<img src="${logo}" class="logo-print">` : ''}
+                        
                         <div class="school">${school}</div>
                         <img src="${photo}" class="photo">
                         <div class="name-kh">${t.khmerName}</div>
@@ -256,6 +233,7 @@ function printAll(side) {
                     </div>
                 `;
             } else {
+                // (ផ្នែកខាងក្រោយនៅដដែល)
                 html += `
                     <div class="id-card-print">
                         <div style="padding-top:15px; text-align:center;">
@@ -278,17 +256,91 @@ function printAll(side) {
     w.document.write(html);
     w.document.close();
     
-    // រង់ចាំរូប Load ចប់សិន ចាំ Print
     w.onload = function() {
         setTimeout(() => { w.print(); }, 1500);
     };
 }
+// ✅ កូដ Print កាតមួយៗ (ជំនាន់ចុងក្រោយ៖ មាន Logo + មូលជ្រុង)
+
 function printSingleCard(t, side) {
-    // ... (កូដ Print កាតមួយដែលខ្ញុំបានផ្ញើជូនពីមុន) ...
-     const w = window.open('', '_blank', 'width=400,height=600');
-     // ... ដាក់កូដ HTML សម្រាប់ Print នៅទីនេះ ...
-     w.document.write('<h1>Testing Print</h1>'); // ឧទាហរណ៍
+    const w = window.open('', '_blank', 'width=400,height=600');
+    
+    // ប្រើ CSS ដូចគ្នានឹង PrintAll ដើម្បីឱ្យលទ្ធផលដូចគ្នា
+    const css = `
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Moul&family=Siemreap&display=swap');
+            @page { size: 54mm 86mm; margin: 0; }
+            body { margin: 0; padding: 20px; display: flex; justify-content: center; background: #f0f0f0; font-family: 'Siemreap', sans-serif;}
+            
+            /* រចនាកាត (មានកោងជ្រុង) */
+            .id-card-print { 
+                width: 54mm; height: 86mm; background: #fff;
+                border-radius: 18px !important; overflow: hidden !important;
+                border: 1px solid #ddd; position: relative; display: flex; flex-direction: column; 
+                border-top: 6px solid #d32f2f; 
+                -webkit-print-color-adjust: exact; print-color-adjust: exact; 
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* ដាក់ស្រមោលបន្តិចពេលមើល Single */
+            }
+            
+            .ministry { font-size: 7px; font-weight: bold; text-align: center; line-height: 1.2; padding-top: 5px;}
+            
+            /* 🔥 CSS សម្រាប់ Logo */
+            .logo-print { width: 35px; height: 35px; margin: 2px auto; display: block; object-fit: contain; }
+            
+            .school { font-family: 'Moul'; font-size: 8px; color: #d32f2f; text-align: center; margin-top: 1px; }
+            .photo { width: 28mm; height: 36mm; margin: 2px auto; display: block; object-fit: cover; border: 1px solid #ccc; border-radius: 4px; }
+            .name-kh { font-family: 'Moul'; font-size: 10px; color: #0d1b3e; text-align: center; margin-top: 4px; }
+            .name-en { font-size: 8px; font-weight: bold; color: #d32f2f; text-align: center; text-transform: uppercase; }
+            .role { font-size: 8px; text-align: center; color: #555; margin-top: 2px;}
+            .footer { position: absolute; bottom: 0; width: 100%; background: #0d1b3e; color: white; font-size: 7px; text-align: center; padding: 3px 0; }
+            .qr-img { width: 35mm; height: 35mm; margin: 15px auto; display: block; }
+            .info-back { font-size: 8px; text-align: center; margin-top: 5px; line-height: 1.4; }
+        </style>
+    `;
+
+    let htmlContent = '';
+    const logo = t.logoUrl || '';
+    const school = globalConfig.SCHOOL_NAME || 'សាលារៀន';
+    const year = globalConfig.ACADEMIC_YEAR || '2025-2026';
+
+    if (side === 'front') {
+        htmlContent = `
+            <div class="id-card-print">
+                <div class="ministry">ព្រះរាជាណាចក្រកម្ពុជា<br>ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+                ${logo ? `<img src="${logo}" class="logo-print">` : ''}
+                <div class="school">${school}</div>
+                <img src="${t.photoUrl}" class="photo">
+                <div class="name-kh">${t.khmerName}</div>
+                <div class="name-en">${t.latinName}</div>
+                <div class="role">${t.role}</div>
+                <div class="footer">ឆ្នាំសិក្សា ${year}</div>
+            </div>
+        `;
+    } else {
+        const detailUrl = `${API_URL}?page=detail&id=${encodeURIComponent(t.id)}`;
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(detailUrl)}`;
+        htmlContent = `
+            <div class="id-card-print">
+                <div class="ministry" style="font-family:'Moul'; margin-top:15px; font-size:10px;">កាតបុគ្គលិក</div>
+                <img src="${qrUrl}" class="qr-img">
+                <div class="info-back">
+                    លេខទូរសព្ទ: ${t.phone || '---'}<br>
+                    អត្តលេខ: ${t.id}
+                </div>
+                <div class="footer">${school}</div>
+            </div>
+        `;
+    }
+
+    w.document.write(`<html><head><title>Print Card</title>${css}</head><body>${htmlContent}</body></html>`);
+    w.document.close();
+    
+    w.onload = function() {
+        // សម្រាប់ Single Print មិនបាច់ Auto Print ភ្លាមៗទេ ទុកឱ្យគេមើលសិន
+        // setTimeout(() => { w.print(); }, 500); 
+    };
 }
+
 
 
 
