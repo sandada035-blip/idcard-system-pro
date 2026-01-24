@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycby-10UiXyGNJPB-gtyNSqAj7b4ZYnlOSgADUfh_KLl21sjJmg_Iobl0t10962m-Nou2/exec"; // ⚠️ កុំភ្លេចដាក់ URL របស់អ្នក
+const API_URL = "https://script.google.com/macros/s/AKfycbyU-yOsjw-kT0K8vJFXunPWzqQmslCq2nwfdQBae63wdcu61UdeHBMf_9zgOQoNoJ1J/exec"; // ⚠️ កុំភ្លេចដាក់ URL របស់អ្នក
 
 let allTeachers = [];
 let globalConfig = {};
@@ -144,6 +144,8 @@ function renderCards(list) {
 // ✅ Function សម្រាប់ Print A4 All (កូដពេញលេញ)
 // ✅ កូដកែសម្រួលថ្មី៖ Print A4 ឱ្យស្អាតដូចរូបដើម
 // ✅ Function Print A4 All (Version: Rounded Corners Fix)
+// ✅ កូដសម្រាប់ Print A4 ឱ្យចេញមូលជ្រុងស្អាត (Rounded)
+
 function printAll(side) {
     if (allTeachers.length === 0) {
         alert("មិនមានទិន្នន័យសម្រាប់ Print ទេ!");
@@ -175,48 +177,52 @@ function printAll(side) {
                 align-content: start; 
             }
             
-            /* 🔥 កែសម្រួលសំខាន់៖ តម្រូវឱ្យមូលជ្រុងដាច់ខាត */
+            /* 🔥 កែសម្រួល៖ ដាក់កោងជ្រុងពេល Print */
             .id-card-print { 
                 width: 54mm; height: 86mm; 
                 background: #fff;
-                border-radius: 18px !important;  /* បង្ខំឱ្យមូល */
-                overflow: hidden !important;     /* កាត់ជ្រុងចេញ */
+                
+                /* ✅ កូដសំខាន់សម្រាប់កោងជ្រុង */
+                border-radius: 18px !important; 
+                overflow: hidden !important;
+                border: 1px solid #ddd; /* ដាក់គែមស្តើងៗ */
+                
                 position: relative; 
                 display: flex; flex-direction: column; 
                 border-top: 6px solid #d32f2f; 
-                border: 1px solid #ddd; 
                 
-                /* បច្ចេកទេសឱ្យ Browser Print ចេញមូល */
-                -webkit-mask-image: -webkit-radial-gradient(white, black);
-                mask-image: radial-gradient(white, black);
-                
+                /* បង្ខំឱ្យ Browser Print ពណ៌ */
                 -webkit-print-color-adjust: exact; 
                 print-color-adjust: exact; 
             }
 
-            .ministry { font-size: 7px; font-weight: bold; text-align: center; line-height: 1.2; padding-top: 5px;}
+            /* Header */
+            .ministry { font-size: 7px; font-weight: bold; text-align: center; line-height: 1.2; padding-top: 6px;}
             .school { font-family: 'Moul'; font-size: 8px; color: #d32f2f; text-align: center; margin-top: 2px; }
             
+            /* Photo */
             .photo { 
                 width: 28mm; height: 36mm; 
-                margin: 2px auto; display: block; 
+                margin: 3px auto; display: block; 
                 object-fit: cover; 
-                border: 1px solid #ccc;
-                border-radius: 4px;
+                border: 1px solid #eee;
+                border-radius: 4px; /* កោងរូបថតបន្តិច */
             }
             
+            /* Body Text */
             .name-kh { font-family: 'Moul'; font-size: 10px; color: #0d1b3e; text-align: center; margin-top: 4px; }
             .name-en { font-size: 8px; font-weight: bold; color: #d32f2f; text-align: center; text-transform: uppercase; }
             .role { font-size: 8px; text-align: center; color: #555; margin-top: 2px;}
             
+            /* Footer */
             .footer { 
                 position: absolute; bottom: 0; width: 100%; 
                 background: #0d1b3e; color: white; 
-                font-size: 7px; text-align: center; padding: 3px 0; 
+                font-size: 7px; text-align: center; padding: 4px 0; 
             }
             
-            /* ផ្នែកខាងក្រោយ */
-            .qr-img { width: 35mm; height: 35mm; margin: 8px auto; display: block; }
+            /* QR Code Back */
+            .qr-img { width: 35mm; height: 35mm; margin: 10px auto; display: block; }
             .info-back { font-size: 8px; text-align: center; margin-top: 5px; line-height: 1.4; }
         </style>
     `;
@@ -229,10 +235,11 @@ function printAll(side) {
         html += `<div class="sheet"><div class="grid">`;
         
         chunk.forEach(t => {
-            // ... (ទិន្នន័យដដែល) ...
             const photo = t.photoUrl || '';
             const school = globalConfig.SCHOOL_NAME || 'សាលារៀន';
             const year = globalConfig.ACADEMIC_YEAR || '2025-2026';
+            
+            // Link ទៅកាន់ Detail Page (Scan ទៅចេញ Detail.html)
             const detailUrl = `${API_URL}?page=detail&id=${encodeURIComponent(t.id)}`;
             const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(detailUrl)}`;
 
@@ -271,6 +278,7 @@ function printAll(side) {
     w.document.write(html);
     w.document.close();
     
+    // រង់ចាំរូប Load ចប់សិន ចាំ Print
     w.onload = function() {
         setTimeout(() => { w.print(); }, 1500);
     };
@@ -281,6 +289,7 @@ function printSingleCard(t, side) {
      // ... ដាក់កូដ HTML សម្រាប់ Print នៅទីនេះ ...
      w.document.write('<h1>Testing Print</h1>'); // ឧទាហរណ៍
 }
+
 
 
 
