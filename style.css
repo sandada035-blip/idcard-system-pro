@@ -1,68 +1,96 @@
 :root {
     --primary: #0d1b3e;
     --accent: #d32f2f;
-    --bg: #f4f7fa;
-    --cardW: 300px;
-    --cardH: 470px;
+    --bg: #f0f2f5;
+    
+    /* ✅ កំណត់ទំហំតាមស្តង់ដារដើម */
+    --cardW: 54mm; 
+    --cardH: 86mm;
+    --radius: 18px;
+    --shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Siemreap', sans-serif; }
 body { background-color: var(--bg); padding-bottom: 40px; }
 
-/* Navbar update */
+/* Navbar */
 .navbar {
     background: var(--primary); color: white;
     padding: 15px; display: flex; justify-content: space-between; align-items: center;
-    position: sticky; top: 0; z-index: 100;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 .brand { font-family: 'Moul', serif; font-size: 1.1rem; }
-.btn-refresh {
-    background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;
-}
-.btn-refresh:active { transform: rotate(180deg); transition: 0.3s; }
+.btn-refresh { background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; }
 
-/* ✅ Search Box Styles */
-.search-container {
-    position: relative; margin: 15px auto; max-width: 600px;
-}
+/* Search */
+.search-container { position: relative; margin: 20px auto; max-width: 600px; padding: 0 10px; }
 .search-container input {
     width: 100%; padding: 12px 15px 12px 45px;
-    border: 2px solid #ddd; border-radius: 25px;
-    font-size: 1rem; outline: none; transition: 0.3s;
+    border: 2px solid #ddd; border-radius: 25px; font-size: 1rem; outline: none;
 }
-.search-container input:focus {
-    border-color: var(--primary); box-shadow: 0 0 8px rgba(13, 27, 62, 0.2);
-}
-.search-icon {
-    position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #888;
+.search-icon { position: absolute; left: 25px; top: 50%; transform: translateY(-50%); color: #888; }
+
+/* Grid Layout */
+.container { padding: 10px; max-width: 1200px; margin: 0 auto; }
+.grid { 
+    display: flex; 
+    flex-wrap: wrap; /* អោយវាចុះបន្ទាត់ពេលអស់កន្លែង */
+    gap: 20px; 
+    justify-content: center; /* ដាក់កាតនៅកណ្តាល */
 }
 
-.container { padding: 10px; max-width: 600px; margin: 0 auto; }
-.grid { display: flex; flex-direction: column; gap: 25px; align-items: center; }
-
-/* ... (កូដ ID Card ចាស់នៅរក្សាទុកដដែល) ... */
+/* ✅ ID Card Design (Original Size) */
 .id-card {
-    width: var(--cardW); height: var(--cardH); background: #fff;
-    border-radius: 20px; overflow: hidden; position: relative;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: flex; flex-direction: column;
+    width: var(--cardW); 
+    height: var(--cardH); 
+    background: #fff;
+    border-radius: var(--radius);
+    overflow: hidden; 
+    position: relative;
+    box-shadow: var(--shadow); 
+    display: flex; flex-direction: column;
     border-top: 6px solid var(--accent);
+    transition: transform 0.2s;
+    /* ជួយអោយកាតមិនបែកពេលមើលលើទូរសព្ទ */
+    flex-shrink: 0; 
 }
-.card-header { text-align: center; padding-top: 15px; }
-.ministry { font-size: 10px; font-weight: bold; }
-.school-name { font-family: 'Moul', serif; color: var(--accent); font-size: 11px; margin-top: 5px; }
+.id-card:hover { transform: translateY(-5px); }
+
+/* Card Content */
+.card-header { text-align: center; padding-top: 8px; }
+.ministry { font-size: 7px; font-weight: bold; }
+.school-name { font-family: 'Moul', serif; color: var(--accent); font-size: 8px; margin-top: 3px; }
+
 .photo-box {
-    width: 130px; height: 170px; margin: 10px auto;
-    border: 3px solid #fff; border-radius: 8px; background: #eee; overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    width: 28mm; height: 36mm; margin: 4px auto;
+    border: 2px solid #fff; border-radius: 6px; 
+    background: #eee; overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 .photo-box img { width: 100%; height: 100%; object-fit: cover; }
-.card-body { text-align: center; flex: 1; display: flex; flex-direction: column; gap: 5px; }
-.khmer-name { font-family: 'Moul', serif; color: var(--primary); font-size: 16px; margin-top: 5px; }
-.latin-name { font-weight: bold; color: var(--accent); text-transform: uppercase; font-size: 12px; }
+
+.card-body { text-align: center; flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.khmer-name { font-family: 'Moul', serif; color: var(--primary); font-size: 10px; margin-top: 2px; }
+.latin-name { font-weight: bold; color: var(--accent); text-transform: uppercase; font-size: 8px; }
 .role-badge { 
-    background: #e3f2fd; color: #1565c0; padding: 4px 12px; 
-    border-radius: 15px; font-size: 11px; font-weight: bold; display: inline-block; margin: 5px auto;
+    background: #f0f0f0; color: #333; padding: 2px 8px; 
+    border-radius: 10px; font-size: 8px; display: inline-block; margin: 2px auto;
 }
-.card-footer { background: var(--primary); color: white; text-align: center; padding: 8px; font-size: 10px; }
-.loading { text-align: center; margin-top: 50px; color: #666; font-size: 1.2rem; }
+
+/* ✅ Buttons Action (ដូចក្នុងរូបទី ១) */
+.card-actions {
+    display: flex; justify-content: center; gap: 5px; padding-bottom: 5px;
+}
+.btn-action {
+    border: none; padding: 4px 10px; border-radius: 4px; color: white;
+    font-size: 9px; cursor: pointer; font-family: 'Siemreap';
+}
+.btn-blue { background: #1976d2; } /* Print មុខ */
+.btn-red { background: #d32f2f; }  /* Print ក្រោយ */
+
+.card-footer { background: var(--primary); color: white; text-align: center; padding: 3px; font-size: 7px; margin-top: auto;}
+.loading { text-align: center; margin-top: 50px; color: #666; }
+
+/* QR Code Style for Back Side */
+.qr-box { width: 35mm; height: 35mm; margin: 10px auto; }
+.qr-box img { width: 100%; height: 100%; }
