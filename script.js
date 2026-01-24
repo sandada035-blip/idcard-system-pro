@@ -1,5 +1,8 @@
-// ⚠️ សំខាន់៖ សូមយក URL ដែលអ្នកបាន Deploy នៅជំហានទី ១ មកដាក់ត្រង់នេះ
+// ⚠️ ដាក់ URL របស់អ្នកនៅទីនេះ
 const API_URL = "https://script.google.com/macros/s/AKfycbwSbCRDF1lhxwDcxtsAMJ-N8HVDytPrhPJNKRZoMyJ459YnKjS8hQqKopjYGb-RPPEJ/exec"; 
+
+let allTeachers = []; // រក្សាទុកទិន្នន័យដើម្បីស្វែងរក
+let globalConfig = {};
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchData();
@@ -8,38 +11,74 @@ document.addEventListener("DOMContentLoaded", () => {
 async function fetchData() {
     const loading = document.getElementById('loading');
     const grid = document.getElementById('cardGrid');
+    const stats = document.getElementById('stats');
+
+    // Reset UI
+    grid.innerHTML = '';
+    loading.style.display = 'block';
+    stats.innerText = '';
 
     try {
-        // ទាញទិន្នន័យពី Google Script
         const response = await fetch(API_URL);
         const json = await response.json();
 
         if (!json.success) throw new Error("API Error");
 
-        const teachers = json.data;
-        const config = json.config || {};
+        allTeachers = json.data; // រក្សាទុកក្នុង Memory
+        globalConfig = json.config || {};
 
-        loading.style.display = 'none'; // បិទ Loading
-
-        // បង្កើតកាត
-        teachers.forEach(t => {
-            const card = createCard(t, config);
-            grid.appendChild(card);
-        });
+        loading.style.display = 'none';
+        
+        // បង្ហាញកាតទាំងអស់ដំបូង
+        renderCards(allTeachers);
 
     } catch (error) {
         console.error(error);
-        loading.innerHTML = `<span style="color:red">មានបញ្ហាក្នុងការទាញទិន្នន័យ!<br>សូមពិនិត្យមើល Internet</span>`;
+        loading.innerHTML = `<span style="color:red">មានបញ្ហាក្នុងការទាញទិន្នន័យ!</span>`;
     }
+}
+
+// Function បង្ហាញកាត
+function renderCards(teachersList) {
+    const grid = document.getElementById('cardGrid');
+    const stats = document.getElementById('stats');
+    grid.innerHTML = ''; // លុបកាតចាស់ចោលសិន
+
+    stats.innerText = `បង្ហាញចំនួន: ${teachersList.length} នាក់`;
+
+    if(teachersList.length === 0) {
+        grid.innerHTML = '<p>រកមិនឃើញទិន្នន័យ!</p>';
+        return;
+    }
+
+    teachersList.forEach(t => {
+        const card = createCard(t, globalConfig);
+        grid.appendChild(card);
+    });
+}
+
+// Function ស្វែងរក (Filter)
+function filterCards() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    
+    // ស្វែងរកតាម ឈ្មោះខ្មែរ, ឡាតាំង, ឬ អត្តលេខ
+    const filtered = allTeachers.filter(t => {
+        const khName = (t.khmerName || '').toLowerCase();
+        const enName = (t.latinName || '').toLowerCase();
+        const id = (t.id || '').toString();
+        
+        return khName.includes(input) || enName.includes(input) || id.includes(input);
+    });
+
+    renderCards(filtered);
 }
 
 function createCard(t, config) {
     const div = document.createElement('div');
     div.className = 'id-card';
 
-    // រូបថត (បើគ្មាន ដាក់រូបតំណាង)
     const photo = t.photoUrl ? t.photoUrl : 'https://via.placeholder.com/150?text=No+Img';
-    const school = config.SCHOOL_NAME || "សាលាបឋមសិក្សា";
+    const school = config.SCHOOL_NAME || "សាលារៀន";
     const year = config.ACADEMIC_YEAR || "2025-2026";
 
     div.innerHTML = `
@@ -49,19 +88,15 @@ function createCard(t, config) {
             <div class="school-name">${school}</div>
         </div>
         <div class="photo-box">
-            <img src="${photo}" alt="Photo">
+            <img src="${photo}" alt="Photo" loading="lazy">
         </div>
         <div class="card-body">
-            <div class="khmer-name">${t.khmerName || 'ឈ្មោះ'}</div>
-            <div class="latin-name">${t.latinName || 'NAME'}</div>
-            <div>
-                <span class="role-badge">${t.role || 'បុគ្គលិក'}</span>
-            </div>
+            <div class="khmer-name">${t.khmerName || '---'}</div>
+            <div class="latin-name">${t.latinName || '---'}</div>
+            <div><span class="role-badge">${t.role || 'បុគ្គលិក'}</span></div>
             <div style="font-size:11px; color:#555; margin-top:5px;">ID: ${t.id}</div>
         </div>
-        <div class="card-footer">
-            ឆ្នាំសិក្សា ${year}
-        </div>
+        <div class="card-footer">ឆ្នាំសិក្សា ${year}</div>
     `;
     return div;
 }
