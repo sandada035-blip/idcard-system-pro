@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbyU-yOsjw-kT0K8vJFXunPWzqQmslCq2nwfdQBae63wdcu61UdeHBMf_9zgOQoNoJ1J/exec"; // ⚠️ កុំភ្លេចដាក់ URL របស់អ្នក
+const API_URL = "https://script.google.com/macros/s/AKfycbxvDkf__ooLtgoFDAgrBhB6NhQjdVWbkckdYWkH-yowIdPAuRCdiWvwuyAa8RePnQDb/exec"; // ⚠️ កុំភ្លេចដាក់ URL របស់អ្នក
 
 let allTeachers = [];
 let globalConfig = {};
@@ -340,6 +340,7 @@ function printSingleCard(t, side) {
         // setTimeout(() => { w.print(); }, 500); 
     };
 }
+
 
 
 
