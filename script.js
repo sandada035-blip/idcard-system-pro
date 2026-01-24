@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbyPt2gnoU6jHqMddKITYjzBgpAS04UR6wmGosd0b5I45wJWIHCXl3LwMvxlrWzGkAGZ/exec"; // ⚠️ កុំភ្លេចដាក់ URL របស់អ្នក
+const API_URL = "https://script.google.com/macros/s/AKfycby-10UiXyGNJPB-gtyNSqAj7b4ZYnlOSgADUfh_KLl21sjJmg_Iobl0t10962m-Nou2/exec"; // ⚠️ កុំភ្លេចដាក់ URL របស់អ្នក
 
 let allTeachers = [];
 let globalConfig = {};
@@ -143,6 +143,7 @@ function renderCards(list) {
 // គ្រាន់តែ past កូដ printAll នៅខាងក្រោមនេះបើអ្នកមិនទាន់មាន
 // ✅ Function សម្រាប់ Print A4 All (កូដពេញលេញ)
 // ✅ កូដកែសម្រួលថ្មី៖ Print A4 ឱ្យស្អាតដូចរូបដើម
+// ✅ Function Print A4 All (Version: Rounded Corners Fix)
 function printAll(side) {
     if (allTeachers.length === 0) {
         alert("មិនមានទិន្នន័យសម្រាប់ Print ទេ!");
@@ -165,7 +166,6 @@ function printAll(side) {
                 box-sizing: border-box; 
             }
             
-            /* Grid សម្រាប់តម្រៀបកាត */
             .grid { 
                 display: grid; 
                 grid-template-columns: repeat(2, 54mm); 
@@ -175,19 +175,21 @@ function printAll(side) {
                 align-content: start; 
             }
             
-            /* 🔥 កែសម្រួលកន្លែងនេះ៖ រចនាកាតឱ្យដូចរូបដើម ១០០% */
+            /* 🔥 កែសម្រួលសំខាន់៖ តម្រូវឱ្យមូលជ្រុងដាច់ខាត */
             .id-card-print { 
                 width: 54mm; height: 86mm; 
                 background: #fff;
-                border-radius: 18px;  /* ✅ ដាក់កោងជ្រុង ១៨px ដូច Web */
-                overflow: hidden;     /* ✅ កាត់ជ្រុងដែលលើសចេញ */
+                border-radius: 18px !important;  /* បង្ខំឱ្យមូល */
+                overflow: hidden !important;     /* កាត់ជ្រុងចេញ */
                 position: relative; 
                 display: flex; flex-direction: column; 
                 border-top: 6px solid #d32f2f; 
-                box-shadow: none; /* ពេលព្រីនមិនបាច់យកស្រមោលទេ ដើម្បីឱ្យច្បាស់ */
-                border: 1px solid #eee; /* ដាក់ border ស្រាលៗដើម្បីងាយកាត់ */
+                border: 1px solid #ddd; 
                 
-                /* បង្ខំឱ្យព្រីនចេញពណ៌ */
+                /* បច្ចេកទេសឱ្យ Browser Print ចេញមូល */
+                -webkit-mask-image: -webkit-radial-gradient(white, black);
+                mask-image: radial-gradient(white, black);
+                
                 -webkit-print-color-adjust: exact; 
                 print-color-adjust: exact; 
             }
@@ -200,7 +202,7 @@ function printAll(side) {
                 margin: 2px auto; display: block; 
                 object-fit: cover; 
                 border: 1px solid #ccc;
-                border-radius: 4px; /* កោងជ្រុងរូបថតបន្តិច */
+                border-radius: 4px;
             }
             
             .name-kh { font-family: 'Moul'; font-size: 10px; color: #0d1b3e; text-align: center; margin-top: 4px; }
@@ -227,6 +229,7 @@ function printAll(side) {
         html += `<div class="sheet"><div class="grid">`;
         
         chunk.forEach(t => {
+            // ... (ទិន្នន័យដដែល) ...
             const photo = t.photoUrl || '';
             const school = globalConfig.SCHOOL_NAME || 'សាលារៀន';
             const year = globalConfig.ACADEMIC_YEAR || '2025-2026';
@@ -268,18 +271,17 @@ function printAll(side) {
     w.document.write(html);
     w.document.close();
     
-    // រង់ចាំរូប Load ចប់សិន ចាំ Print
     w.onload = function() {
         setTimeout(() => { w.print(); }, 1500);
     };
 }
-
 function printSingleCard(t, side) {
     // ... (កូដ Print កាតមួយដែលខ្ញុំបានផ្ញើជូនពីមុន) ...
      const w = window.open('', '_blank', 'width=400,height=600');
      // ... ដាក់កូដ HTML សម្រាប់ Print នៅទីនេះ ...
      w.document.write('<h1>Testing Print</h1>'); // ឧទាហរណ៍
 }
+
 
 
 
