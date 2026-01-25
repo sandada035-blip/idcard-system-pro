@@ -89,8 +89,7 @@ function renderCards(list) {
  * Create Card (FIXED LOGO)
  ****************************************************/
 // ✅ Function បង្កើតកាត (ប្រើ Logo ក្រសួងសុទ្ធ ដើម្បីតេស្ត)
-// ✅ Function បង្កើតកាត (Logo ក្រសួង - ដំណើរការ ១០០%)
-// ✅ Function បង្កើតកាត (FIX: លុប Crossorigin ដើម្បីឱ្យរូបចេញ ១០០%)
+// ✅ Function បង្កើតកាត (FIXED: ប្រើ Referrer Policy ដើម្បីកុំឱ្យ Block រូប)
 function createCard(t, config) {
     const div = document.createElement('div');
     div.className = 'id-card';
@@ -98,7 +97,7 @@ function createCard(t, config) {
     const school = config.SCHOOL_NAME || "សាលារៀន";
     const year = config.ACADEMIC_YEAR || "2025-2026";
     
-    // 🔗 Logo ក្រសួង (Link សាធារណៈ)
+    // 🔗 ប្រើ Logo ក្រសួងពី Wikimedia (Link នេះត្រឹមត្រូវហើយ)
     const logoSrc = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/03/Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg/200px-Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg.png";
 
     if (currentMode === 'front') {
@@ -112,11 +111,12 @@ function createCard(t, config) {
                 <img src="${logoSrc}" 
                      class="logo-card"
                      style="width: 50px; height: 50px; display: block; margin: 4px auto; object-fit: contain;" 
-                     alt="LOGO">
+                     alt="LOGO"
+                     referrerpolicy="no-referrer">
                 
                 <div class="school-name">${school}</div>
             </div>
-            <div class="photo-box"><img src="${photo}" loading="lazy"></div>
+            <div class="photo-box"><img src="${photo}" loading="lazy" referrerpolicy="no-referrer"></div>
             <div class="card-body">
                 <div class="khmer-name">${t.khmerName || '---'}</div>
                 <div class="latin-name">${t.latinName || '---'}</div>
@@ -141,7 +141,7 @@ function createCard(t, config) {
             <div class="card-header">
                 <div class="ministry" style="font-family:'Moul'; margin-top:15px; font-size:12px;">កាតបុគ្គលិក</div>
             </div>
-            <div class="qr-box"><img src="${qrUrl}" loading="lazy"></div>
+            <div class="qr-box"><img src="${qrUrl}" loading="lazy" referrerpolicy="no-referrer"></div>
             <div class="card-body">
                 <div class="back-info" style="font-size:11px; margin-top:10px; line-height:1.6;">
                     <strong>ឈ្មោះ:</strong> ${t.khmerName}<br>
@@ -230,6 +230,7 @@ window.switchMode = switchMode;
 window.filterCards = filterCards;
 window.printAll = printAll;
 window.printSingleCard = printSingleCard;
+
 
 
 
