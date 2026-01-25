@@ -136,7 +136,6 @@ function createCard(t, config) {
 
 
 
-
 // ✅ ២. Function បង្កើតកាត (Update អោយស្គាល់ Mode)
 function renderCards(list) {
     const grid = document.getElementById('cardGrid');
@@ -446,6 +445,7 @@ function printSingleCard(t, side) {
         // setTimeout(() => { w.print(); }, 500); 
     };
 }
+
 
 
 
