@@ -35,18 +35,25 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
 }
 
 /* --- FRONT DESIGN --- */
+/* --- FRONT DESIGN --- */
 .card-header-front {
     background-image: linear-gradient(to bottom, var(--primary-red) 50%, white 50%);
-    background-size: 100% 10px; /* ឆ្នូតក្រហមខាងលើ */
+    background-size: 100% 10px;
     background-repeat: no-repeat;
-    padding-top: 10px;
+    /* 🔥 កែត្រង់នេះ៖ បន្ថែម padding-top ឱ្យធំជាងមុន ដើម្បីរុញអក្សរចុះក្រោម */
+    padding-top: 15px; 
     text-align: center;
 }
 
-.ministry { font-size: 7px; font-weight: bold; line-height: 1.2; color: #333; margin-bottom: 2px;}
-.logo-card { width: 35px; height: 35px; margin: 2px auto; object-fit: contain; display: block; }
-.school-name { font-family: 'Moul'; font-size: 8px; color: var(--primary-red); margin-top: 2px; }
-
+.ministry { 
+    /* 🔥 កែត្រង់នេះ៖ ដាក់ Font Moul និងបង្កើនទំហំបន្តិច */
+    font-family: 'Moul', serif; 
+    font-size: 8px; /* Moul ត្រូវការទំហំធំជាងអក្សរធម្មតាបន្តិចទើបច្បាស់ */
+    font-weight: normal; 
+    line-height: 1.4; 
+    color: #333; 
+    margin-bottom: 2px;
+}
 /* 🔥 រូបថត (កែសម្រួលថ្មី៖ តូចជាងមុន និងមានគែម) */
 .photo-box {
     width: 26mm;  /* បន្ថយទទឹង */
@@ -112,3 +119,4 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
 .nav-buttons { display: flex; gap: 10px; }
 .btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; color: white; font-family: 'Siemreap'; font-weight: bold; }
 .btn-blue { background: #1976d2; } .btn-red { background: #d32f2f; } .btn-green { background: #2e7d32; } .active { box-shadow: 0 0 0 2px white, 0 0 0 4px currentColor; }
+
