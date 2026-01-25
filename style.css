@@ -189,12 +189,13 @@ body { background-color: var(--bg); padding-bottom: 40px; }
     .btn { font-size: 12px; padding: 6px 10px; }
 }
 
-/* ✅ រចនា Logo នៅលើកាតក្នុង Dashboard */
+/* ✅ បន្ថែមកូដនេះចូលក្នុង style.css ដើម្បីឱ្យ Logo បង្ហាញចេញ */
 .logo-card {
-    width: 35px;
-    height: 35px;
-    margin: 2px auto;
+    width: 40px;          /* កំណត់ទំហំ */
+    height: 40px;
+    margin: 5px auto;     /* ដាក់កណ្តាល */
     display: block;
-    object-fit: contain;
+    object-fit: contain;  /* បង្ហាញរូបពេញ */
 }
+
 
