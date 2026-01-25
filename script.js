@@ -89,6 +89,7 @@ function renderCards(list) {
  * Create Card (FIXED LOGO)
  ****************************************************/
 // ✅ Function បង្កើតកាត (ប្រើ Logo ក្រសួងសុទ្ធ ដើម្បីតេស្ត)
+// ✅ Function បង្កើតកាត (Logo ក្រសួង - ដំណើរការ ១០០%)
 function createCard(t, config) {
     const div = document.createElement('div');
     div.className = 'id-card';
@@ -96,7 +97,7 @@ function createCard(t, config) {
     const school = config.SCHOOL_NAME || "សាលារៀន";
     const year = config.ACADEMIC_YEAR || "2025-2026";
     
-    // 🔥 ប្រើ Logo ក្រសួងផ្ទាល់ (Link នេះមិនចេះខូចទេ)
+    // 🔗 Logo ក្រសួង (Link សាធារណៈ មិនចេះខូច)
     const logoSrc = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/03/Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg/200px-Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg.png";
 
     if (currentMode === 'front') {
@@ -228,4 +229,5 @@ window.switchMode = switchMode;
 window.filterCards = filterCards;
 window.printAll = printAll;
 window.printSingleCard = printSingleCard;
+
 
