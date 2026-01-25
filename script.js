@@ -69,6 +69,74 @@ function filterCards() {
     renderCards(filtered);
 }
 
+// ✅ Function បង្កើតកាតមួយៗក្នុង Dashboard (មាន Logo)
+
+function createCard(t, config) {
+    const div = document.createElement('div');
+    div.className = 'id-card';
+    
+    // ទិន្នន័យទូទៅ
+    const school = config.SCHOOL_NAME || "សាលារៀន";
+    const year = config.ACADEMIC_YEAR || "2025-2026";
+    const logo = t.logoUrl || ''; // 🔥 ចាប់យក Link Logo
+
+    if (currentMode === 'front') {
+        // 👉 ផ្នែកបង្ហាញខាងមុខ (Front)
+        const photo = t.photoUrl || 'https://via.placeholder.com/150';
+        
+        div.innerHTML = `
+            <div class="card-header">
+                <div class="ministry">ព្រះរាជាណាចក្រកម្ពុជា</div>
+                <div class="ministry">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+                
+                ${logo ? `<img src="${logo}" class="logo-card">` : ''}
+                
+                <div class="school-name">${school}</div>
+            </div>
+            <div class="photo-box"><img src="${photo}" loading="lazy"></div>
+            <div class="card-body">
+                <div class="khmer-name">${t.khmerName || '---'}</div>
+                <div class="latin-name">${t.latinName || '---'}</div>
+                <div class="role-badge">${t.role || 'គ្រូបង្រៀន'}</div>
+            </div>
+            
+            <div class="card-actions">
+                <button class="btn-action btn-small-blue" onclick='printSingleCard(${JSON.stringify(t)}, "front")'>
+                    <i class="fas fa-print"></i> មុខ
+                </button>
+                <button class="btn-action btn-small-red" onclick='printSingleCard(${JSON.stringify(t)}, "back")'>
+                    <i class="fas fa-qrcode"></i> ក្រោយ
+                </button>
+            </div>
+            <div class="card-footer">ឆ្នាំសិក្សា ${year}</div>
+        `;
+    } else {
+        // 👉 ផ្នែកបង្ហាញខាងក្រោយ (Back)
+        const detailUrl = `${API_URL}?page=detail&id=${t.id}`;
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(detailUrl)}`;
+        
+        div.innerHTML = `
+            <div class="card-header">
+                <div class="ministry" style="font-family:'Moul'; margin-top:15px; font-size:12px;">កាតបុគ្គលិក</div>
+            </div>
+            <div class="qr-box"><img src="${qrUrl}" loading="lazy"></div>
+            <div class="card-body">
+                <div class="back-info" style="font-size:11px; margin-top:10px; line-height:1.6;">
+                    <strong>ឈ្មោះ:</strong> ${t.khmerName}<br>
+                    <strong>លេខទូរសព្ទ:</strong> ${t.phone || '---'}<br>
+                    <strong>អត្តលេខ:</strong> ${t.id}
+                </div>
+            </div>
+            <div class="card-footer">${school}</div>
+        `;
+    }
+
+    return div;
+}
+
+
+
+
 // ✅ ២. Function បង្កើតកាត (Update អោយស្គាល់ Mode)
 function renderCards(list) {
     const grid = document.getElementById('cardGrid');
@@ -378,6 +446,7 @@ function printSingleCard(t, side) {
         // setTimeout(() => { w.print(); }, 500); 
     };
 }
+
 
 
 
