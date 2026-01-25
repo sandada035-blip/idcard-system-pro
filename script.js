@@ -101,6 +101,8 @@ function createCard(t, config) {
 
 // ✅ script.js - (Print A4 FIXED: ៦ កាត/ទំព័រ + Font Moul + រចនាស្អាត)
 
+// ✅ script.js - (Print A4 FIXED: ៦ កាត/ទំព័រ + Font Moul + រចនាស្អាត)
+
 function printAll(side) {
     if (!allTeachers.length) return alert("No Data");
     const w = window.open("", "_blank");
@@ -232,6 +234,7 @@ function printAll(side) {
     w.document.close();
 }
 function printSingleCard(t, side) { printAll(side); }
+
 
 
 
