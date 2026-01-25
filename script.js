@@ -71,7 +71,7 @@ function filterCards() {
 
 // ✅ Function បង្កើតកាតមួយៗក្នុង Dashboard (មាន Logo)
 // ✅ Function បង្កើតកាត (ប្រើ Inline Style ដើម្បីបង្ខំឱ្យចេញ)
-// ✅ Function បង្កើតកាត (មានប្រព័ន្ធការពារ៖ បើរូបខូច វានឹងដូរដាក់ Logo ក្រសួងភ្លាម)
+// ✅ Function បង្កើតកាត (ជំនាន់ចុងក្រោយ - Fix Google Drive Images)
 function createCard(t, config) {
     const div = document.createElement('div');
     div.className = 'id-card';
@@ -79,11 +79,25 @@ function createCard(t, config) {
     const school = config.SCHOOL_NAME || "សាលារៀន";
     const year = config.ACADEMIC_YEAR || "2025-2026";
     
-    // 🔗 Logo ក្រសួង (Link សាធារណៈ)
-    const backupLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/03/Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg/200px-Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg.png";
+    // 1. Logo ក្រសួង (សម្រាប់ប្រើពេលអត់មាន Logo គ្រូ)
+    const defaultLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/03/Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg/200px-Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg.png";
     
-    // យក Logo ពី Sheet មកប្រើ។ បើអត់មាន ប្រើ backupLogo តែម្តង។
-    let logoSrc = t.logoUrl || backupLogo;
+    // 2. ដំណើរការ Logo
+    let logoSrc = t.logoUrl;
+
+    // 🔥 FIX: បំប្លែង Link Google Drive ទៅជា Link ផ្ទាល់ (lh3)
+    if (logoSrc && logoSrc.includes('drive.google.com') && logoSrc.includes('id=')) {
+        const idMatch = logoSrc.match(/id=([^&]+)/);
+        if (idMatch && idMatch[1]) {
+            // ប្រើ Link ពិសេសនេះដើម្បីកុំឱ្យជាប់ Permission
+            logoSrc = `https://lh3.googleusercontent.com/d/${idMatch[1]}`;
+        }
+    }
+
+    // បើនៅតែគ្មាន Logo ទៀត -> ប្រើ Logo ក្រសួង
+    if (!logoSrc || logoSrc.trim() === "") {
+        logoSrc = defaultLogo;
+    }
 
     if (currentMode === 'front') {
         const photo = t.photoUrl || 'https://via.placeholder.com/150';
@@ -95,10 +109,9 @@ function createCard(t, config) {
                 
                 <img src="${logoSrc}" 
                      class="logo-card"
-                     style="width: 45px; height: 45px; display: block; margin: 4px auto; object-fit: contain;" 
-                     alt="LOGO" 
-                     crossorigin="anonymous"
-                     onerror="this.onerror=null; this.src='${backupLogo}';">
+                     style="width: 45px; height: 45px; display: block; margin: 4px auto; object-fit: contain; z-index: 10; position: relative;" 
+                     alt="LOGO"
+                     onerror="this.src='${defaultLogo}'">
                 
                 <div class="school-name">${school}</div>
             </div>
@@ -120,7 +133,7 @@ function createCard(t, config) {
             <div class="card-footer">ឆ្នាំសិក្សា ${year}</div>
         `;
     } else {
-        // (ផ្នែកខាងក្រោយ រក្សាទុកដដែល)
+        // (ផ្នែកខាងក្រោយនៅដដែល)
         const detailUrl = `${API_URL}?page=detail&id=${t.id}`;
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(detailUrl)}`;
         
@@ -452,6 +465,7 @@ function printSingleCard(t, side) {
         // setTimeout(() => { w.print(); }, 500); 
     };
 }
+
 
 
 
