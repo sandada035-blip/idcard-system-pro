@@ -8,10 +8,11 @@ const API_URL =
   "https://script.google.com/macros/s/AKfycbyEm3bugjBA0vj0zrnSnrn6z-02k-JpDr7OBKiQLaP6rtwSi51pYkXr-WlIvvxWEUHI/exec";
 
 /****************************************************
- * ✅ LOGO SOURCES (Static File First)
+ * ✅ LOGO SOURCES (Absolute URL for View + Print)
  ****************************************************/
-const SCHOOL_LOGO_URL = "./logo.png"; // ✅ must exist in project root (same folder as index.html)
-const FALLBACK_LOGO_URL = ""; // optional online fallback if you want
+// IMPORTANT: absolute URL so it works in window.open (about:blank) too
+const SCHOOL_LOGO_URL = new URL("/logo.png", location.origin).href; // ✅ BEST
+const FALLBACK_LOGO_URL = ""; // optional online fallback
 const MINISTRY_LOGO =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/8/03/Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg/200px-Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg.png";
 
@@ -72,9 +73,14 @@ async function fetchData() {
 
     renderCards(allTeachers);
     updateButtonStyles();
+
+    // Debug (optional)
+    // console.log("LOGO:", getLogoSrc());
   } catch (error) {
     console.error(error);
-    if (loading) loading.innerHTML = "កំពុងមានបញ្ហាក្នុងការទាញទិន្នន័យ (Check Internet)";
+    if (loading)
+      loading.innerHTML =
+        "កំពុងមានបញ្ហាក្នុងការទាញទិន្នន័យ (Check Internet)";
   }
 }
 
@@ -227,7 +233,7 @@ function createCard(t, config) {
 }
 
 /****************************************************
- * Print A4 (All)  ✅ includes logo.png
+ * Print A4 (All)  ✅ includes absolute logo url
  ****************************************************/
 function printAll(side) {
   if (!allTeachers || allTeachers.length === 0) {
@@ -238,7 +244,7 @@ function printAll(side) {
   const w = window.open("", "_blank");
   const school = globalConfig.SCHOOL_NAME || "សាលារៀន";
   const year = globalConfig.ACADEMIC_YEAR || "2025-2026";
-  const logo = getLogoSrc(); // ✅ ./logo.png
+  const logo = getLogoSrc(); // ✅ absolute URL
 
   const css = `
     <style>
@@ -303,7 +309,7 @@ function printAll(side) {
       <body>
   `;
 
-  const perPage = 6; // 6 cards per A4
+  const perPage = 6;
   for (let i = 0; i < allTeachers.length; i += perPage) {
     const chunk = allTeachers.slice(i, i + perPage);
     html += `<div class="sheet"><div class="grid">`;
@@ -311,9 +317,7 @@ function printAll(side) {
     chunk.forEach((t) => {
       const photo = t.photoUrl || "";
       const detailUrl = `${API_URL}?page=detail&id=${encodeURIComponent(t.id || "")}`;
-      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
-        detailUrl
-      )}`;
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(detailUrl)}`;
 
       if (side === "front") {
         html += `
@@ -355,13 +359,13 @@ function printAll(side) {
 }
 
 /****************************************************
- * Print Single Card ✅ includes logo.png
+ * Print Single Card ✅ includes absolute logo url
  ****************************************************/
 function printSingleCard(t, side) {
   const w = window.open("", "_blank", "width=420,height=700");
   const school = globalConfig.SCHOOL_NAME || "សាលារៀន";
   const year = globalConfig.ACADEMIC_YEAR || "2025-2026";
-  const logo = getLogoSrc(); // ✅ ./logo.png
+  const logo = getLogoSrc(); // ✅ absolute URL
 
   const css = `
     <style>
@@ -409,9 +413,7 @@ function printSingleCard(t, side) {
     `;
   } else {
     const detailUrl = `${API_URL}?page=detail&id=${encodeURIComponent(t.id || "")}`;
-    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
-      detailUrl
-    )}`;
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(detailUrl)}`;
 
     htmlContent = `
       <div class="id-card-print">
