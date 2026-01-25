@@ -97,6 +97,8 @@ function createCard(t, config) {
 
 // ✅ script.js - (Print A4: Font Moul + ទីតាំងត្រឹមត្រូវ + មិនត្រួតគ្នា)
 
+// ✅ script.js - (Print A4: Font Moul + ទីតាំងត្រឹមត្រូវ + មិនត្រួតគ្នា)
+
 function printAll(side) {
     if (!allTeachers.length) return alert("No Data");
     const w = window.open("", "_blank");
@@ -214,8 +216,8 @@ function printAll(side) {
     w.document.write(html);
     w.document.close();
 }
-
 function printSingleCard(t, side) { printAll(side); }
+
 
 
 
