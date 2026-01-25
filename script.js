@@ -70,12 +70,6 @@ function filterCards() {
 }
 
 // ✅ Function បង្កើតកាតមួយៗក្នុង Dashboard (មាន Logo)
-// ✅ Function បង្កើតកាតមួយៗក្នុង Dashboard (Update: Fallback Logo + No-Referrer)
-// ✅ ជំនួស function createCard ចាស់ដោយកូដនេះ
-
-// ✅ Function បង្កើតកាត (Updated with YOUR LOGO)
-// ✅ Function បង្កើតកាត (ប្រើ Logo ក្រសួងពី Server សាធារណៈ)
-
 function createCard(t, config) {
     const div = document.createElement('div');
     div.className = 'id-card';
@@ -83,17 +77,10 @@ function createCard(t, config) {
     const school = config.SCHOOL_NAME || "សាលារៀន";
     const year = config.ACADEMIC_YEAR || "2025-2026";
     
-    // 🔥 ប្រើ Logo ក្រសួងអប់រំពី Wikipedia (Link នេះមិនចេះខូចទេ)
-    // 🔥 ប្រើ Logo ក្រសួងអប់រំ ជាលក្ខណៈ Default
     const publicLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/03/Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg/200px-Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg.png";
     
-    // 🔥 កែសម្រួល៖
-    // 1. ពិនិត្យមើលក្នុង config (LOGO_URL) ជាមុន (Logo សាលា)
-    // 2. បើគ្មាន ពិនិត្យមើលក្នុង t (logoUrl) (Logo ផ្ទាល់ខ្លួន បើមាន)
-    // 3. បើគ្មានទាំងពីរ យក publicLogo (Logo ក្រសួង)
-    
-    let logo = config.LOGO_URL || t.logoUrl; 
-
+    // កែសម្រួលត្រង់នេះ៖ យកពី config មុន
+    let logo = config.LOGO_URL || t.logoUrl;
     if (!logo || logo.trim() === "") {
         logo = publicLogo;
     }
@@ -106,7 +93,7 @@ function createCard(t, config) {
                 <div class="ministry">ព្រះរាជាណាចក្រកម្ពុជា</div>
                 <div class="ministry">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
                 
-                <img src="${logo}" class="logo-card" crossorigin="anonymous" alt="Logo">
+                <img src="${logo}" class="logo-card" alt="Logo">
                 
                 <div class="school-name">${school}</div>
             </div>
@@ -128,7 +115,7 @@ function createCard(t, config) {
             <div class="card-footer">ឆ្នាំសិក្សា ${year}</div>
         `;
     } else {
-        // (ផ្នែកខាងក្រោយនៅដដែល)
+        // ... (ផ្នែកខាងក្រោយនៅដដែល) ...
         const detailUrl = `${API_URL}?page=detail&id=${t.id}`;
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(detailUrl)}`;
         
@@ -460,6 +447,7 @@ function printSingleCard(t, side) {
         // setTimeout(() => { w.print(); }, 500); 
     };
 }
+
 
 
 
