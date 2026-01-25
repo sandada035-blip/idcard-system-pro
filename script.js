@@ -93,21 +93,13 @@ function createCard(t, config) {
 }
 
 // ✅ Print A4 (Grid 2 Columns = Standard A4)
-// ✅ script.js - (Print A4: កែមកដាក់ ៦ កាតវិញ ទើបមិនត្រួតគ្នា)
-
-// ✅ script.js - (Print A4: Font Moul + ទីតាំងត្រឹមត្រូវ + មិនត្រួតគ្នា)
-
-// ✅ script.js - (Print A4: Font Moul + ទីតាំងត្រឹមត្រូវ + មិនត្រួតគ្នា)
-
-// ✅ script.js - (Print A4 FIXED: ៦ កាត/ទំព័រ + Font Moul + រចនាស្អាត)
-
 // ✅ script.js - (Print A4 FIXED: ៦ កាត/ទំព័រ + Font Moul + រចនាស្អាត)
 
 function printAll(side) {
     if (!allTeachers.length) return alert("No Data");
     const w = window.open("", "_blank");
     
-    // CSS សម្រាប់ Print
+    // CSS សម្រាប់ Print (ខ្ញុំបានកែឱ្យដូច style.css របស់អ្នកហើយ)
     const css = `<style>
         @import url('https://fonts.googleapis.com/css2?family=Moul&family=Siemreap&display=swap');
         @page { size: A4; margin: 0; }
@@ -140,13 +132,13 @@ function printAll(side) {
             background-image: linear-gradient(to bottom, #d32f2f 50%, white 50%); 
             background-size: 100% 10px; 
             background-repeat: no-repeat; 
-            /* 🔥 ១. ទម្លាក់អក្សរចុះមកក្រោម ១៥px */
+            /* 🔥 ១. ទម្លាក់អក្សរចុះមកក្រោម ១៥px (ដូចក្នុង style.css) */
             padding-top: 15px; 
             text-align: center; 
         }
 
         .ministry { 
-            /* 🔥 ២. ប្រើ Font Moul */
+            /* 🔥 ២. ប្រើ Font Moul (ដូចក្នុង style.css) */
             font-family: 'Moul', serif; 
             font-size: 8px; 
             font-weight: normal; 
@@ -167,6 +159,7 @@ function printAll(side) {
 
         .school { font-family: 'Moul'; font-size: 8px; color: #d32f2f; text-align: center; }
         
+        /* រូបថត (ប្រើទំហំតូចស្អាត ដូចក្នុង style.css) */
         .photo { width: 26mm; height: 32mm; margin: 2px auto; display: block; object-fit: cover; border: 1px solid #ccc; border-radius: 4px; }
         
         .card-body-print { text-align: center; }
@@ -234,6 +227,7 @@ function printAll(side) {
     w.document.close();
 }
 function printSingleCard(t, side) { printAll(side); }
+
 
 
 
