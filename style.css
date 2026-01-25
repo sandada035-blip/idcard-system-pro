@@ -1,26 +1,26 @@
-/* ✅ style.css - កែសម្រួលថ្មី (រូបថតស្អាត + ទំហំត្រូវ) */
+/* ✅ style.css - រចនាថ្មី (រូបថតសមរម្យ + ផ្នែកខាងក្រោយស្អាត) */
 :root {
     --cardW: 54mm;
     --cardH: 86mm;
-    --radius: 18px;
-    --shadow: 0 14px 35px rgba(2, 8, 23, .12);
+    --radius: 10px; /* កាត់បន្ថយកោងបន្តិចឱ្យមើលទៅដាច់ */
+    --shadow: 0 5px 15px rgba(0,0,0,0.15);
     --primary-dark: #0d1b3e;
-    --card-top-red: #d32f2f;
-    --bg: #f0f2f5;
+    --primary-red: #d32f2f;
+    --bg-color: #f0f2f5;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Siemreap', sans-serif; }
-body { background: var(--bg); padding-top: 80px; padding-bottom: 40px; }
+body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
 
 /* Navbar */
 .navbar { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--primary-dark); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-.brand { font-family: 'Moul', serif; color: white; font-size: 20px; letter-spacing: 1px; }
+.brand { font-family: 'Moul', serif; color: white; font-size: 20px; }
 
-/* Grid Dashboard */
+/* Grid */
 .container { max-width: 1200px; margin: 0 auto; padding: 10px; }
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--cardW), 1fr)); gap: 30px; justify-items: center; }
 
-/* Card Design */
+/* 🪪 ID CARD STYLE */
 .id-card {
     width: var(--cardW);
     height: var(--cardH);
@@ -29,62 +29,86 @@ body { background: var(--bg); padding-top: 80px; padding-bottom: 40px; }
     position: relative;
     overflow: hidden;
     box-shadow: var(--shadow);
-    border-top: 6px solid var(--card-top-red);
+    border: 1px solid #ddd;
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s ease;
 }
-.id-card:hover { transform: translateY(-5px); }
 
-/* Header */
-.card-header { text-align: center; margin-top: 10px; }
-.ministry { font-size: 7px; font-weight: bold; line-height: 1.2; color: #333; }
-.logo-card { width: 40px; height: 40px; margin: 4px auto; object-fit: contain; display: block; }
-.school-name { font-family: 'Moul'; font-size: 9px; color: var(--card-top-red); margin-top: 2px; }
+/* --- FRONT DESIGN --- */
+.card-header-front {
+    background-image: linear-gradient(to bottom, var(--primary-red) 50%, white 50%);
+    background-size: 100% 10px; /* ឆ្នូតក្រហមខាងលើ */
+    background-repeat: no-repeat;
+    padding-top: 10px;
+    text-align: center;
+}
 
-/* 🔥 Photo Box (កែសម្រួលរូបថតឱ្យស្អាតនៅទីនេះ) */
+.ministry { font-size: 7px; font-weight: bold; line-height: 1.2; color: #333; margin-bottom: 2px;}
+.logo-card { width: 35px; height: 35px; margin: 2px auto; object-fit: contain; display: block; }
+.school-name { font-family: 'Moul'; font-size: 8px; color: var(--primary-red); margin-top: 2px; }
+
+/* 🔥 រូបថត (កែសម្រួលថ្មី៖ តូចជាងមុន និងមានគែម) */
 .photo-box {
-    width: 28mm;
-    height: 36mm;
-    margin: 5px auto;
-    border: 1px solid #ddd;
+    width: 26mm;  /* បន្ថយទទឹង */
+    height: 32mm; /* បន្ថយកម្ពស់ */
+    margin: 4px auto;
+    border: 1px solid #ccc;
     border-radius: 4px;
     overflow: hidden;
+    background: #f0f0f0;
+}
+.photo-box img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ឈ្មោះ និង តួនាទី */
+.card-body { text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-start; padding-top: 2px; }
+.khmer-name { font-family: 'Moul'; font-size: 10px; color: var(--primary-dark); }
+.latin-name { font-size: 8px; font-weight: bold; color: var(--primary-red); text-transform: uppercase; margin-bottom: 2px;}
+.role-badge { font-size: 8px; color: white; background: var(--primary-dark); padding: 1px 8px; border-radius: 8px; display: inline-block; margin: 0 auto; }
+
+/* --- BACK DESIGN (រចនាថ្មី) --- */
+.card-header-back {
+    background: var(--primary-red);
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+.header-title { font-family: 'Moul'; font-size: 9px; }
+
+.qr-section {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: url('https://www.transparenttextures.com/patterns/cubes.png'); /* ដាក់ Texture តិចៗ */
+}
+.qr-box { width: 32mm; height: 32mm; border: 2px solid var(--primary-dark); padding: 2px; background: white; border-radius: 4px;}
+.qr-box img { width: 100%; height: 100%; }
+
+.info-table {
+    width: 90%;
+    margin: 5px auto;
+    font-size: 9px;
     background: #f9f9f9;
-}
-.photo-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* សំខាន់ណាស់! ធ្វើឱ្យរូបពេញប្រអប់ស្អាត */
-    object-position: center top; /* តម្រូវឱ្យឃើញមុខ */
+    padding: 5px;
+    border-radius: 4px;
+    border-left: 3px solid var(--primary-dark);
+    text-align: left;
 }
 
-/* Card Body */
-.card-body { text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
-.khmer-name { font-family: 'Moul'; font-size: 11px; color: var(--primary-dark); padding-top: 4px; }
-.latin-name { font-size: 9px; font-weight: bold; color: var(--card-top-red); text-transform: uppercase; margin-top: 2px; }
-.role-badge { font-size: 9px; color: #666; margin-top: 2px; display: inline-block; background: #eee; padding: 2px 8px; border-radius: 10px; margin: 4px auto; }
-
-/* Buttons */
-.card-actions { display: flex; justify-content: space-around; padding: 8px 10px; }
-.btn-action { border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; color: white; font-size: 10px; font-weight: bold; transition: 0.2s; display: flex; align-items: center; gap: 4px; }
+/* Footer & Buttons */
+.card-footer { position: absolute; bottom: 0; width: 100%; background: var(--primary-dark); color: white; font-size: 7px; text-align: center; padding: 3px 0; }
+.card-actions { display: flex; justify-content: center; gap: 10px; padding: 5px; background: #fff; border-top: 1px solid #eee; position: absolute; bottom: 18px; width: 100%;}
+.btn-action { border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; color: white; font-size: 9px; display: flex; align-items: center; gap: 3px; }
 .btn-small-blue { background: #1976d2; }
 .btn-small-red { background: #d32f2f; }
 
-/* Footer */
-.card-footer { position: absolute; bottom: 0; width: 100%; background: var(--primary-dark); color: white; font-size: 8px; text-align: center; padding: 4px 0; }
-
 /* Search & Loading */
-.search-container { text-align: center; margin-bottom: 20px; position: relative; }
-#searchInput { padding: 12px 20px 12px 45px; width: 100%; max-width: 500px; border-radius: 25px; border: 1px solid #ddd; outline: none; font-size: 14px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-.search-icon { position: absolute; left: 50%; transform: translateX(-230px); top: 13px; color: #aaa; }
-.loading { text-align: center; margin-top: 50px; color: #666; }
-
-/* Navigation Buttons */
+.search-container { text-align: center; margin-bottom: 20px; }
+#searchInput { padding: 10px 20px; width: 100%; max-width: 400px; border-radius: 20px; border: 1px solid #ddd; outline: none; }
+.loading { text-align: center; margin-top: 50px; }
 .nav-buttons { display: flex; gap: 10px; }
 .btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; color: white; font-family: 'Siemreap'; font-weight: bold; }
-.btn-blue { background: #1976d2; opacity: 0.6; }
-.btn-blue.active { opacity: 1; box-shadow: 0 0 10px #1976d2; }
-.btn-red { background: #d32f2f; opacity: 0.6; }
-.btn-red.active { opacity: 1; box-shadow: 0 0 10px #d32f2f; }
-.btn-green { background: #2e7d32; }
+.btn-blue { background: #1976d2; } .btn-red { background: #d32f2f; } .btn-green { background: #2e7d32; } .active { box-shadow: 0 0 0 2px white, 0 0 0 4px currentColor; }
