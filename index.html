@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="km">
 <head>
-    <meta http-equiv="Content-Security-Policy"
-      content="default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval';
-               img-src 'self' https: data: blob:;
-               style-src 'self' 'unsafe-inline' https:;
-               script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ID Card Dashboard</title>
@@ -16,26 +10,26 @@
 </head>
 <body>
 
-   <nav class="navbar">
-    <div class="brand">ID PRO</div>
-    
-    <div class="nav-buttons">
-        <button class="btn btn-green" onclick="printAll('front')">
-            <i class="fas fa-print"></i> Front A4 (All)
-        </button>
+    <nav class="navbar">
+        <div class="brand">ID PRO</div>
+        
+        <div class="nav-buttons">
+            <button class="btn btn-green" onclick="printAll('front')">
+                <i class="fas fa-print"></i> Front A4 (All)
+            </button>
 
-        <button class="btn btn-blue active" id="btnFront" onclick="switchMode('front')">
-            <i class="fas fa-id-card"></i> ខាងមុខ
-        </button>
-        <button class="btn btn-red" id="btnBack" onclick="switchMode('back')">
-            <i class="fas fa-qrcode"></i> ខាងក្រោយ
-        </button>
+            <button class="btn btn-blue active" id="btnFront" onclick="switchMode('front')">
+                <i class="fas fa-id-card"></i> ខាងមុខ
+            </button>
+            <button class="btn btn-red" id="btnBack" onclick="switchMode('back')">
+                <i class="fas fa-qrcode"></i> ខាងក្រោយ
+            </button>
 
-        <button class="btn btn-green" onclick="printAll('back')">
-            <i class="fas fa-print"></i> Back A4 (All)
-        </button>
-    </div>
-</nav>
+            <button class="btn btn-green" onclick="printAll('back')">
+                <i class="fas fa-print"></i> Back A4 (All)
+            </button>
+        </div>
+    </nav>
 
     <div class="container">
         <div class="search-container">
@@ -51,13 +45,6 @@
         <div id="cardGrid" class="grid"></div>
     </div>
 
-    <script src="script.js?v=FINAL"></script>
+    <script src="script.js?v=TEST"></script>
 </body>
 </html>
-
-
-
-
-
-
-
