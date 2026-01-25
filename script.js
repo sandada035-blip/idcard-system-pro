@@ -78,7 +78,9 @@ function createCard(t, config) {
     const year = config.ACADEMIC_YEAR || "2025-2026";
     
     // 🔥 កែតម្រូវ៖ ដាក់ Link ផ្ទាល់ទៅ Logo របស់អ្នក (ប្រើ HTTPS)
-    const yourDirectLogo = "https://drive.google.com/thumbnail?id=1oIqI5efkxsTz8sQy_C-BPqZrXar_NbHO&sz=w1000";
+    const yourDirectLogo =
+  "https://drive.google.com/uc?export=view&id=1oIqI5efkxsTz8sQy_C-BPqZrXar_NbHO";
+
     
     // 🔗 Logo ក្រសួង (ទុកសម្រាប់ការពារ បើរូបលើខូច)
     const ministryLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/03/Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg/200px-Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg.png";
@@ -94,10 +96,12 @@ function createCard(t, config) {
                 <div class="ministry">ព្រះរាជាណាចក្រកម្ពុជា</div>
                 <div class="ministry">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
                 
-                <img src="${logoSrc}" 
-                     class="logo-card"
-                     style="width: 50px; height: 50px; display: block; margin: 4px auto; object-fit: contain; z-index: 10; position: relative;" 
-                     alt="LOGO"
+                <img src="${yourDirectLogo}"
+     class="logo-card"
+     referrerpolicy="no-referrer"
+     onerror="this.onerror=null; this.src='${ministryLogo}';"
+     alt="LOGO">
+
                      crossorigin="anonymous"
                      onerror="this.onerror=null; this.src='${ministryLogo}';">
                 
@@ -452,6 +456,7 @@ function printSingleCard(t, side) {
         // setTimeout(() => { w.print(); }, 500); 
     };
 }
+
 
 
 
