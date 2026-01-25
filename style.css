@@ -1,205 +1,90 @@
+/* ✅ style.css - កែសម្រួលថ្មី (រូបថតស្អាត + ទំហំត្រូវ) */
 :root {
-    --primary: #0d1b3e;
-    --accent: #d32f2f;
-    --bg: #f0f2f5;
     --cardW: 54mm;
     --cardH: 86mm;
     --radius: 18px;
-    --shadow: 0 10px 25px rgba(0,0,0,0.15);
+    --shadow: 0 14px 35px rgba(2, 8, 23, .12);
+    --primary-dark: #0d1b3e;
+    --card-top-red: #d32f2f;
+    --bg: #f0f2f5;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Siemreap', sans-serif; }
-body { background-color: var(--bg); padding-bottom: 40px; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Siemreap', sans-serif; }
+body { background: var(--bg); padding-top: 80px; padding-bottom: 40px; }
 
-/* ✅ Navbar Styling (ដូចរូប) */
-.navbar {
-    background: var(--primary);
-    padding: 10px 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky; top: 0; z-index: 1000;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    flex-wrap: wrap; gap: 10px;
-}
+/* Navbar */
+.navbar { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--primary-dark); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+.brand { font-family: 'Moul', serif; color: white; font-size: 20px; letter-spacing: 1px; }
 
-.brand { 
-    font-family: 'Moul', serif; 
-    font-size: 1.2rem; 
-    color: white; 
-    margin-right: auto; 
-}
+/* Grid Dashboard */
+.container { max-width: 1200px; margin: 0 auto; padding: 10px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--cardW), 1fr)); gap: 30px; justify-items: center; }
 
-.nav-buttons {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-/* ✅ ១. រចនាប៊ូតុង Navbar ខាងលើអោយស្អាត (ដូចរូបទី ១) */
-.nav-buttons {
-    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
-}
-
-.btn {
-    border: none;
-    padding: 8px 16px;
-    border-radius: 30px; /* មូលសងខាង */
-    color: white;
-    font-family: 'Siemreap', sans-serif;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 13px;
-    display: flex; align-items: center; gap: 8px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    outline: none;
-}
-
-
-
-
-/* Effect ពេលដាក់ Mouse ពីលើ */
-.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.2); }
-.btn:active { transform: translateY(0); }
-
-/* ពណ៌ប៊ូតុង */
-.btn-green { 
-    background: linear-gradient(135deg, #43a047, #2e7d32); 
-}
-.btn-blue { 
-    background: linear-gradient(135deg, #42a5f5, #1565c0); 
-    opacity: 0.6; /* ធ្វើឱ្យសងងឹតបន្តិចពេលមិនទាន់ចុច */
-}
-.btn-red { 
-    background: linear-gradient(135deg, #ef5350, #c62828); 
-    opacity: 0.6;
-}
-
-/* ពេលប៊ូតុងកំពុង Active (ត្រូវបានជ្រើសរើស) */
-.btn-blue.active, .btn-red.active {
-    opacity: 1;
-    box-shadow: 0 0 0 3px rgba(255,255,255,0.4); /* ថែមរង្វង់ពណ៌សជុំវិញ */
-    transform: scale(1.05);
-}
-
-
-/* ✅ ២. រចនាប៊ូតុងនៅលើកាត (Print មុខ/ក្រោយ) អោយស្អាត */
-.card-actions {
-    display: flex; 
-    justify-content: center; 
-    gap: 8px; 
-    padding: 6px 0 8px 0;
-}
-
-.btn-action {
-    border: none;
-    padding: 6px 14px;
-    border-radius: 8px; /* មូលតិចៗ */
-    color: white;
-    font-size: 10px;
-    font-family: 'Siemreap', sans-serif;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex; align-items: center; gap: 4px;
-    transition: all 0.2s;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-}
-
-.btn-action:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-
-.btn-small-blue { background-color: #1976d2; }
-.btn-small-red { background-color: #d32f2f; }
-
-/* ✅ Button Styles */
-.btn {
-    border: none;
-    padding: 8px 12px;
-    border-radius: 6px;
-    color: white;
-    font-family: 'Siemreap', sans-serif;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 14px;
-    display: flex; align-items: center; gap: 6px;
-    transition: 0.2s;
-}
-.btn:hover { opacity: 0.9; transform: translateY(-1px); }
-.btn:active { transform: translateY(0); }
-
-.btn-green { background-color: #2e7d32; }
-.btn-blue { background-color: #1565c0; opacity: 0.5; } /* Inactive state */
-.btn-red { background-color: #c62828; opacity: 0.5; }   /* Inactive state */
-
-/* Active State styling */
-.btn-blue.active { opacity: 1; box-shadow: 0 0 0 2px white; }
-.btn-red.active { opacity: 1; box-shadow: 0 0 0 2px white; }
-
-/* Search Box */
-.search-container { position: relative; margin: 20px auto; max-width: 600px; padding: 0 10px; }
-.search-container input {
-    width: 100%; padding: 10px 15px 10px 40px;
-    border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; outline: none;
-}
-.search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #888; }
-
-/* Grid Layout */
-.container { padding: 10px; max-width: 1200px; margin: 0 auto; }
-.grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-
-/* Card Styles (Same as before) */
+/* Card Design */
 .id-card {
-    width: var(--cardW); height: var(--cardH); background: #fff;
-    border-radius: var(--radius); overflow: hidden; position: relative;
-    box-shadow: var(--shadow); display: flex; flex-direction: column;
-    border-top: 6px solid var(--accent); transition: transform 0.2s; flex-shrink: 0;
+    width: var(--cardW);
+    height: var(--cardH);
+    background: white;
+    border-radius: var(--radius);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border-top: 6px solid var(--card-top-red);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
 }
 .id-card:hover { transform: translateY(-5px); }
 
-/* Elements */
-.card-header { text-align: center; padding-top: 8px; }
-.ministry { font-size: 7px; font-weight: bold; }
-.school-name { font-family: 'Moul', serif; color: var(--accent); font-size: 8px; margin-top: 3px; }
+/* Header */
+.card-header { text-align: center; margin-top: 10px; }
+.ministry { font-size: 7px; font-weight: bold; line-height: 1.2; color: #333; }
+.logo-card { width: 40px; height: 40px; margin: 4px auto; object-fit: contain; display: block; }
+.school-name { font-family: 'Moul'; font-size: 9px; color: var(--card-top-red); margin-top: 2px; }
 
+/* 🔥 Photo Box (កែសម្រួលរូបថតឱ្យស្អាតនៅទីនេះ) */
 .photo-box {
-    width: 28mm; height: 36mm; margin: 4px auto;
-    border: 2px solid #fff; border-radius: 6px; background: #eee; 
-    overflow: hidden; display: flex; justify-content: center; align-items: center;
+    width: 28mm;
+    height: 36mm;
+    margin: 5px auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #f9f9f9;
 }
-.photo-box img { width: 100%; height: 100%; object-fit: cover; }
+.photo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* សំខាន់ណាស់! ធ្វើឱ្យរូបពេញប្រអប់ស្អាត */
+    object-position: center top; /* តម្រូវឱ្យឃើញមុខ */
+}
 
-.card-body { text-align: center; flex: 1; display: flex; flex-direction: column; gap: 2px; }
-.khmer-name { font-family: 'Moul', serif; color: var(--primary); font-size: 10px; margin-top: 2px; }
-.latin-name { font-weight: bold; color: var(--accent); text-transform: uppercase; font-size: 8px; }
-.role-badge { background: #f0f0f0; color: #333; padding: 2px 8px; border-radius: 10px; font-size: 8px; display: inline-block; margin: 2px auto; }
-.card-footer { background: var(--primary); color: white; text-align: center; padding: 3px; font-size: 7px; margin-top: auto;}
+/* Card Body */
+.card-body { text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+.khmer-name { font-family: 'Moul'; font-size: 11px; color: var(--primary-dark); padding-top: 4px; }
+.latin-name { font-size: 9px; font-weight: bold; color: var(--card-top-red); text-transform: uppercase; margin-top: 2px; }
+.role-badge { font-size: 9px; color: #666; margin-top: 2px; display: inline-block; background: #eee; padding: 2px 8px; border-radius: 10px; margin: 4px auto; }
 
-/* QR Style */
-.qr-box { width: 35mm; height: 35mm; margin: 10px auto; }
-.qr-box img { width: 100%; height: 100%; }
-.back-info { font-size: 9px; color: #555; text-align: center; margin-top: 5px; }
+/* Buttons */
+.card-actions { display: flex; justify-content: space-around; padding: 8px 10px; }
+.btn-action { border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; color: white; font-size: 10px; font-weight: bold; transition: 0.2s; display: flex; align-items: center; gap: 4px; }
+.btn-small-blue { background: #1976d2; }
+.btn-small-red { background: #d32f2f; }
 
+/* Footer */
+.card-footer { position: absolute; bottom: 0; width: 100%; background: var(--primary-dark); color: white; font-size: 8px; text-align: center; padding: 4px 0; }
+
+/* Search & Loading */
+.search-container { text-align: center; margin-bottom: 20px; position: relative; }
+#searchInput { padding: 12px 20px 12px 45px; width: 100%; max-width: 500px; border-radius: 25px; border: 1px solid #ddd; outline: none; font-size: 14px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+.search-icon { position: absolute; left: 50%; transform: translateX(-230px); top: 13px; color: #aaa; }
 .loading { text-align: center; margin-top: 50px; color: #666; }
 
-/* Responsive Navbar for Mobile */
-@media (max-width: 600px) {
-    .navbar { flex-direction: column; gap: 10px; }
-    .nav-buttons { width: 100%; justify-content: center; }
-    .btn { font-size: 12px; padding: 6px 10px; }
-}
-
-.logo-card {
-  display: block !important;
-  margin: 6px auto !important;
-  width: 50px;
-  height: 50px;
-  object-fit: contain;
-}
-
-
-
-
-
-
-
+/* Navigation Buttons */
+.nav-buttons { display: flex; gap: 10px; }
+.btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; color: white; font-family: 'Siemreap'; font-weight: bold; }
+.btn-blue { background: #1976d2; opacity: 0.6; }
+.btn-blue.active { opacity: 1; box-shadow: 0 0 10px #1976d2; }
+.btn-red { background: #d32f2f; opacity: 0.6; }
+.btn-red.active { opacity: 1; box-shadow: 0 0 10px #d32f2f; }
+.btn-green { background: #2e7d32; }
