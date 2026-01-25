@@ -1,3 +1,9 @@
+/* =======================
+   GLOBAL LOGO (MUST BE TOP)
+======================= */
+const SCHOOL_LOGO_BASE64 = `data:image/png;base64,PASTE_FULL_BASE64_HERE`;
+
+
 const API_URL = "https://script.google.com/macros/s/AKfycbyEm3bugjBA0vj0zrnSnrn6z-02k-JpDr7OBKiQLaP6rtwSi51pYkXr-WlIvvxWEUHI/exec"; // ⚠️ កុំភ្លេចដាក់ URL របស់អ្នក
 
 let allTeachers = [];
@@ -183,6 +189,15 @@ function createCard(t, config) {
 
   return div;
 }
+
+function getLogoSrc() {
+  console.log("LOGO length =", SCHOOL_LOGO_BASE64?.length);
+  if (SCHOOL_LOGO_BASE64 && SCHOOL_LOGO_BASE64.startsWith("data:image/")) {
+    return SCHOOL_LOGO_BASE64;
+  }
+  return MINISTRY_LOGO;
+}
+
 
 
 // ✅ ២. Function បង្កើតកាត (Update អោយស្គាល់ Mode)
@@ -494,6 +509,7 @@ function printSingleCard(t, side) {
         // setTimeout(() => { w.print(); }, 500); 
     };
 }
+
 
 
 
