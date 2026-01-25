@@ -81,12 +81,11 @@ function createCard(t, config) {
     const school = config.SCHOOL_NAME || "សាលារៀន";
     const year = config.ACADEMIC_YEAR || "2025-2026";
     
-    // 🔥 កែសម្រួល៖ បើ t.logoUrl គ្មាន វានឹងយក Logo សាលា (Default) មកប្រើភ្លាម
-    // ហើយយើងប្រើ 'https://upload.wikimedia.org/...' ជាតំណាង បើ config ទទេ
-    const defaultLogo = "https://drive.google.com/file/d/1oIqI5efkxsTz8sQy_C-BPqZrXar_NbHO/view?usp=sharing";
+// 🔥 កែសម្រួល៖ បើ t.logoUrl គ្មាន វានឹងយក Logo សាលា (Default) មកប្រើភ្លាម
+    // ខ្ញុំបានប្តូរ Link ទៅជា Direct Link ដើម្បីឱ្យវាបង្ហាញរូបភាព
+    const defaultLogo = "https://drive.google.com/thumbnail?id=1oIqI5efkxsTz8sQy_C-BPqZrXar_NbHO&sz=w1000";
     
-    const logo = t.logoUrl || config.DEFAULT_LOGO || defaultLogo; 
-
+    const logo = t.logoUrl || config.DEFAULT_LOGO || defaultLogo;
     if (currentMode === 'front') {
         // 👉 ផ្នែកបង្ហាញខាងមុខ (Front)
         const photo = t.photoUrl || 'https://via.placeholder.com/150';
@@ -452,6 +451,7 @@ function printSingleCard(t, side) {
         // setTimeout(() => { w.print(); }, 500); 
     };
 }
+
 
 
 
