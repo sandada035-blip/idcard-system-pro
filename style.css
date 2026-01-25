@@ -57,14 +57,7 @@ body { background-color: var(--bg); padding-bottom: 40px; }
     outline: none;
 }
 
-/* ✅ រចនា Logo នៅលើកាតក្នុង Dashboard */
-.logo-card {
-    width: 35px;
-    height: 35px;
-    margin: 2px auto;
-    display: block;
-    object-fit: contain;
-}
+
 
 
 /* Effect ពេលដាក់ Mouse ពីលើ */
@@ -196,4 +189,12 @@ body { background-color: var(--bg); padding-bottom: 40px; }
     .btn { font-size: 12px; padding: 6px 10px; }
 }
 
+/* ✅ រចនា Logo នៅលើកាតក្នុង Dashboard */
+.logo-card {
+    width: 35px;
+    height: 35px;
+    margin: 2px auto;
+    display: block;
+    object-fit: contain;
+}
 
