@@ -95,38 +95,54 @@ function createCard(t, config) {
 // ✅ Print A4 (Grid 2 Columns = Standard A4)
 // ✅ script.js - (Print A4: កែមកដាក់ ៦ កាតវិញ ទើបមិនត្រួតគ្នា)
 
+// ✅ script.js - (Print A4: Font Moul + ទីតាំងត្រឹមត្រូវ + មិនត្រួតគ្នា)
+
 function printAll(side) {
     if (!allTeachers.length) return alert("No Data");
     const w = window.open("", "_blank");
     
-    // CSS សម្រាប់ Print
- 
+    // CSS សម្រាប់ Print (កែឱ្យដូច style.css របស់អ្នក)
     const css = `<style>
         @import url('https://fonts.googleapis.com/css2?family=Moul&family=Siemreap&display=swap');
         @page { size: A4; margin: 0; }
         body { margin: 0; background: #eee; font-family: 'Siemreap'; }
         
-        .sheet { width: 210mm; height: 297mm; padding: 10mm; margin: 0 auto; background: white; display: grid; grid-template-columns: repeat(2, 54mm); grid-auto-rows: 86mm; gap: 12mm 16mm; justify-content: center; align-content: start; page-break-after: always; }
+        /* Layout Grid A4 (៦ កាត/ទំព័រ = ស្តង់ដារ A4 មិនត្រួតគ្នា) */
+        .sheet { 
+            width: 210mm; 
+            height: 297mm; 
+            padding: 10mm 15mm; 
+            margin: 0 auto; 
+            background: white; 
+            display: grid; 
+            grid-template-columns: repeat(2, 54mm); 
+            grid-template-rows: repeat(3, 86mm); 
+            gap: 10mm 25mm; 
+            justify-content: center; 
+            align-content: start; 
+            page-break-after: always; 
+        }
         
         .id-card-print { width: 54mm; height: 86mm; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #ddd; position: relative; display: flex; flex-direction: column; -webkit-print-color-adjust: exact; }
         
-        /* 🔥 កែត្រង់នេះ (Front Styles) */
+        /* --- FRONT DESIGN (កែសម្រួលថ្មី) --- */
         .card-header-front { 
             background-image: linear-gradient(to bottom, #d32f2f 50%, white 50%); 
             background-size: 100% 10px; 
             background-repeat: no-repeat; 
-            /* រុញអក្សរចុះមកក្រោម */
+            /* 🔥 ១. ទម្លាក់អក្សរចុះមកក្រោម (ដូចក្នុង style.css) */
             padding-top: 15px; 
             text-align: center; 
         }
 
         .ministry { 
-            /* ប្រើ Font Moul */
+            /* 🔥 ២. ប្តូរទៅជា Font Moul */
             font-family: 'Moul', serif; 
             font-size: 8px; 
-            font-weight: normal;
+            font-weight: normal; 
             text-align: center; 
             line-height: 1.4; 
+            color: #333;
         }
 
         .logo-print { width: 35px; height: 35px; margin: 2px auto; display: block; object-fit: contain; }
@@ -134,13 +150,12 @@ function printAll(side) {
         
         .photo { width: 26mm; height: 32mm; margin: 2px auto; display: block; object-fit: cover; border: 1px solid #ccc; border-radius: 4px; }
         
+        .card-body-print { text-align: center; }
         .name-kh { font-family: 'Moul'; font-size: 10px; color: #0d1b3e; text-align: center; margin-top: 2px; }
         .name-en { font-size: 8px; font-weight: bold; color: #d32f2f; text-align: center; text-transform: uppercase; }
         .role { font-size: 7px; text-align: center; color: white; background: #0d1b3e; padding: 1px 6px; border-radius: 8px; display: inline-block; margin: 2px auto;}
-        .card-body-print { text-align: center; }
-
         
-        /* Back Styles */
+        /* --- BACK DESIGN --- */
         .card-header-back { background: #d32f2f; height: 20px; display: flex; align-items: center; justify-content: center; color: white; }
         .header-title { font-family: 'Moul'; font-size: 8px; }
         .qr-section { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
@@ -152,7 +167,7 @@ function printAll(side) {
 
     let html = `<html><head><title>Print ${side}</title>${css}</head><body>`;
     
-    // 🔥 កែមកត្រឹម ៦ កាតក្នុង ១ ទំព័រ (Standard A4 Limit)
+    // កំណត់ ៦ កាតក្នុង ១ ទំព័រ (កុំដាក់ ១០ ព្រោះវាត្រួតគ្នា)
     const perPage = 6; 
     
     for (let i = 0; i < allTeachers.length; i += perPage) {
@@ -201,5 +216,6 @@ function printAll(side) {
 }
 
 function printSingleCard(t, side) { printAll(side); }
+
 
 
