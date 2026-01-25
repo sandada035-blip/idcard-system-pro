@@ -88,41 +88,39 @@ function renderCards(list) {
 /****************************************************
  * Create Card (FIXED LOGO)
  ****************************************************/
+// ✅ Function បង្កើតកាត (ប្រើ Logo ក្រសួងសុទ្ធ ដើម្បីតេស្ត)
 function createCard(t, config) {
-    const div = document.createElement("div");
-    div.className = "id-card";
-
+    const div = document.createElement('div');
+    div.className = 'id-card';
+    
     const school = config.SCHOOL_NAME || "សាលារៀន";
     const year = config.ACADEMIC_YEAR || "2025-2026";
     
-    // ✅ បង្ខំប្រើ Logo ក្រសួងតែម្តង (ធានាថាចេញ)
-    const logoSrc = MINISTRY_LOGO;
+    // 🔥 ប្រើ Logo ក្រសួងផ្ទាល់ (Link នេះមិនចេះខូចទេ)
+    const logoSrc = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/03/Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg/200px-Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg.png";
 
-    if (currentMode === "front") {
-        const photo = t.photoUrl || "https://via.placeholder.com/150";
-
+    if (currentMode === 'front') {
+        const photo = t.photoUrl || 'https://via.placeholder.com/150';
+        
         div.innerHTML = `
             <div class="card-header">
                 <div class="ministry">ព្រះរាជាណាចក្រកម្ពុជា</div>
                 <div class="ministry">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-
+                
                 <img src="${logoSrc}" 
-                     class="logo-card" 
-                     style="width:50px; height:50px; display:block; margin:4px auto; object-fit:contain;" 
-                     alt="LOGO"
-                     crossorigin="anonymous">
-
+                     class="logo-card"
+                     style="width: 50px; height: 50px; display: block; margin: 4px auto; object-fit: contain; z-index: 10; position: relative;" 
+                     alt="LOGO">
+                
                 <div class="school-name">${school}</div>
             </div>
-
             <div class="photo-box"><img src="${photo}" loading="lazy"></div>
-
             <div class="card-body">
-                <div class="khmer-name">${t.khmerName || "---"}</div>
-                <div class="latin-name">${t.latinName || "---"}</div>
-                <div class="role-badge">${t.role || "គ្រូបង្រៀន"}</div>
+                <div class="khmer-name">${t.khmerName || '---'}</div>
+                <div class="latin-name">${t.latinName || '---'}</div>
+                <div class="role-badge">${t.role || 'គ្រូបង្រៀន'}</div>
             </div>
-
+            
             <div class="card-actions">
                 <button class="btn-action btn-small-blue" onclick='printSingleCard(${JSON.stringify(t)}, "front")'>
                     <i class="fas fa-print"></i> មុខ
@@ -134,20 +132,25 @@ function createCard(t, config) {
             <div class="card-footer">ឆ្នាំសិក្សា ${year}</div>
         `;
     } else {
-         const detailUrl = `${API_URL}?page=detail&id=${t.id}`;
-         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(detailUrl)}`;
+        const detailUrl = `${API_URL}?page=detail&id=${t.id}`;
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(detailUrl)}`;
+        
         div.innerHTML = `
-            <div class="card-header"><div class="ministry" style="font-family:'Moul';margin-top:15px;font-size:12px;">កាតបុគ្គលិក</div></div>
-            <div class="qr-box"><img src="${qrUrl}"></div>
+            <div class="card-header">
+                <div class="ministry" style="font-family:'Moul'; margin-top:15px; font-size:12px;">កាតបុគ្គលិក</div>
+            </div>
+            <div class="qr-box"><img src="${qrUrl}" loading="lazy"></div>
             <div class="card-body">
-                <div class="back-info" style="font-size:11px;margin-top:10px;">
+                <div class="back-info" style="font-size:11px; margin-top:10px; line-height:1.6;">
                     <strong>ឈ្មោះ:</strong> ${t.khmerName}<br>
+                    <strong>លេខទូរសព្ទ:</strong> ${t.phone || '---'}<br>
                     <strong>អត្តលេខ:</strong> ${t.id}
                 </div>
             </div>
             <div class="card-footer">${school}</div>
         `;
     }
+
     return div;
 }
 
@@ -225,3 +228,4 @@ window.switchMode = switchMode;
 window.filterCards = filterCards;
 window.printAll = printAll;
 window.printSingleCard = printSingleCard;
+
