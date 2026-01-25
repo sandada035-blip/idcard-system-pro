@@ -99,55 +99,70 @@ function createCard(t, config) {
 
 // ✅ script.js - (Print A4: Font Moul + ទីតាំងត្រឹមត្រូវ + មិនត្រួតគ្នា)
 
+// ✅ script.js - (Print A4 FIXED: ៦ កាត/ទំព័រ + Font Moul + រចនាស្អាត)
+
 function printAll(side) {
     if (!allTeachers.length) return alert("No Data");
     const w = window.open("", "_blank");
     
-    // CSS សម្រាប់ Print (កែឱ្យដូច style.css របស់អ្នក)
+    // CSS សម្រាប់ Print
     const css = `<style>
         @import url('https://fonts.googleapis.com/css2?family=Moul&family=Siemreap&display=swap');
         @page { size: A4; margin: 0; }
-        body { margin: 0; background: #eee; font-family: 'Siemreap'; }
+        body { margin: 0; background: #eee; font-family: 'Siemreap', sans-serif; }
         
-        /* Layout Grid A4 (៦ កាត/ទំព័រ = ស្តង់ដារ A4 មិនត្រួតគ្នា) */
+        /* 🔥 កែសម្រួល Grid: ដាក់ ៦ កាត (២x៣) ដើម្បីកុំឱ្យត្រួតគ្នា */
         .sheet { 
             width: 210mm; 
             height: 297mm; 
-            padding: 10mm 15mm; 
+            padding: 10mm 15mm; /* ឆ្វេងស្តាំ ១៥mm លើក្រោម ១០mm */
             margin: 0 auto; 
             background: white; 
             display: grid; 
-            grid-template-columns: repeat(2, 54mm); 
-            grid-template-rows: repeat(3, 86mm); 
-            gap: 10mm 25mm; 
+            grid-template-columns: repeat(2, 54mm); /* ២ កាតមួយជួរ */
+            grid-template-rows: repeat(3, 86mm);    /* ៣ ជួរ (សរុប ៦ កាត) */
+            gap: 15mm 25mm; /* បង្កើនគម្លាតដើម្បីកុំឱ្យជាន់គ្នា */
             justify-content: center; 
             align-content: start; 
             page-break-after: always; 
         }
         
-        .id-card-print { width: 54mm; height: 86mm; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #ddd; position: relative; display: flex; flex-direction: column; -webkit-print-color-adjust: exact; }
+        .id-card-print { 
+            width: 54mm; height: 86mm; background: #fff; border-radius: 8px; overflow: hidden; 
+            border: 1px solid #ddd; position: relative; display: flex; flex-direction: column; 
+            -webkit-print-color-adjust: exact; 
+        }
         
-        /* --- FRONT DESIGN (កែសម្រួលថ្មី) --- */
+        /* --- FRONT DESIGN --- */
         .card-header-front { 
             background-image: linear-gradient(to bottom, #d32f2f 50%, white 50%); 
             background-size: 100% 10px; 
             background-repeat: no-repeat; 
-            /* 🔥 ១. ទម្លាក់អក្សរចុះមកក្រោម (ដូចក្នុង style.css) */
+            /* 🔥 ១. ទម្លាក់អក្សរចុះមកក្រោម ១៥px */
             padding-top: 15px; 
             text-align: center; 
         }
 
         .ministry { 
-            /* 🔥 ២. ប្តូរទៅជា Font Moul */
+            /* 🔥 ២. ប្រើ Font Moul */
             font-family: 'Moul', serif; 
             font-size: 8px; 
             font-weight: normal; 
             text-align: center; 
-            line-height: 1.4; 
+            line-height: 1.5; 
             color: #333;
+            margin-bottom: 2px;
         }
 
-        .logo-print { width: 35px; height: 35px; margin: 2px auto; display: block; object-fit: contain; }
+        /* 🔥 ៣. កំណត់ទំហំ Logo ឱ្យជាក់លាក់ (កុំឱ្យរីកធំ) */
+        .logo-print { 
+            width: 35px !important; 
+            height: 35px !important; 
+            margin: 2px auto; 
+            display: block; 
+            object-fit: contain; 
+        }
+
         .school { font-family: 'Moul'; font-size: 8px; color: #d32f2f; text-align: center; }
         
         .photo { width: 26mm; height: 32mm; margin: 2px auto; display: block; object-fit: cover; border: 1px solid #ccc; border-radius: 4px; }
@@ -158,8 +173,8 @@ function printAll(side) {
         .role { font-size: 7px; text-align: center; color: white; background: #0d1b3e; padding: 1px 6px; border-radius: 8px; display: inline-block; margin: 2px auto;}
         
         /* --- BACK DESIGN --- */
-        .card-header-back { background: #d32f2f; height: 20px; display: flex; align-items: center; justify-content: center; color: white; }
-        .header-title { font-family: 'Moul'; font-size: 8px; }
+        .card-header-back { background: #d32f2f; height: 25px; display: flex; align-items: center; justify-content: center; color: white; }
+        .header-title { font-family: 'Moul'; font-size: 9px; }
         .qr-section { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .qr-img { width: 30mm; height: 30mm; border: 1px solid #000; padding: 2px; margin-bottom: 5px;}
         .info-table { width: 90%; margin: 0 auto; font-size: 8px; background: #f9f9f9; padding: 3px; border-left: 3px solid #0d1b3e; }
@@ -169,7 +184,7 @@ function printAll(side) {
 
     let html = `<html><head><title>Print ${side}</title>${css}</head><body>`;
     
-    // កំណត់ ៦ កាតក្នុង ១ ទំព័រ (កុំដាក់ ១០ ព្រោះវាត្រួតគ្នា)
+    // 🔥 កំណត់ ៦ កាតក្នុង ១ ទំព័រ A4 (បើដាក់ ១០ នឹងត្រួតគ្នា)
     const perPage = 6; 
     
     for (let i = 0; i < allTeachers.length; i += perPage) {
@@ -217,6 +232,7 @@ function printAll(side) {
     w.document.close();
 }
 function printSingleCard(t, side) { printAll(side); }
+
 
 
 
