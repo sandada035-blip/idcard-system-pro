@@ -201,5 +201,15 @@ body { background-color: var(--bg); padding-bottom: 40px; }
     background-color: transparent; 
 }
 
+.logo-card{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  width:50px !important;
+  height:50px !important;
+  object-fit:contain !important;
+}
+
+
 
 
