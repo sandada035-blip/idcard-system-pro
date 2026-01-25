@@ -70,6 +70,7 @@ function filterCards() {
 }
 
 // ✅ Function បង្កើតកាតមួយៗក្នុង Dashboard (មាន Logo)
+// ✅ Function បង្កើតកាត (ប្រើ Inline Style ដើម្បីបង្ខំឱ្យចេញ)
 function createCard(t, config) {
     const div = document.createElement('div');
     div.className = 'id-card';
@@ -77,12 +78,13 @@ function createCard(t, config) {
     const school = config.SCHOOL_NAME || "សាលារៀន";
     const year = config.ACADEMIC_YEAR || "2025-2026";
     
-    const publicLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/03/Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg/200px-Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg.png";
+    // 🔗 ប្រើ Logo ក្រសួងជាមូលដ្ឋាន (Link សាធារណៈ)
+    const defaultLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/03/Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg/200px-Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg.png";
     
-    // កែសម្រួលត្រង់នេះ៖ យកពី config មុន
-    let logo = config.LOGO_URL || t.logoUrl;
-    if (!logo || logo.trim() === "") {
-        logo = publicLogo;
+    // បើ t.logoUrl មាន ប្រើវា។ បើគ្មាន ប្រើ defaultLogo។
+    let logoSrc = t.logoUrl;
+    if (!logoSrc || logoSrc.length < 5) {
+        logoSrc = defaultLogo;
     }
 
     if (currentMode === 'front') {
@@ -93,7 +95,10 @@ function createCard(t, config) {
                 <div class="ministry">ព្រះរាជាណាចក្រកម្ពុជា</div>
                 <div class="ministry">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
                 
-                <img src="${logo}" class="logo-card" alt="Logo">
+                <img src="${logoSrc}" 
+                     style="width: 45px; height: 45px; display: block; margin: 4px auto; object-fit: contain;" 
+                     alt="LOGO" 
+                     crossorigin="anonymous">
                 
                 <div class="school-name">${school}</div>
             </div>
@@ -115,7 +120,7 @@ function createCard(t, config) {
             <div class="card-footer">ឆ្នាំសិក្សា ${year}</div>
         `;
     } else {
-        // ... (ផ្នែកខាងក្រោយនៅដដែល) ...
+        // (ផ្នែកខាងក្រោយនៅដដែល)
         const detailUrl = `${API_URL}?page=detail&id=${t.id}`;
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(detailUrl)}`;
         
@@ -447,6 +452,7 @@ function printSingleCard(t, side) {
         // setTimeout(() => { w.print(); }, 500); 
     };
 }
+
 
 
 
