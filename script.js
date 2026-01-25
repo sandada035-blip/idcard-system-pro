@@ -83,7 +83,7 @@ function createCard(t, config) {
     
     // 🔥 កែសម្រួល៖ បើ t.logoUrl គ្មាន វានឹងយក Logo សាលា (Default) មកប្រើភ្លាម
     // ហើយយើងប្រើ 'https://upload.wikimedia.org/...' ជាតំណាង បើ config ទទេ
-    const defaultLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/03/Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg/1200px-Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg.png";
+    const defaultLogo = "https://drive.google.com/file/d/1oIqI5efkxsTz8sQy_C-BPqZrXar_NbHO/view?usp=sharing";
     
     const logo = t.logoUrl || config.DEFAULT_LOGO || defaultLogo; 
 
@@ -452,6 +452,7 @@ function printSingleCard(t, side) {
         // setTimeout(() => { w.print(); }, 500); 
     };
 }
+
 
 
 
