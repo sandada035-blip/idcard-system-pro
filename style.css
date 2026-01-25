@@ -1,8 +1,8 @@
-/* ✅ style.css - រចនាថ្មី (រូបថតសមរម្យ + ផ្នែកខាងក្រោយស្អាត) */
+/* ✅ style.css - (FIXED: Logo Size) */
 :root {
     --cardW: 54mm;
     --cardH: 86mm;
-    --radius: 10px; /* កាត់បន្ថយកោងបន្តិចឱ្យមើលទៅដាច់ */
+    --radius: 10px;
     --shadow: 0 5px 15px rgba(0,0,0,0.15);
     --primary-dark: #0d1b3e;
     --primary-red: #d32f2f;
@@ -15,10 +15,16 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
 /* Navbar */
 .navbar { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--primary-dark); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 .brand { font-family: 'Moul', serif; color: white; font-size: 20px; }
+.nav-buttons { display: flex; gap: 10px; }
+.btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; color: white; font-family: 'Siemreap'; font-weight: bold; }
+.btn-blue { background: #1976d2; } .btn-red { background: #d32f2f; } .btn-green { background: #2e7d32; } .active { box-shadow: 0 0 0 2px white, 0 0 0 4px currentColor; }
 
 /* Grid */
 .container { max-width: 1200px; margin: 0 auto; padding: 10px; }
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--cardW), 1fr)); gap: 30px; justify-items: center; }
+.search-container { text-align: center; margin-bottom: 20px; }
+#searchInput { padding: 10px 20px; width: 100%; max-width: 400px; border-radius: 20px; border: 1px solid #ddd; outline: none; }
+.loading { text-align: center; margin-top: 50px; }
 
 /* 🪪 ID CARD STYLE */
 .id-card {
@@ -35,29 +41,38 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
 }
 
 /* --- FRONT DESIGN --- */
-/* --- FRONT DESIGN --- */
 .card-header-front {
     background-image: linear-gradient(to bottom, var(--primary-red) 50%, white 50%);
     background-size: 100% 10px;
     background-repeat: no-repeat;
-    /* 🔥 កែត្រង់នេះ៖ បន្ថែម padding-top ឱ្យធំជាងមុន ដើម្បីរុញអក្សរចុះក្រោម */
     padding-top: 15px; 
     text-align: center;
 }
 
 .ministry { 
-    /* 🔥 កែត្រង់នេះ៖ ដាក់ Font Moul និងបង្កើនទំហំបន្តិច */
     font-family: 'Moul', serif; 
-    font-size: 8px; /* Moul ត្រូវការទំហំធំជាងអក្សរធម្មតាបន្តិចទើបច្បាស់ */
+    font-size: 8px; 
     font-weight: normal; 
     line-height: 1.4; 
     color: #333; 
     margin-bottom: 2px;
 }
-/* 🔥 រូបថត (កែសម្រួលថ្មី៖ តូចជាងមុន និងមានគែម) */
+
+/* 🔥 FIX: បង្ខំឱ្យ Logo តូចវិញ (សំខាន់ណាស់!) */
+.logo-card { 
+    width: 40px !important; 
+    height: 40px !important; 
+    margin: 2px auto; 
+    object-fit: contain; 
+    display: block; 
+}
+
+.school-name { font-family: 'Moul'; font-size: 8px; color: var(--primary-red); margin-top: 2px; }
+
+/* Photo Box */
 .photo-box {
-    width: 26mm;  /* បន្ថយទទឹង */
-    height: 32mm; /* បន្ថយកម្ពស់ */
+    width: 26mm; 
+    height: 32mm; 
     margin: 4px auto;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -66,57 +81,22 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
 }
 .photo-box img { width: 100%; height: 100%; object-fit: cover; }
 
-/* ឈ្មោះ និង តួនាទី */
+/* Body Info */
 .card-body { text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-start; padding-top: 2px; }
 .khmer-name { font-family: 'Moul'; font-size: 10px; color: var(--primary-dark); }
 .latin-name { font-size: 8px; font-weight: bold; color: var(--primary-red); text-transform: uppercase; margin-bottom: 2px;}
 .role-badge { font-size: 8px; color: white; background: var(--primary-dark); padding: 1px 8px; border-radius: 8px; display: inline-block; margin: 0 auto; }
 
-/* --- BACK DESIGN (រចនាថ្មី) --- */
-.card-header-back {
-    background: var(--primary-red);
-    height: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-}
+/* --- BACK DESIGN --- */
+.card-header-back { background: var(--primary-red); height: 25px; display: flex; align-items: center; justify-content: center; color: white; }
 .header-title { font-family: 'Moul'; font-size: 9px; }
-
-.qr-section {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: url('https://www.transparenttextures.com/patterns/cubes.png'); /* ដាក់ Texture តិចៗ */
-}
+.qr-section { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: url('https://www.transparenttextures.com/patterns/cubes.png'); }
 .qr-box { width: 32mm; height: 32mm; border: 2px solid var(--primary-dark); padding: 2px; background: white; border-radius: 4px;}
 .qr-box img { width: 100%; height: 100%; }
-
-.info-table {
-    width: 90%;
-    margin: 5px auto;
-    font-size: 9px;
-    background: #f9f9f9;
-    padding: 5px;
-    border-radius: 4px;
-    border-left: 3px solid var(--primary-dark);
-    text-align: left;
-}
+.info-table { width: 90%; margin: 5px auto; font-size: 9px; background: #f9f9f9; padding: 5px; border-radius: 4px; border-left: 3px solid var(--primary-dark); text-align: left; }
 
 /* Footer & Buttons */
 .card-footer { position: absolute; bottom: 0; width: 100%; background: var(--primary-dark); color: white; font-size: 7px; text-align: center; padding: 3px 0; }
 .card-actions { display: flex; justify-content: center; gap: 10px; padding: 5px; background: #fff; border-top: 1px solid #eee; position: absolute; bottom: 18px; width: 100%;}
 .btn-action { border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; color: white; font-size: 9px; display: flex; align-items: center; gap: 3px; }
-.btn-small-blue { background: #1976d2; }
-.btn-small-red { background: #d32f2f; }
-
-/* Search & Loading */
-.search-container { text-align: center; margin-bottom: 20px; }
-#searchInput { padding: 10px 20px; width: 100%; max-width: 400px; border-radius: 20px; border: 1px solid #ddd; outline: none; }
-.loading { text-align: center; margin-top: 50px; }
-.nav-buttons { display: flex; gap: 10px; }
-.btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; color: white; font-family: 'Siemreap'; font-weight: bold; }
-.btn-blue { background: #1976d2; } .btn-red { background: #d32f2f; } .btn-green { background: #2e7d32; } .active { box-shadow: 0 0 0 2px white, 0 0 0 4px currentColor; }
-
+.btn-small-blue { background: #1976d2; } .btn-small-red { background: #d32f2f; }
