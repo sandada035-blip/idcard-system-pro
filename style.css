@@ -189,13 +189,17 @@ body { background-color: var(--bg); padding-bottom: 40px; }
     .btn { font-size: 12px; padding: 6px 10px; }
 }
 
-/* ✅ បន្ថែមកូដនេះចូលក្នុង style.css ដើម្បីឱ្យ Logo បង្ហាញចេញ */
+/* ✅ កែសម្រួលថ្មី៖ ធានាថារូប Logo បង្ហាញច្បាស់ */
 .logo-card {
-    width: 40px;          /* កំណត់ទំហំ */
-    height: 40px;
-    margin: 5px auto;     /* ដាក់កណ្តាល */
+    width: 50px;           /* បង្កើនទំហំបន្តិច */
+    height: 50px;
+    margin: 2px auto;
     display: block;
-    object-fit: contain;  /* បង្ហាញរូបពេញ */
+    object-fit: contain;   /* បង្ហាញរូបទាំងមូល */
+    position: relative;    /* ដាក់ទីតាំង */
+    z-index: 10;           /* ដាក់ឱ្យនៅស្រទាប់លើគេ */
+    background-color: transparent; 
 }
+
 
 
