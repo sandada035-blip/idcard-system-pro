@@ -90,6 +90,7 @@ function renderCards(list) {
  ****************************************************/
 // ✅ Function បង្កើតកាត (ប្រើ Logo ក្រសួងសុទ្ធ ដើម្បីតេស្ត)
 // ✅ Function បង្កើតកាត (Logo ក្រសួង - ដំណើរការ ១០០%)
+// ✅ Function បង្កើតកាត (FIX: លុប Crossorigin ដើម្បីឱ្យរូបចេញ ១០០%)
 function createCard(t, config) {
     const div = document.createElement('div');
     div.className = 'id-card';
@@ -97,7 +98,7 @@ function createCard(t, config) {
     const school = config.SCHOOL_NAME || "សាលារៀន";
     const year = config.ACADEMIC_YEAR || "2025-2026";
     
-    // 🔗 Logo ក្រសួង (Link សាធារណៈ មិនចេះខូច)
+    // 🔗 Logo ក្រសួង (Link សាធារណៈ)
     const logoSrc = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/03/Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg/200px-Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg.png";
 
     if (currentMode === 'front') {
@@ -110,7 +111,7 @@ function createCard(t, config) {
                 
                 <img src="${logoSrc}" 
                      class="logo-card"
-                     style="width: 50px; height: 50px; display: block; margin: 4px auto; object-fit: contain; z-index: 10; position: relative;" 
+                     style="width: 50px; height: 50px; display: block; margin: 4px auto; object-fit: contain;" 
                      alt="LOGO">
                 
                 <div class="school-name">${school}</div>
@@ -229,5 +230,6 @@ window.switchMode = switchMode;
 window.filterCards = filterCards;
 window.printAll = printAll;
 window.printSingleCard = printSingleCard;
+
 
 
