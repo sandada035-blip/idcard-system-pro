@@ -73,21 +73,22 @@ function filterCards() {
 // ✅ Function បង្កើតកាតមួយៗក្នុង Dashboard (Update: Fallback Logo + No-Referrer)
 // ✅ ជំនួស function createCard ចាស់ដោយកូដនេះ
 
+// ✅ Function បង្កើតកាត (Updated with YOUR LOGO)
+
 function createCard(t, config) {
     const div = document.createElement('div');
     div.className = 'id-card';
     
-    // ទិន្នន័យទូទៅ
     const school = config.SCHOOL_NAME || "សាលារៀន";
     const year = config.ACADEMIC_YEAR || "2025-2026";
     
-// 🔥 កែសម្រួល៖ បើ t.logoUrl គ្មាន វានឹងយក Logo សាលា (Default) មកប្រើភ្លាម
-    // ខ្ញុំបានប្តូរ Link ទៅជា Direct Link ដើម្បីឱ្យវាបង្ហាញរូបភាព
-    const defaultLogo = "https://drive.google.com/thumbnail?id=1oIqI5efkxsTz8sQy_C-BPqZrXar_NbHO&sz=w1000";
+    // 🔥 នេះជា Link រូបរបស់អ្នកដែលខ្ញុំបានកែសម្រួលអោយហើយ (Direct Link)
+    const yourLogo = "https://drive.google.com/thumbnail?id=1oIqI5efkxsTz8sQy_C-BPqZrXar_NbHO&sz=w1000";
     
-    const logo = t.logoUrl || config.DEFAULT_LOGO || defaultLogo;
+    // Logic: ប្រើ Logo ផ្ទាល់ខ្លួនរបស់គ្រូ បើគ្មានទេ ប្រើ Logo របស់អ្នក (yourLogo)
+    const logo = t.logoUrl || yourLogo; 
+
     if (currentMode === 'front') {
-        // 👉 ផ្នែកបង្ហាញខាងមុខ (Front)
         const photo = t.photoUrl || 'https://via.placeholder.com/150';
         
         div.innerHTML = `
@@ -117,7 +118,7 @@ function createCard(t, config) {
             <div class="card-footer">ឆ្នាំសិក្សា ${year}</div>
         `;
     } else {
-        // 👉 ផ្នែកបង្ហាញខាងក្រោយ (Back)
+        // (ផ្នែកខាងក្រោយ រក្សាទុកដដែល)
         const detailUrl = `${API_URL}?page=detail&id=${t.id}`;
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(detailUrl)}`;
         
@@ -139,7 +140,6 @@ function createCard(t, config) {
 
     return div;
 }
-
 
 
 // ✅ ២. Function បង្កើតកាត (Update អោយស្គាល់ Mode)
@@ -451,6 +451,7 @@ function printSingleCard(t, side) {
         // setTimeout(() => { w.print(); }, 500); 
     };
 }
+
 
 
 
