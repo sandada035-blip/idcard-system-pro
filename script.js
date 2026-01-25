@@ -69,10 +69,7 @@ function filterCards() {
     renderCards(filtered);
 }
 
-// ✅ Function បង្កើតកាតមួយៗក្នុង Dashboard (មាន Logo)
-// ✅ Function បង្កើតកាត (ប្រើ Inline Style ដើម្បីបង្ខំឱ្យចេញ)
-// ✅ Function បង្កើតកាត (ជំនាន់ចុងក្រោយ - Fix Google Drive Images)
-// ✅ Function បង្កើតកាត (FIXED: ប្រើ Link សុវត្ថិភាព HTTPS)
+// ✅ Function បង្កើតកាត (FIXED: HTTPS & Correct Link)
 function createCard(t, config) {
     const div = document.createElement('div');
     div.className = 'id-card';
@@ -80,14 +77,13 @@ function createCard(t, config) {
     const school = config.SCHOOL_NAME || "សាលារៀន";
     const year = config.ACADEMIC_YEAR || "2025-2026";
     
-    // 🔗 នេះជា Link Logo របស់អ្នកដែលខ្ញុំបានកែជា HTTPS ហើយ (កុំកែវា)
-    const yourDirectLogo = "https://lh3.googleusercontent.com/d/1oIqI5efkxsTz8sQy_C-BPqZrXar_NbHO";
+    // 🔥 កែតម្រូវ៖ ដាក់ Link ផ្ទាល់ទៅ Logo របស់អ្នក (ប្រើ HTTPS)
+    const yourDirectLogo = "https://drive.google.com/thumbnail?id=1oIqI5efkxsTz8sQy_C-BPqZrXar_NbHO&sz=w1000";
     
-    // 🔗 Logo ក្រសួង (សម្រាប់ការពារពេលរូបខាងលើខូច)
+    // 🔗 Logo ក្រសួង (ទុកសម្រាប់ការពារ បើរូបលើខូច)
     const ministryLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/03/Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg/200px-Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg.png";
     
-    // Logic: យើងនឹងបង្ខំប្រើ Logo របស់អ្នក (yourDirectLogo) តែម្តង
-    // ទោះបីក្នុង Sheet ដាក់អ្វីក៏ដោយ ក៏វានឹងបង្ហាញ Logo នេះដែរ
+    // Logic: យក Logo របស់អ្នកជាគោល
     let logoSrc = yourDirectLogo;
 
     if (currentMode === 'front') {
@@ -125,7 +121,6 @@ function createCard(t, config) {
             <div class="card-footer">ឆ្នាំសិក្សា ${year}</div>
         `;
     } else {
-        // (ផ្នែកខាងក្រោយនៅដដែល)
         const detailUrl = `${API_URL}?page=detail&id=${t.id}`;
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(detailUrl)}`;
         
@@ -457,6 +452,7 @@ function printSingleCard(t, side) {
         // setTimeout(() => { w.print(); }, 500); 
     };
 }
+
 
 
 
