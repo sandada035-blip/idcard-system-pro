@@ -1,4 +1,4 @@
-/* ✅ style.css - (FIXED: Logo Size) */
+/* ✅ style.css - (FIXED: Mobile Responsive + Logo Size) */
 :root {
     --cardW: 54mm;
     --cardH: 86mm;
@@ -12,18 +12,20 @@
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Siemreap', sans-serif; }
 body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
 
-/* Navbar */
-.navbar { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--primary-dark); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-.brand { font-family: 'Moul', serif; color: white; font-size: 20px; }
+/* Navbar (Design ធម្មតាសម្រាប់កុំព្យូទ័រ) */
+.navbar { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--primary-dark); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: all 0.3s ease; }
+.brand { font-family: 'Moul', serif; color: white; font-size: 20px; white-space: nowrap; }
 .nav-buttons { display: flex; gap: 10px; }
-.btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; color: white; font-family: 'Siemreap'; font-weight: bold; }
+.btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; color: white; font-family: 'Siemreap'; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 5px; justify-content: center; }
 .btn-blue { background: #1976d2; } .btn-red { background: #d32f2f; } .btn-green { background: #2e7d32; } .active { box-shadow: 0 0 0 2px white, 0 0 0 4px currentColor; }
 
-/* Grid */
+/* Grid Cards */
 .container { max-width: 1200px; margin: 0 auto; padding: 10px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--cardW), 1fr)); gap: 30px; justify-items: center; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--cardW), 1fr)); gap: 20px; justify-items: center; }
+
+/* Search & Loading */
 .search-container { text-align: center; margin-bottom: 20px; }
-#searchInput { padding: 10px 20px; width: 100%; max-width: 400px; border-radius: 20px; border: 1px solid #ddd; outline: none; }
+#searchInput { padding: 12px 20px; width: 100%; max-width: 400px; border-radius: 25px; border: 1px solid #ddd; outline: none; font-size: 16px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 .loading { text-align: center; margin-top: 50px; }
 
 /* 🪪 ID CARD STYLE */
@@ -58,7 +60,7 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
     margin-bottom: 2px;
 }
 
-/* 🔥 FIX: បង្ខំឱ្យ Logo តូចវិញ (សំខាន់ណាស់!) */
+/* Logo Size Fix */
 .logo-card { 
     width: 40px !important; 
     height: 40px !important; 
@@ -100,3 +102,40 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
 .card-actions { display: flex; justify-content: center; gap: 10px; padding: 5px; background: #fff; border-top: 1px solid #eee; position: absolute; bottom: 18px; width: 100%;}
 .btn-action { border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; color: white; font-size: 9px; display: flex; align-items: center; gap: 3px; }
 .btn-small-blue { background: #1976d2; } .btn-small-red { background: #d32f2f; }
+
+/* 📱📱📱 MOBILE RESPONSIVE (ផ្នែកសំខាន់នៅទីនេះ) 📱📱📱 */
+@media screen and (max-width: 768px) {
+    /* 1. Navbar: ឱ្យវារីកធំជាងមុន និងរៀបប៊ូតុងជាជួរ */
+    .navbar {
+        height: auto; /* កម្ពស់អូតូ */
+        flex-direction: column; /* តម្រៀបពីលើចុះក្រោម */
+        padding: 10px;
+        gap: 10px;
+    }
+
+    /* 2. Brand Name: ដាក់នៅកណ្តាល */
+    .brand { margin-bottom: 5px; }
+
+    /* 3. Buttons: រៀបជា Grid (២ ប៊ូតុងក្នុង ១ ជួរ) ដើម្បីកុំឱ្យចង្អៀត */
+    .nav-buttons {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* ចែកជា ២ ជួរឈរ */
+        gap: 8px;
+    }
+
+    .btn {
+        width: 100%; /* ប៊ូតុងពេញប្រអប់ */
+        font-size: 12px; /* អក្សរតូចជាងមុនបន្តិច */
+        padding: 8px;
+    }
+
+    /* 4. Body Padding: រុញ Content ចុះក្រោមព្រោះ Navbar ខ្ពស់ជាងមុន */
+    body { padding-top: 160px; }
+
+    /* 5. Search Bar: ឱ្យពេញអេក្រង់ទូរសព្ទ */
+    #searchInput { width: 90%; }
+    
+    /* 6. Grid: ឱ្យកាតនៅកណ្តាលស្អាត */
+    .grid { gap: 15px; }
+}
