@@ -84,10 +84,16 @@ function createCard(t, config) {
     const year = config.ACADEMIC_YEAR || "2025-2026";
     
     // 🔥 ប្រើ Logo ក្រសួងអប់រំពី Wikipedia (Link នេះមិនចេះខូចទេ)
+    // 🔥 ប្រើ Logo ក្រសួងអប់រំ ជាលក្ខណៈ Default
     const publicLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/03/Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg/200px-Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg.png";
     
-    // Logic: ប្រសិនបើក្នុង Sheet មាន Logo (ហើយមិនខូច) វានឹងប្រើ។ បើអត់ទេ វាយក publicLogo ខាងលើ។
-    let logo = t.logoUrl;
+    // 🔥 កែសម្រួល៖
+    // 1. ពិនិត្យមើលក្នុង config (LOGO_URL) ជាមុន (Logo សាលា)
+    // 2. បើគ្មាន ពិនិត្យមើលក្នុង t (logoUrl) (Logo ផ្ទាល់ខ្លួន បើមាន)
+    // 3. បើគ្មានទាំងពីរ យក publicLogo (Logo ក្រសួង)
+    
+    let logo = config.LOGO_URL || t.logoUrl; 
+
     if (!logo || logo.trim() === "") {
         logo = publicLogo;
     }
@@ -454,6 +460,7 @@ function printSingleCard(t, side) {
         // setTimeout(() => { w.print(); }, 500); 
     };
 }
+
 
 
 
