@@ -1,18 +1,17 @@
 /****************************************************
  * ID Card System - script.js (FULL)
- * ✅ Static Logo file works on Vercel (view + print)
- * - Put: logo.png in the same folder as index.html
+ * ✅ Static logo.png works on Vercel (view + print)
  ****************************************************/
 
 const API_URL =
   "https://script.google.com/macros/s/AKfycbyEm3bugjBA0vj0zrnSnrn6z-02k-JpDr7OBKiQLaP6rtwSi51pYkXr-WlIvvxWEUHI/exec";
 
 /****************************************************
- * ✅ LOGO SOURCES (Absolute URL for View + Print)
+ * ✅ LOGO (absolute URL)
+ * - IMPORTANT: works in main page + window.open print
  ****************************************************/
-// IMPORTANT: absolute URL so it works in window.open (about:blank) too
-const SCHOOL_LOGO_URL = new URL("/logo.png", location.origin).href; // ✅ BEST
-const FALLBACK_LOGO_URL = ""; // optional online fallback
+const SCHOOL_LOGO_URL = `${location.origin}/logo.png?v=1`; // ✅ force cache bust
+const FALLBACK_LOGO_URL = ""; // optional
 const MINISTRY_LOGO =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/8/03/Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg/200px-Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg.png";
 
@@ -22,28 +21,39 @@ const MINISTRY_LOGO =
 let allTeachers = [];
 let globalConfig = {};
 let currentMode = "front";
+let FINAL_LOGO_SRC = MINISTRY_LOGO;
 
 /****************************************************
  * Boot
  ****************************************************/
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  // ✅ resolve logo once (so print & view same)
+  FINAL_LOGO_SRC = await resolveLogoSrc();
   fetchData();
 });
 
 /****************************************************
  * Helpers
  ****************************************************/
-function getLogoSrc() {
-  // 1) Local file (best for Vercel static)
-  if (typeof SCHOOL_LOGO_URL === "string" && SCHOOL_LOGO_URL.trim()) {
-    return SCHOOL_LOGO_URL.trim();
-  }
-  // 2) Optional online fallback
-  if (typeof FALLBACK_LOGO_URL === "string" && FALLBACK_LOGO_URL.trim()) {
-    return FALLBACK_LOGO_URL.trim();
-  }
-  // 3) Ministry logo
+async function resolveLogoSrc() {
+  // 1) try local logo.png on vercel
+  const okLocal = await urlExists(SCHOOL_LOGO_URL);
+  if (okLocal) return SCHOOL_LOGO_URL;
+
+  // 2) optional online fallback
+  if (FALLBACK_LOGO_URL && (await urlExists(FALLBACK_LOGO_URL))) return FALLBACK_LOGO_URL;
+
+  // 3) ministry
   return MINISTRY_LOGO;
+}
+
+async function urlExists(url) {
+  try {
+    const res = await fetch(url, { method: "GET", cache: "no-store" });
+    return res.ok;
+  } catch (e) {
+    return false;
+  }
 }
 
 function escapeHtml(str = "") {
@@ -73,9 +83,6 @@ async function fetchData() {
 
     renderCards(allTeachers);
     updateButtonStyles();
-
-    // Debug (optional)
-    // console.log("LOGO:", getLogoSrc());
   } catch (error) {
     console.error(error);
     if (loading)
@@ -86,7 +93,6 @@ async function fetchData() {
 
 /****************************************************
  * Mode Switch
- * (called from HTML buttons)
  ****************************************************/
 function switchMode(mode) {
   currentMode = mode;
@@ -97,7 +103,6 @@ function switchMode(mode) {
 function updateButtonStyles() {
   const btnFront = document.getElementById("btnFront");
   const btnBack = document.getElementById("btnBack");
-
   if (!btnFront || !btnBack) return;
 
   if (currentMode === "front") {
@@ -111,7 +116,6 @@ function updateButtonStyles() {
 
 /****************************************************
  * Filter
- * (called from onkeyup in HTML)
  ****************************************************/
 function filterCards() {
   const inputEl = document.getElementById("searchInput");
@@ -128,7 +132,7 @@ function filterCards() {
 }
 
 /****************************************************
- * Render Cards (uses createCard)
+ * Render Cards
  ****************************************************/
 function renderCards(list) {
   const grid = document.getElementById("cardGrid");
@@ -142,10 +146,7 @@ function renderCards(list) {
     return;
   }
 
-  list.forEach((t) => {
-    const cardEl = createCard(t, globalConfig);
-    grid.appendChild(cardEl);
-  });
+  list.forEach((t) => grid.appendChild(createCard(t, globalConfig)));
 }
 
 /****************************************************
@@ -157,7 +158,6 @@ function createCard(t, config) {
 
   const school = (config && config.SCHOOL_NAME) || "សាលារៀន";
   const year = (config && config.ACADEMIC_YEAR) || "2025-2026";
-  const logoSrc = getLogoSrc();
 
   if (currentMode === "front") {
     const photo = t.photoUrl || "https://via.placeholder.com/150";
@@ -167,12 +167,9 @@ function createCard(t, config) {
         <div class="ministry">ព្រះរាជាណាចក្រកម្ពុជា</div>
         <div class="ministry">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
 
-        <img
-          src="${logoSrc}"
-          class="logo-card"
+        <img class="logo-card"
           style="width:50px;height:50px;display:block;margin:4px auto;object-fit:contain;z-index:10;position:relative;"
           alt="LOGO"
-          onerror="this.onerror=null; this.src='${MINISTRY_LOGO}';"
         />
 
         <div class="school-name">${escapeHtml(school)}</div>
@@ -198,6 +195,11 @@ function createCard(t, config) {
       <div class="card-footer">ឆ្នាំសិក្សា ${escapeHtml(year)}</div>
     `;
 
+    // ✅ set logo src safely (no inline onerror)
+    const logoImg = div.querySelector(".logo-card");
+    logoImg.src = FINAL_LOGO_SRC;
+    logoImg.addEventListener("error", () => (logoImg.src = MINISTRY_LOGO));
+
     div
       .querySelector('[data-action="print-front"]')
       .addEventListener("click", () => printSingleCard(t, "front"));
@@ -206,9 +208,7 @@ function createCard(t, config) {
       .addEventListener("click", () => printSingleCard(t, "back"));
   } else {
     const detailUrl = `${API_URL}?page=detail&id=${encodeURIComponent(t.id || "")}`;
-    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
-      detailUrl
-    )}`;
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(detailUrl)}`;
 
     div.innerHTML = `
       <div class="card-header">
@@ -233,7 +233,7 @@ function createCard(t, config) {
 }
 
 /****************************************************
- * Print A4 (All)  ✅ includes absolute logo url
+ * Print A4 (All)
  ****************************************************/
 function printAll(side) {
   if (!allTeachers || allTeachers.length === 0) {
@@ -244,48 +244,17 @@ function printAll(side) {
   const w = window.open("", "_blank");
   const school = globalConfig.SCHOOL_NAME || "សាលារៀន";
   const year = globalConfig.ACADEMIC_YEAR || "2025-2026";
-  const logo = getLogoSrc(); // ✅ absolute URL
+  const logo = FINAL_LOGO_SRC; // ✅ already resolved absolute
 
   const css = `
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Moul&family=Siemreap&display=swap');
-
       @page { size: A4; margin: 0; }
       body { margin: 0; padding: 0; background: #eee; font-family: 'Siemreap', sans-serif; }
-
-      .sheet {
-        width: 210mm; height: 297mm;
-        padding: 10mm;
-        margin: 10px auto;
-        background: white;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        display: block;
-        box-sizing: border-box;
-        page-break-after: always;
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(2, 54mm);
-        grid-auto-rows: 86mm;
-        gap: 12mm 16mm;
-        justify-content: center;
-        align-content: start;
-      }
-
-      @media print {
-        body { background: white; }
-        .sheet { margin: 0; box-shadow: none; width: 210mm; height: 297mm; }
-      }
-
-      .id-card-print {
-        width: 54mm; height: 86mm; background: #fff;
-        border-radius: 18px !important; overflow: hidden !important;
-        border: 1px solid #ddd; position: relative; display: flex; flex-direction: column;
-        border-top: 6px solid #d32f2f;
-        -webkit-print-color-adjust: exact; print-color-adjust: exact;
-      }
-
+      .sheet { width: 210mm; height: 297mm; padding: 10mm; margin: 10px auto; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); page-break-after: always; box-sizing: border-box;}
+      .grid { display: grid; grid-template-columns: repeat(2, 54mm); grid-auto-rows: 86mm; gap: 12mm 16mm; justify-content: center; align-content: start; }
+      @media print { body { background: white; } .sheet { margin: 0; box-shadow: none; } }
+      .id-card-print { width: 54mm; height: 86mm; background: #fff; border-radius: 18px; overflow: hidden; border: 1px solid #ddd; position: relative; display: flex; flex-direction: column; border-top: 6px solid #d32f2f; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .ministry { font-size: 7px; font-weight: bold; text-align: center; line-height: 1.2; padding-top: 5px;}
       .logo-print { width: 35px; height: 35px; margin: 2px auto; display: block; object-fit: contain; }
       .school { font-family: 'Moul'; font-size: 8px; color: #d32f2f; text-align: center; margin-top: 1px; }
@@ -294,20 +263,12 @@ function printAll(side) {
       .name-en { font-size: 8px; font-weight: bold; color: #d32f2f; text-align: center; text-transform: uppercase; }
       .role { font-size: 8px; text-align: center; color: #555; margin-top: 2px;}
       .footer { position: absolute; bottom: 0; width: 100%; background: #0d1b3e; color: white; font-size: 7px; text-align: center; padding: 3px 0; }
-
       .qr-img { width: 35mm; height: 35mm; margin: 8px auto; display: block; }
       .info-back { font-size: 8px; text-align: center; margin-top: 5px; line-height: 1.4; }
     </style>
   `;
 
-  let html = `
-    <html>
-      <head>
-        <title>Print ${side}</title>
-        ${css}
-      </head>
-      <body>
-  `;
+  let html = `<html><head><title>Print ${side}</title>${css}</head><body>`;
 
   const perPage = 6;
   for (let i = 0; i < allTeachers.length; i += perPage) {
@@ -323,7 +284,7 @@ function printAll(side) {
         html += `
           <div class="id-card-print">
             <div class="ministry">ព្រះរាជាណាចក្រកម្ពុជា<br>ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-            <img src="${logo}" class="logo-print" onerror="this.onerror=null; this.src='${MINISTRY_LOGO}'">
+            <img src="${logo}" class="logo-print">
             <div class="school">${escapeHtml(school)}</div>
             <img src="${photo}" class="photo">
             <div class="name-kh">${escapeHtml(t.khmerName || "")}</div>
@@ -353,35 +314,25 @@ function printAll(side) {
   }
 
   html += `</body></html>`;
-
   w.document.write(html);
   w.document.close();
 }
 
 /****************************************************
- * Print Single Card ✅ includes absolute logo url
+ * Print Single Card
  ****************************************************/
 function printSingleCard(t, side) {
   const w = window.open("", "_blank", "width=420,height=700");
   const school = globalConfig.SCHOOL_NAME || "សាលារៀន";
   const year = globalConfig.ACADEMIC_YEAR || "2025-2026";
-  const logo = getLogoSrc(); // ✅ absolute URL
+  const logo = FINAL_LOGO_SRC;
 
   const css = `
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Moul&family=Siemreap&display=swap');
       @page { size: 54mm 86mm; margin: 0; }
       body { margin: 0; padding: 20px; display: flex; justify-content: center; background: #f0f0f0; font-family: 'Siemreap', sans-serif;}
-
-      .id-card-print {
-        width: 54mm; height: 86mm; background: #fff;
-        border-radius: 18px !important; overflow: hidden !important;
-        border: 1px solid #ddd; position: relative; display: flex; flex-direction: column;
-        border-top: 6px solid #d32f2f;
-        -webkit-print-color-adjust: exact; print-color-adjust: exact;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-      }
-
+      .id-card-print { width: 54mm; height: 86mm; background: #fff; border-radius: 18px; overflow: hidden; border: 1px solid #ddd; position: relative; display: flex; flex-direction: column; border-top: 6px solid #d32f2f; -webkit-print-color-adjust: exact; print-color-adjust: exact; box-shadow: 0 10px 20px rgba(0,0,0,0.1);}
       .ministry { font-size: 7px; font-weight: bold; text-align: center; line-height: 1.2; padding-top: 5px;}
       .logo-print { width: 35px; height: 35px; margin: 2px auto; display: block; object-fit: contain; }
       .school { font-family: 'Moul'; font-size: 8px; color: #d32f2f; text-align: center; margin-top: 1px; }
@@ -390,7 +341,6 @@ function printSingleCard(t, side) {
       .name-en { font-size: 8px; font-weight: bold; color: #d32f2f; text-align: center; text-transform: uppercase; }
       .role { font-size: 8px; text-align: center; color: #555; margin-top: 2px;}
       .footer { position: absolute; bottom: 0; width: 100%; background: #0d1b3e; color: white; font-size: 7px; text-align: center; padding: 3px 0; }
-
       .qr-img { width: 35mm; height: 35mm; margin: 15px auto; display: block; }
       .info-back { font-size: 8px; text-align: center; margin-top: 5px; line-height: 1.4; }
     </style>
@@ -402,7 +352,7 @@ function printSingleCard(t, side) {
     htmlContent = `
       <div class="id-card-print">
         <div class="ministry">ព្រះរាជាណាចក្រកម្ពុជា<br>ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-        <img src="${logo}" class="logo-print" onerror="this.onerror=null; this.src='${MINISTRY_LOGO}'">
+        <img src="${logo}" class="logo-print">
         <div class="school">${escapeHtml(school)}</div>
         <img src="${t.photoUrl || ""}" class="photo">
         <div class="name-kh">${escapeHtml(t.khmerName || "")}</div>
@@ -435,7 +385,7 @@ function printSingleCard(t, side) {
 }
 
 /****************************************************
- * Expose functions to window (for inline HTML calls)
+ * Expose to window
  ****************************************************/
 window.switchMode = switchMode;
 window.filterCards = filterCards;
