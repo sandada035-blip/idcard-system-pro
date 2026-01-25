@@ -70,6 +70,7 @@ function filterCards() {
 }
 
 // ✅ Function បង្កើតកាតមួយៗក្នុង Dashboard (មាន Logo)
+// ✅ Function បង្កើតកាតមួយៗក្នុង Dashboard (Update: Fallback Logo + No-Referrer)
 
 function createCard(t, config) {
     const div = document.createElement('div');
@@ -78,7 +79,10 @@ function createCard(t, config) {
     // ទិន្នន័យទូទៅ
     const school = config.SCHOOL_NAME || "សាលារៀន";
     const year = config.ACADEMIC_YEAR || "2025-2026";
-    const logo = t.logoUrl || ''; // 🔥 ចាប់យក Link Logo
+    
+    // 🔥 កែសម្រួល៖ ប្រើ Logo គ្រូ ឬ Logo សាលា (Default)
+    // បើ t.logoUrl ទទេ វានឹងយក config.DEFAULT_LOGO មកប្រើជំនួស
+    const logo = t.logoUrl || config.DEFAULT_LOGO || ''; 
 
     if (currentMode === 'front') {
         // 👉 ផ្នែកបង្ហាញខាងមុខ (Front)
@@ -89,11 +93,11 @@ function createCard(t, config) {
                 <div class="ministry">ព្រះរាជាណាចក្រកម្ពុជា</div>
                 <div class="ministry">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
                 
-                ${logo ? `<img src="${logo}" class="logo-card">` : ''}
+                ${logo ? `<img src="${logo}" class="logo-card" referrerpolicy="no-referrer">` : ''}
                 
                 <div class="school-name">${school}</div>
             </div>
-            <div class="photo-box"><img src="${photo}" loading="lazy"></div>
+            <div class="photo-box"><img src="${photo}" loading="lazy" referrerpolicy="no-referrer"></div>
             <div class="card-body">
                 <div class="khmer-name">${t.khmerName || '---'}</div>
                 <div class="latin-name">${t.latinName || '---'}</div>
@@ -445,6 +449,7 @@ function printSingleCard(t, side) {
         // setTimeout(() => { w.print(); }, 500); 
     };
 }
+
 
 
 
