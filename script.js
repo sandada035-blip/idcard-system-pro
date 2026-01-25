@@ -1,17 +1,20 @@
 /****************************************************
  * ID Card System - script.js (FULL)
- * ✅ Static logo.png works on Vercel (view + print)
+ * ✅ Static Logo file works on Vercel (view + print)
+ * REQUIRE:
+ *  - Put logo.png in the SAME folder as index.html (repo root)
+ *  - vercel.json must use filesystem-first routes
  ****************************************************/
 
 const API_URL =
   "https://script.google.com/macros/s/AKfycbyEm3bugjBA0vj0zrnSnrn6z-02k-JpDr7OBKiQLaP6rtwSi51pYkXr-WlIvvxWEUHI/exec";
 
 /****************************************************
- * ✅ LOGO (absolute URL)
- * - IMPORTANT: works in main page + window.open print
+ * ✅ LOGO SOURCES
+ * - Use absolute URL so it works in print window too
  ****************************************************/
-const SCHOOL_LOGO_URL = `${location.origin}/logo.png?v=1`; // ✅ force cache bust
-const FALLBACK_LOGO_URL = ""; // optional
+const LOCAL_LOGO_PATH = "/logo.png"; // must exist on Vercel: https://your-domain/logo.png
+const FALLBACK_LOGO_URL = ""; // optional online logo
 const MINISTRY_LOGO =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/8/03/Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg/200px-Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg.png";
 
@@ -21,39 +24,36 @@ const MINISTRY_LOGO =
 let allTeachers = [];
 let globalConfig = {};
 let currentMode = "front";
-let FINAL_LOGO_SRC = MINISTRY_LOGO;
 
 /****************************************************
  * Boot
  ****************************************************/
-document.addEventListener("DOMContentLoaded", async () => {
-  // ✅ resolve logo once (so print & view same)
-  FINAL_LOGO_SRC = await resolveLogoSrc();
+document.addEventListener("DOMContentLoaded", () => {
   fetchData();
 });
 
 /****************************************************
  * Helpers
  ****************************************************/
-async function resolveLogoSrc() {
-  // 1) try local logo.png on vercel
-  const okLocal = await urlExists(SCHOOL_LOGO_URL);
-  if (okLocal) return SCHOOL_LOGO_URL;
+function getAbsoluteUrl(path) {
+  try {
+    return new URL(path, window.location.origin).href;
+  } catch {
+    return path;
+  }
+}
 
-  // 2) optional online fallback
-  if (FALLBACK_LOGO_URL && (await urlExists(FALLBACK_LOGO_URL))) return FALLBACK_LOGO_URL;
+function getLogoSrc() {
+  // 1) local logo on vercel
+  if (LOCAL_LOGO_PATH) return getAbsoluteUrl(LOCAL_LOGO_PATH);
+
+  // 2) optional online
+  if (typeof FALLBACK_LOGO_URL === "string" && FALLBACK_LOGO_URL.trim()) {
+    return FALLBACK_LOGO_URL.trim();
+  }
 
   // 3) ministry
   return MINISTRY_LOGO;
-}
-
-async function urlExists(url) {
-  try {
-    const res = await fetch(url, { method: "GET", cache: "no-store" });
-    return res.ok;
-  } catch (e) {
-    return false;
-  }
 }
 
 function escapeHtml(str = "") {
@@ -83,11 +83,12 @@ async function fetchData() {
 
     renderCards(allTeachers);
     updateButtonStyles();
+
+    // Debug: check logo url (optional)
+    // console.log("Logo URL:", getLogoSrc());
   } catch (error) {
     console.error(error);
-    if (loading)
-      loading.innerHTML =
-        "កំពុងមានបញ្ហាក្នុងការទាញទិន្នន័យ (Check Internet)";
+    if (loading) loading.innerHTML = "កំពុងមានបញ្ហាក្នុងការទាញទិន្នន័យ (Check Internet)";
   }
 }
 
@@ -146,7 +147,10 @@ function renderCards(list) {
     return;
   }
 
-  list.forEach((t) => grid.appendChild(createCard(t, globalConfig)));
+  list.forEach((t) => {
+    const cardEl = createCard(t, globalConfig);
+    grid.appendChild(cardEl);
+  });
 }
 
 /****************************************************
@@ -158,6 +162,7 @@ function createCard(t, config) {
 
   const school = (config && config.SCHOOL_NAME) || "សាលារៀន";
   const year = (config && config.ACADEMIC_YEAR) || "2025-2026";
+  const logoSrc = getLogoSrc();
 
   if (currentMode === "front") {
     const photo = t.photoUrl || "https://via.placeholder.com/150";
@@ -167,9 +172,12 @@ function createCard(t, config) {
         <div class="ministry">ព្រះរាជាណាចក្រកម្ពុជា</div>
         <div class="ministry">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
 
-        <img class="logo-card"
+        <img
+          src="${logoSrc}"
+          class="logo-card"
           style="width:50px;height:50px;display:block;margin:4px auto;object-fit:contain;z-index:10;position:relative;"
           alt="LOGO"
+          onerror="this.onerror=null; this.src='${MINISTRY_LOGO}';"
         />
 
         <div class="school-name">${escapeHtml(school)}</div>
@@ -195,11 +203,6 @@ function createCard(t, config) {
       <div class="card-footer">ឆ្នាំសិក្សា ${escapeHtml(year)}</div>
     `;
 
-    // ✅ set logo src safely (no inline onerror)
-    const logoImg = div.querySelector(".logo-card");
-    logoImg.src = FINAL_LOGO_SRC;
-    logoImg.addEventListener("error", () => (logoImg.src = MINISTRY_LOGO));
-
     div
       .querySelector('[data-action="print-front"]')
       .addEventListener("click", () => printSingleCard(t, "front"));
@@ -208,7 +211,9 @@ function createCard(t, config) {
       .addEventListener("click", () => printSingleCard(t, "back"));
   } else {
     const detailUrl = `${API_URL}?page=detail&id=${encodeURIComponent(t.id || "")}`;
-    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(detailUrl)}`;
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
+      detailUrl
+    )}`;
 
     div.innerHTML = `
       <div class="card-header">
@@ -244,14 +249,14 @@ function printAll(side) {
   const w = window.open("", "_blank");
   const school = globalConfig.SCHOOL_NAME || "សាលារៀន";
   const year = globalConfig.ACADEMIC_YEAR || "2025-2026";
-  const logo = FINAL_LOGO_SRC; // ✅ already resolved absolute
+  const logo = getLogoSrc(); // absolute URL
 
   const css = `
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Moul&family=Siemreap&display=swap');
       @page { size: A4; margin: 0; }
       body { margin: 0; padding: 0; background: #eee; font-family: 'Siemreap', sans-serif; }
-      .sheet { width: 210mm; height: 297mm; padding: 10mm; margin: 10px auto; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); page-break-after: always; box-sizing: border-box;}
+      .sheet { width: 210mm; height: 297mm; padding: 10mm; margin: 10px auto; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); box-sizing: border-box; page-break-after: always; }
       .grid { display: grid; grid-template-columns: repeat(2, 54mm); grid-auto-rows: 86mm; gap: 12mm 16mm; justify-content: center; align-content: start; }
       @media print { body { background: white; } .sheet { margin: 0; box-shadow: none; } }
       .id-card-print { width: 54mm; height: 86mm; background: #fff; border-radius: 18px; overflow: hidden; border: 1px solid #ddd; position: relative; display: flex; flex-direction: column; border-top: 6px solid #d32f2f; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -284,7 +289,7 @@ function printAll(side) {
         html += `
           <div class="id-card-print">
             <div class="ministry">ព្រះរាជាណាចក្រកម្ពុជា<br>ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-            <img src="${logo}" class="logo-print">
+            <img src="${logo}" class="logo-print" onerror="this.onerror=null; this.src='${MINISTRY_LOGO}'">
             <div class="school">${escapeHtml(school)}</div>
             <img src="${photo}" class="photo">
             <div class="name-kh">${escapeHtml(t.khmerName || "")}</div>
@@ -314,6 +319,7 @@ function printAll(side) {
   }
 
   html += `</body></html>`;
+
   w.document.write(html);
   w.document.close();
 }
@@ -325,14 +331,14 @@ function printSingleCard(t, side) {
   const w = window.open("", "_blank", "width=420,height=700");
   const school = globalConfig.SCHOOL_NAME || "សាលារៀន";
   const year = globalConfig.ACADEMIC_YEAR || "2025-2026";
-  const logo = FINAL_LOGO_SRC;
+  const logo = getLogoSrc(); // absolute URL
 
   const css = `
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Moul&family=Siemreap&display=swap');
       @page { size: 54mm 86mm; margin: 0; }
       body { margin: 0; padding: 20px; display: flex; justify-content: center; background: #f0f0f0; font-family: 'Siemreap', sans-serif;}
-      .id-card-print { width: 54mm; height: 86mm; background: #fff; border-radius: 18px; overflow: hidden; border: 1px solid #ddd; position: relative; display: flex; flex-direction: column; border-top: 6px solid #d32f2f; -webkit-print-color-adjust: exact; print-color-adjust: exact; box-shadow: 0 10px 20px rgba(0,0,0,0.1);}
+      .id-card-print { width: 54mm; height: 86mm; background: #fff; border-radius: 18px; overflow: hidden; border: 1px solid #ddd; position: relative; display: flex; flex-direction: column; border-top: 6px solid #d32f2f; -webkit-print-color-adjust: exact; print-color-adjust: exact; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
       .ministry { font-size: 7px; font-weight: bold; text-align: center; line-height: 1.2; padding-top: 5px;}
       .logo-print { width: 35px; height: 35px; margin: 2px auto; display: block; object-fit: contain; }
       .school { font-family: 'Moul'; font-size: 8px; color: #d32f2f; text-align: center; margin-top: 1px; }
@@ -352,7 +358,7 @@ function printSingleCard(t, side) {
     htmlContent = `
       <div class="id-card-print">
         <div class="ministry">ព្រះរាជាណាចក្រកម្ពុជា<br>ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-        <img src="${logo}" class="logo-print">
+        <img src="${logo}" class="logo-print" onerror="this.onerror=null; this.src='${MINISTRY_LOGO}'">
         <div class="school">${escapeHtml(school)}</div>
         <img src="${t.photoUrl || ""}" class="photo">
         <div class="name-kh">${escapeHtml(t.khmerName || "")}</div>
@@ -364,7 +370,6 @@ function printSingleCard(t, side) {
   } else {
     const detailUrl = `${API_URL}?page=detail&id=${encodeURIComponent(t.id || "")}`;
     const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(detailUrl)}`;
-
     htmlContent = `
       <div class="id-card-print">
         <div class="ministry" style="font-family:'Moul'; margin-top:15px; font-size:10px;">កាតបុគ្គលិក</div>
@@ -385,7 +390,7 @@ function printSingleCard(t, side) {
 }
 
 /****************************************************
- * Expose to window
+ * Expose functions to window (for inline HTML calls)
  ****************************************************/
 window.switchMode = switchMode;
 window.filterCards = filterCards;
