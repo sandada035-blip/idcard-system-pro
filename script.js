@@ -71,6 +71,7 @@ function filterCards() {
 
 // ✅ Function បង្កើតកាតមួយៗក្នុង Dashboard (មាន Logo)
 // ✅ Function បង្កើតកាត (ប្រើ Inline Style ដើម្បីបង្ខំឱ្យចេញ)
+// ✅ Function បង្កើតកាត (មានប្រព័ន្ធការពារ៖ បើរូបខូច វានឹងដូរដាក់ Logo ក្រសួងភ្លាម)
 function createCard(t, config) {
     const div = document.createElement('div');
     div.className = 'id-card';
@@ -78,14 +79,11 @@ function createCard(t, config) {
     const school = config.SCHOOL_NAME || "សាលារៀន";
     const year = config.ACADEMIC_YEAR || "2025-2026";
     
-    // 🔗 ប្រើ Logo ក្រសួងជាមូលដ្ឋាន (Link សាធារណៈ)
-    const defaultLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/03/Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg/200px-Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg.png";
+    // 🔗 Logo ក្រសួង (Link សាធារណៈ)
+    const backupLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/03/Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg/200px-Seal_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg.png";
     
-    // បើ t.logoUrl មាន ប្រើវា។ បើគ្មាន ប្រើ defaultLogo។
-    let logoSrc = t.logoUrl;
-    if (!logoSrc || logoSrc.length < 5) {
-        logoSrc = defaultLogo;
-    }
+    // យក Logo ពី Sheet មកប្រើ។ បើអត់មាន ប្រើ backupLogo តែម្តង។
+    let logoSrc = t.logoUrl || backupLogo;
 
     if (currentMode === 'front') {
         const photo = t.photoUrl || 'https://via.placeholder.com/150';
@@ -96,9 +94,11 @@ function createCard(t, config) {
                 <div class="ministry">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
                 
                 <img src="${logoSrc}" 
+                     class="logo-card"
                      style="width: 45px; height: 45px; display: block; margin: 4px auto; object-fit: contain;" 
                      alt="LOGO" 
-                     crossorigin="anonymous">
+                     crossorigin="anonymous"
+                     onerror="this.onerror=null; this.src='${backupLogo}';">
                 
                 <div class="school-name">${school}</div>
             </div>
@@ -120,7 +120,7 @@ function createCard(t, config) {
             <div class="card-footer">ឆ្នាំសិក្សា ${year}</div>
         `;
     } else {
-        // (ផ្នែកខាងក្រោយនៅដដែល)
+        // (ផ្នែកខាងក្រោយ រក្សាទុកដដែល)
         const detailUrl = `${API_URL}?page=detail&id=${t.id}`;
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(detailUrl)}`;
         
@@ -452,6 +452,7 @@ function printSingleCard(t, side) {
         // setTimeout(() => { w.print(); }, 500); 
     };
 }
+
 
 
 
