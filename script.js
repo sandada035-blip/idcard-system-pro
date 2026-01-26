@@ -105,6 +105,8 @@ function createCard(t, config) {
 
 // ✅ script.js - (Print A4: Footer ធំច្បាស់)
 
+// ✅ script.js - (Final Update: Back Info Big & Bold)
+
 function printAll(side) {
     if (!allTeachers.length) return alert("No Data");
     const w = window.open("", "_blank");
@@ -132,43 +134,43 @@ function printAll(side) {
         .card-header-front { 
             background-image: linear-gradient(to bottom, #d32f2f 50%, white 50%); 
             background-size: 100% 10px; background-repeat: no-repeat; 
-            padding-top: 15px; text-align: center; 
+            padding-top: 18px; text-align: center; 
         }
         .ministry { 
             font-family: 'Moul', serif; font-size: 8px; font-weight: normal; 
-            text-align: center; line-height: 1.5; color: #333; margin-bottom: 2px; 
+            text-align: center; line-height: 1.6; color: #333; margin-bottom: 5px; 
         }
 
-        .logo-print { width: 35px !important; height: 35px !important; margin: 2px auto; display: block; object-fit: contain; }
+        .logo-print { width: 35px !important; height: 35px !important; margin: 0 auto 5px auto; display: block; object-fit: contain; }
 
         .school { 
             font-family: 'Moul'; font-size: 8px; color: #d32f2f; text-align: center; 
-            margin-bottom: 3px; 
+            margin-bottom: 5px; 
         }
         
         .photo { 
             width: 26mm; height: 32mm; 
-            margin: 2px auto 6px auto; 
+            margin: 5px auto; 
             display: block; object-fit: cover; 
             border: 1px solid #ccc; border-radius: 4px; 
         }
         
-        .card-body-print { text-align: center; }
+        .card-body-print { text-align: center; padding-top: 5px; }
         
         .name-kh { 
             font-family: 'Moul'; font-size: 10px; color: #0d1b3e; text-align: center; 
-            margin-bottom: 6px; line-height: 1.2;
+            margin-bottom: 4px; 
         }
         
         .name-en { 
             font-size: 8px; font-weight: bold; color: #d32f2f; text-align: center; 
-            text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; 
+            text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.5px; 
         }
         
         .role { 
             font-size: 11px; font-weight: bold; text-align: center; color: white; 
-            background: #0d1b3e; padding: 3px 12px; border-radius: 8px; 
-            display: inline-block; margin: 0 auto;
+            background: #0d1b3e; padding: 3px 12px; border-radius: 6px; 
+            display: inline-block; margin: 0 auto; letter-spacing: 0.5px;
         }
         
         /* Back Design */
@@ -176,19 +178,25 @@ function printAll(side) {
         .header-title { font-family: 'Moul'; font-size: 9px; }
         .qr-section { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .qr-img { width: 30mm; height: 30mm; border: 1px solid #000; padding: 2px; margin-bottom: 8px;}
-        .info-table { width: 90%; margin: 0 auto; font-size: 8px; background: #f9f9f9; padding: 5px; border-left: 3px solid #0d1b3e; line-height: 1.5; }
         
-        /* 🔥 Footer ធំ និងច្បាស់ */
-        .footer { 
-            position: absolute; 
-            bottom: 0; 
-            width: 100%; 
-            background: #0d1b3e; 
-            color: white; 
-            font-size: 10px; /* តម្លើងទំហំ */
+        /* 🔥 កែសម្រួលនៅទីនេះ៖ ឈ្មោះ, អត្តលេខ, Tel (ធំ និង ដិត) */
+        .info-table { 
+            width: 90%; 
+            margin: 0 auto; 
+            font-size: 11px; /* បង្កើនទំហំ */
             font-weight: bold; /* ដាក់ Bold */
-            text-align: center; 
-            padding: 5px 0; 
+            color: #000;
+            background: #f9f9f9; 
+            padding: 5px; 
+            border-left: 4px solid #0d1b3e; 
+            line-height: 1.6; 
+        }
+        
+        .footer { 
+            position: absolute; bottom: 0; width: 100%; 
+            background: #0d1b3e; color: white; 
+            font-size: 10px; font-weight: bold; 
+            text-align: center; padding: 5px 0; 
         }
     </style>`;
 
@@ -239,6 +247,7 @@ function printAll(side) {
     w.document.close();
 }
 function printSingleCard(t, side) { printAll(side); }
+
 
 
 
