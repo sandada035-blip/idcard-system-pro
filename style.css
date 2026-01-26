@@ -142,10 +142,18 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
 .info-table { width: 90%; margin: 8px auto; font-size: 9px; background: #f9f9f9; padding: 6px; border-radius: 4px; border-left: 3px solid var(--primary-dark); text-align: left; line-height: 1.5; }
 
 /* Footer & Buttons */
-.card-footer { position: absolute; bottom: 0; width: 100%; background: var(--primary-dark); color: white; font-size: 7px; text-align: center; padding: 4px 0; }
-.card-actions { display: flex; justify-content: center; gap: 10px; padding: 5px; background: #fff; border-top: 1px solid #eee; position: absolute; bottom: 18px; width: 100%;}
-.btn-action { border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; color: white; font-size: 9px; display: flex; align-items: center; gap: 3px; }
-.btn-small-blue { background: #1976d2; } .btn-small-red { background: #d32f2f; }
+.card-footer { 
+    position: absolute; 
+    bottom: 0; 
+    width: 100%; 
+    background: var(--primary-dark); 
+    color: white; 
+    /* 🔥 កែទំហំអក្សរនៅទីនេះ */
+    font-size: 10px; 
+    font-weight: bold; /* ដាក់អក្សរដិត */
+    text-align: center; 
+    padding: 5px 0; 
+}
 
 /* 📱 Mobile Responsive */
 @media screen and (max-width: 768px) {
@@ -157,3 +165,4 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
     #searchInput { width: 90%; }
     .grid { gap: 15px; }
 }
+
