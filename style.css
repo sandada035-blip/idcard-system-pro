@@ -1,7 +1,9 @@
-/* ✅ style.css - (FIXED: Mobile Responsive + Logo Size) */
+/* ✅ style.css - (FIXED: Size 56mm + Big Role Text + Mobile View) */
 :root {
-    --cardW: 54mm;
+    /* 🔥 កែទំហំកាតនៅទីនេះ (56mm x 86mm) */
+    --cardW: 56mm; 
     --cardH: 86mm;
+    
     --radius: 10px;
     --shadow: 0 5px 15px rgba(0,0,0,0.15);
     --primary-dark: #0d1b3e;
@@ -12,7 +14,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Siemreap', sans-serif; }
 body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
 
-/* Navbar (Design ធម្មតាសម្រាប់កុំព្យូទ័រ) */
+/* Navbar */
 .navbar { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--primary-dark); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: all 0.3s ease; }
 .brand { font-family: 'Moul', serif; color: white; font-size: 20px; white-space: nowrap; }
 .nav-buttons { display: flex; gap: 10px; }
@@ -60,7 +62,6 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
     margin-bottom: 2px;
 }
 
-/* Logo Size Fix */
 .logo-card { 
     width: 40px !important; 
     height: 40px !important; 
@@ -87,7 +88,18 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
 .card-body { text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-start; padding-top: 2px; }
 .khmer-name { font-family: 'Moul'; font-size: 10px; color: var(--primary-dark); }
 .latin-name { font-size: 8px; font-weight: bold; color: var(--primary-red); text-transform: uppercase; margin-bottom: 2px;}
-.role-badge { font-size: 8px; color: white; background: var(--primary-dark); padding: 1px 8px; border-radius: 8px; display: inline-block; margin: 0 auto; }
+
+/* 🔥 តួនាទី (Role) - ដាក់ឱ្យធំ និងច្បាស់នៅទីនេះ */
+.role-badge { 
+    font-size: 11px; /* ធំជាងមុន (ពី 8px -> 11px) */
+    font-weight: bold;
+    color: white; 
+    background: var(--primary-dark); 
+    padding: 2px 10px; 
+    border-radius: 8px; 
+    display: inline-block; 
+    margin: 2px auto; 
+}
 
 /* --- BACK DESIGN --- */
 .card-header-back { background: var(--primary-red); height: 25px; display: flex; align-items: center; justify-content: center; color: white; }
@@ -103,39 +115,13 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
 .btn-action { border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; color: white; font-size: 9px; display: flex; align-items: center; gap: 3px; }
 .btn-small-blue { background: #1976d2; } .btn-small-red { background: #d32f2f; }
 
-/* 📱📱📱 MOBILE RESPONSIVE (ផ្នែកសំខាន់នៅទីនេះ) 📱📱📱 */
+/* 📱 Mobile Responsive */
 @media screen and (max-width: 768px) {
-    /* 1. Navbar: ឱ្យវារីកធំជាងមុន និងរៀបប៊ូតុងជាជួរ */
-    .navbar {
-        height: auto; /* កម្ពស់អូតូ */
-        flex-direction: column; /* តម្រៀបពីលើចុះក្រោម */
-        padding: 10px;
-        gap: 10px;
-    }
-
-    /* 2. Brand Name: ដាក់នៅកណ្តាល */
+    .navbar { height: auto; flex-direction: column; padding: 10px; gap: 10px; }
     .brand { margin-bottom: 5px; }
-
-    /* 3. Buttons: រៀបជា Grid (២ ប៊ូតុងក្នុង ១ ជួរ) ដើម្បីកុំឱ្យចង្អៀត */
-    .nav-buttons {
-        width: 100%;
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* ចែកជា ២ ជួរឈរ */
-        gap: 8px;
-    }
-
-    .btn {
-        width: 100%; /* ប៊ូតុងពេញប្រអប់ */
-        font-size: 12px; /* អក្សរតូចជាងមុនបន្តិច */
-        padding: 8px;
-    }
-
-    /* 4. Body Padding: រុញ Content ចុះក្រោមព្រោះ Navbar ខ្ពស់ជាងមុន */
+    .nav-buttons { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .btn { width: 100%; font-size: 12px; padding: 8px; }
     body { padding-top: 160px; }
-
-    /* 5. Search Bar: ឱ្យពេញអេក្រង់ទូរសព្ទ */
     #searchInput { width: 90%; }
-    
-    /* 6. Grid: ឱ្យកាតនៅកណ្តាលស្អាត */
     .grid { gap: 15px; }
 }
