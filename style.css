@@ -1,4 +1,4 @@
-/* ✅ style.css - (FIXED: English Name Visibility & Spacing) */
+/* ✅ style.css - (FIXED: Role Text Cutoff Issue) */
 :root {
     --cardW: 56mm; 
     --cardH: 86mm;
@@ -47,8 +47,8 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
     background-image: linear-gradient(to bottom, var(--primary-red) 50%, white 50%);
     background-size: 100% 10px;
     background-repeat: no-repeat;
-    /* 🔥 កែសម្រួល៖ បន្ថយគម្លាតខាងលើបន្តិច (ពី 18px មក 12px) ដើម្បីទុកកន្លែងឱ្យឈ្មោះ */
-    padding-top: 12px; 
+    /* 🔥 បន្ថយគម្លាតខាងលើ (ពី 15px មក 10px) ដើម្បីទាញឡើងលើ */
+    padding-top: 10px; 
     text-align: center;
 }
 
@@ -58,13 +58,13 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
     font-weight: normal; 
     line-height: 1.4; 
     color: #333; 
-    margin-bottom: 2px; /* បន្ថយគម្លាត */
+    margin-bottom: 1px; /* បន្ថយគម្លាត */
 }
 
 .logo-card { 
     width: 40px !important; 
     height: 40px !important; 
-    margin: 0 auto 2px auto; /* បន្ថយគម្លាតក្រោម Logo */
+    margin: 0 auto 1px auto; /* បន្ថយគម្លាត */
     object-fit: contain; 
     display: block; 
 }
@@ -80,7 +80,6 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
 .photo-box {
     width: 26mm; 
     height: 32mm; 
-    /* 🔥 កែសម្រួល៖ បន្ថយគម្លាតលើក្រោមរូបថត (ពី 5px មក 2px) */
     margin: 2px auto; 
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -95,8 +94,8 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
     flex-grow: 1; 
     display: flex; 
     flex-direction: column; 
-    justify-content: flex-start; /* រុញអក្សរទៅលើ */
-    padding-top: 4px; 
+    justify-content: flex-start; 
+    padding-top: 2px; 
 }
 
 .khmer-name { 
@@ -107,21 +106,21 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
     line-height: 1.2;
 }
 
-/* 🔥 កែសម្រួល៖ ឈ្មោះអង់គ្លេស */
 .latin-name { 
-    font-size: 9px; /* បង្កើនទំហំបន្តិចឱ្យច្បាស់ */
+    font-size: 9px; 
     font-weight: bold; 
     color: var(--primary-red); 
     text-transform: uppercase; 
-    margin-bottom: 4px; /* គម្លាតពីតួនាទី */
+    margin-bottom: 4px; 
     line-height: 1.2;
     display: block;
-    white-space: nowrap; /* ការពារកុំឱ្យចុះបន្ទាត់ */
+    white-space: nowrap; 
     overflow: hidden;
     text-overflow: ellipsis;
     padding: 0 5px;
 }
 
+/* Role Badge */
 .role-badge { 
     font-size: 11px; 
     font-weight: bold;
@@ -130,7 +129,7 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
     padding: 2px 10px; 
     border-radius: 6px; 
     display: inline-block; 
-    margin: 0 auto 5px auto; /* បន្ថែម margin-bottom ដើម្បីកុំឱ្យជាប់គែមពេក */
+    margin: 0 auto 2px auto; /* បន្ថយគម្លាតក្រោម */
 }
 
 /* --- BACK DESIGN --- */
@@ -139,11 +138,11 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
 .qr-section { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: url('https://www.transparenttextures.com/patterns/cubes.png'); }
 .qr-box { width: 32mm; height: 32mm; border: 2px solid var(--primary-dark); padding: 2px; background: white; border-radius: 4px;}
 .qr-box img { width: 100%; height: 100%; }
-/* Back Design Info Table */
+
+/* Info Table (Back) - Big & Bold */
 .info-table { 
     width: 90%; 
     margin: 8px auto; 
-    /* 🔥 កែសម្រួល៖ តម្លើងទំហំ និងដាក់អក្សរដិត */
     font-size: 11px; 
     font-weight: bold; 
     color: #333;
@@ -157,17 +156,15 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
 
 /* Footer & Buttons */
 .card-footer { 
-    position: absolute; 
-    bottom: 0; 
-    width: 100%; 
-    background: var(--primary-dark); 
-    color: white; 
-    /* 🔥 កែទំហំអក្សរនៅទីនេះ */
-    font-size: 10px; 
-    font-weight: bold; /* ដាក់អក្សរដិត */
-    text-align: center; 
-    padding: 5px 0; 
+    position: absolute; bottom: 0; width: 100%; 
+    background: var(--primary-dark); color: white; 
+    font-size: 10px; font-weight: bold; 
+    text-align: center; padding: 5px 0; 
 }
+
+.card-actions { display: flex; justify-content: center; gap: 10px; padding: 5px; background: #fff; border-top: 1px solid #eee; position: absolute; bottom: 18px; width: 100%;}
+.btn-action { border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; color: white; font-size: 9px; display: flex; align-items: center; gap: 3px; }
+.btn-small-blue { background: #1976d2; } .btn-small-red { background: #d32f2f; }
 
 /* 📱 Mobile Responsive */
 @media screen and (max-width: 768px) {
@@ -179,5 +176,3 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
     #searchInput { width: 90%; }
     .grid { gap: 15px; }
 }
-
-
