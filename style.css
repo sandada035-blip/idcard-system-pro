@@ -139,7 +139,21 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
 .qr-section { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: url('https://www.transparenttextures.com/patterns/cubes.png'); }
 .qr-box { width: 32mm; height: 32mm; border: 2px solid var(--primary-dark); padding: 2px; background: white; border-radius: 4px;}
 .qr-box img { width: 100%; height: 100%; }
-.info-table { width: 90%; margin: 8px auto; font-size: 9px; background: #f9f9f9; padding: 6px; border-radius: 4px; border-left: 3px solid var(--primary-dark); text-align: left; line-height: 1.5; }
+/* Back Design Info Table */
+.info-table { 
+    width: 90%; 
+    margin: 8px auto; 
+    /* 🔥 កែសម្រួល៖ តម្លើងទំហំ និងដាក់អក្សរដិត */
+    font-size: 11px; 
+    font-weight: bold; 
+    color: #333;
+    background: #f9f9f9; 
+    padding: 8px; 
+    border-radius: 4px; 
+    border-left: 4px solid var(--primary-dark); 
+    text-align: left; 
+    line-height: 1.6; 
+}
 
 /* Footer & Buttons */
 .card-footer { 
@@ -165,4 +179,5 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
     #searchInput { width: 90%; }
     .grid { gap: 15px; }
 }
+
 
