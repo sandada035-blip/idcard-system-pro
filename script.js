@@ -101,6 +101,8 @@ function createCard(t, config) {
 
 // ✅ script.js - (Updated: Better Spacing for Print)
 
+// ✅ script.js - (Updated: Spacing Fix for Names & Role)
+
 function printAll(side) {
     if (!allTeachers.length) return alert("No Data");
     const w = window.open("", "_blank");
@@ -111,6 +113,7 @@ function printAll(side) {
         @page { size: A4; margin: 0; }
         body { margin: 0; background: #eee; font-family: 'Siemreap', sans-serif; }
         
+        /* Grid Layout */
         .sheet { 
             width: 210mm; height: 297mm; padding: 10mm 15mm; margin: 0 auto; 
             background: white; 
@@ -127,66 +130,62 @@ function printAll(side) {
         .card-header-front { 
             background-image: linear-gradient(to bottom, #d32f2f 50%, white 50%); 
             background-size: 100% 10px; background-repeat: no-repeat; 
-            padding-top: 18px; /* បង្កើនគម្លាត */
-            text-align: center; 
+            padding-top: 15px; text-align: center; 
         }
         .ministry { 
-            font-family: 'Moul', serif; 
-            font-size: 8px; 
-            font-weight: normal; 
-            text-align: center; 
-            line-height: 1.6; /* បង្កើនគម្លាតជួរ */
-            color: #333; 
-            margin-bottom: 5px; 
+            font-family: 'Moul', serif; font-size: 8px; font-weight: normal; 
+            text-align: center; line-height: 1.5; color: #333; margin-bottom: 2px; 
         }
 
-        .logo-print { width: 35px !important; height: 35px !important; margin: 0 auto 5px auto; display: block; object-fit: contain; }
+        .logo-print { width: 35px !important; height: 35px !important; margin: 2px auto; display: block; object-fit: contain; }
 
         .school { 
-            font-family: 'Moul'; 
-            font-size: 8px; 
-            color: #d32f2f; 
-            text-align: center; 
-            margin-bottom: 5px;
+            font-family: 'Moul'; font-size: 8px; color: #d32f2f; text-align: center; 
+            margin-bottom: 3px; 
         }
-
+        
+        /* រូបថត - បន្ថែមគម្លាតខាងក្រោម */
         .photo { 
             width: 26mm; height: 32mm; 
-            margin: 5px auto; /* គម្លាតជុំវិញរូប */
+            margin: 2px auto 6px auto; /* បង្កើនគម្លាតក្រោមរូបថត */
             display: block; object-fit: cover; 
             border: 1px solid #ccc; border-radius: 4px; 
         }
         
-        .card-body-print { text-align: center; padding-top: 5px; }
+        .card-body-print { text-align: center; }
         
+        /* ឈ្មោះខ្មែរ - បង្កើនគម្លាតខាងក្រោម */
         .name-kh { 
             font-family: 'Moul'; 
             font-size: 10px; 
             color: #0d1b3e; 
             text-align: center; 
-            margin-bottom: 4px; /* គម្លាតពីឈ្មោះឡាតាំង */
+            margin-bottom: 6px; /* 🔥 បង្កើនគម្លាតនៅទីនេះ (កុំឱ្យជាប់ឈ្មោះអង់គ្លេស) */
+            line-height: 1.2;
         }
         
+        /* ឈ្មោះអង់គ្លេស - បង្កើនគម្លាត និងធ្វើឱ្យស្រឡះ */
         .name-en { 
             font-size: 8px; 
             font-weight: bold; 
             color: #d32f2f; 
             text-align: center; 
             text-transform: uppercase; 
-            margin-bottom: 6px; /* គម្លាតពីតួនាទី */
+            margin-bottom: 8px; /* 🔥 បង្កើនគម្លាតនៅទីនេះ (កុំឱ្យជាប់តួនាទី) */
+            letter-spacing: 0.5px; /* ធ្វើឱ្យអក្សរឃ្លាតគ្នាបន្តិច */
         }
         
+        /* តួនាទី - រក្សាទំហំធំដដែល */
         .role { 
             font-size: 11px; 
             font-weight: bold;
             text-align: center; 
             color: white; 
             background: #0d1b3e; 
-            padding: 3px 12px; /* បង្កើនទំហំប្រអប់ */
-            border-radius: 6px; 
+            padding: 3px 12px; 
+            border-radius: 8px; 
             display: inline-block; 
             margin: 0 auto;
-            letter-spacing: 0.5px;
         }
         
         /* Back Design */
@@ -245,6 +244,7 @@ function printAll(side) {
     w.document.close();
 }
 function printSingleCard(t, side) { printAll(side); }
+
 
 
 
