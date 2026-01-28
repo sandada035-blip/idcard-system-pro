@@ -109,6 +109,8 @@ function createCard(t, config) {
 
 // ✅ script.js - (Fixed: Role Visibility & Vertical Spacing)
 
+// ✅ script.js - (FIXED: Duplex Printing Alignment - ព្រីនសងខាងត្រូវគ្នា ១០០%)
+
 function printAll(side) {
     if (!allTeachers.length) return alert("No Data");
     const w = window.open("", "_blank");
@@ -129,6 +131,15 @@ function printAll(side) {
             gap: 15mm 25mm; 
             justify-content: center; align-content: start; page-break-after: always; 
         }
+
+        /* 🔥 SOLUTION: កូដនេះដោះស្រាយបញ្ហាព្រីនសងខាងមិនត្រូវគ្នា */
+        .sheet.is-back {
+            direction: rtl; /* រៀបកាតពីស្តាំមកឆ្វេងសម្រាប់ផ្នែកខាងក្រោយ */
+        }
+        /* ទោះបី Grid បញ្ច្រាស ប៉ុន្តែអក្សរក្នុងកាតត្រូវតែធម្មតាវិញ */
+        .sheet.is-back .id-card-print {
+            direction: ltr; 
+        }
         
         .id-card-print { width: 56mm; height: 86mm; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #ddd; position: relative; display: flex; flex-direction: column; -webkit-print-color-adjust: exact; }
         
@@ -136,27 +147,24 @@ function printAll(side) {
         .card-header-front { 
             background-image: linear-gradient(to bottom, #d32f2f 50%, white 50%); 
             background-size: 100% 10px; background-repeat: no-repeat; 
-            /* 🔥 កែសម្រួល៖ បន្ថយមកត្រឹម 10px ដើម្បីទាញឡើងលើ */
-            padding-top: 10px; 
-            text-align: center; 
+            padding-top: 10px; text-align: center; 
         }
         
         .ministry { 
             font-family: 'Moul', serif; font-size: 8px; font-weight: normal; 
             text-align: center; line-height: 1.4; color: #333; 
-            margin-bottom: 1px; /* បន្ថយគម្លាត */
+            margin-bottom: 1px; 
         }
 
         .logo-print { width: 35px !important; height: 35px !important; margin: 0 auto 2px auto; display: block; object-fit: contain; }
 
         .school { 
             font-family: 'Moul'; font-size: 8px; color: #d32f2f; text-align: center; 
-            margin-bottom: 2px; /* បន្ថយគម្លាត */
+            margin-bottom: 2px; 
         }
         
         .photo { 
             width: 26mm; height: 32mm; 
-            /* 🔥 កែសម្រួល៖ បន្ថយគម្លាតក្រោមរូបថតមកត្រឹម 3px */
             margin: 2px auto 3px auto; 
             display: block; object-fit: cover; 
             border: 1px solid #ccc; border-radius: 4px; 
@@ -166,22 +174,18 @@ function printAll(side) {
         
         .name-kh { 
             font-family: 'Moul'; font-size: 10px; color: #0d1b3e; text-align: center; 
-            margin-bottom: 3px; /* បន្ថយគម្លាតបន្តិច */
-            line-height: 1.2;
+            margin-bottom: 3px; line-height: 1.2;
         }
         
         .name-en { 
             font-size: 8px; font-weight: bold; color: #d32f2f; text-align: center; 
-            text-transform: uppercase; 
-            margin-bottom: 5px; /* ទុកគម្លាតសមរម្យ */
-            letter-spacing: 0.5px; 
+            text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.5px; 
         }
         
         .role { 
             font-size: 11px; font-weight: bold; text-align: center; color: white; 
             background: #0d1b3e; padding: 3px 12px; border-radius: 6px; 
             display: inline-block; margin: 0 auto; letter-spacing: 0.5px;
-            /* 🔥 សំខាន់៖ ធានាថាវាមិនចុះក្រោមពេក */
         }
         
         /* Back Design */
@@ -190,7 +194,7 @@ function printAll(side) {
         .qr-section { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .qr-img { width: 30mm; height: 30mm; border: 1px solid #000; padding: 2px; margin-bottom: 8px;}
         
-        /* Info Table Big & Bold */
+        /* Info Table */
         .info-table { 
             width: 90%; margin: 0 auto; 
             font-size: 11px; font-weight: bold; color: #000;
@@ -207,10 +211,16 @@ function printAll(side) {
     </style>`;
 
     let html = `<html><head><title>Print ${side}</title>${css}</head><body>`;
+    
+    // 🔥 កំណត់ Class ពិសេសសម្រាប់ផ្នែកខាងក្រោយ
+    const sheetClass = side === 'back' ? 'sheet is-back' : 'sheet';
     const perPage = 6; 
+    
     for (let i = 0; i < allTeachers.length; i += perPage) {
         const chunk = allTeachers.slice(i, i + perPage);
-        html += `<div class="sheet">`;
+        // ប្រើ sheetClass ដើម្បីកំណត់ថាតើត្រូវត្រឡប់ឆ្វេងស្តាំឬអត់
+        html += `<div class="${sheetClass}">`;
+        
         chunk.forEach(t => {
              if(side === 'front') {
                 html += `
@@ -253,6 +263,7 @@ function printAll(side) {
     w.document.close();
 }
 function printSingleCard(t, side) { printAll(side); }
+
 
 
 
