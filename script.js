@@ -111,6 +111,8 @@ function createCard(t, config) {
 
 // ✅ script.js - (FIXED: Duplex Printing Alignment - ព្រីនសងខាងត្រូវគ្នា ១០០%)
 
+// ✅ script.js - (Final: ព្រីនសងខាងត្រូវគ្នា + ស៊ុមពណ៌ខ្មៅច្បាស់សម្រាប់កាត់)
+
 function printAll(side) {
     if (!allTeachers.length) return alert("No Data");
     const w = window.open("", "_blank");
@@ -132,16 +134,23 @@ function printAll(side) {
             justify-content: center; align-content: start; page-break-after: always; 
         }
 
-        /* 🔥 SOLUTION: កូដនេះដោះស្រាយបញ្ហាព្រីនសងខាងមិនត្រូវគ្នា */
-        .sheet.is-back {
-            direction: rtl; /* រៀបកាតពីស្តាំមកឆ្វេងសម្រាប់ផ្នែកខាងក្រោយ */
-        }
-        /* ទោះបី Grid បញ្ច្រាស ប៉ុន្តែអក្សរក្នុងកាតត្រូវតែធម្មតាវិញ */
-        .sheet.is-back .id-card-print {
-            direction: ltr; 
-        }
+        /* កូដសម្រាប់ត្រឡប់ទិសពេលព្រីនផ្នែកខាងក្រោយ (Duplex Fix) */
+        .sheet.is-back { direction: rtl; }
+        .sheet.is-back .id-card-print { direction: ltr; }
         
-        .id-card-print { width: 56mm; height: 86mm; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #ddd; position: relative; display: flex; flex-direction: column; -webkit-print-color-adjust: exact; }
+        .id-card-print { 
+            width: 56mm; 
+            height: 86mm; 
+            background: #fff; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            /* 🔥 កែត្រង់នេះ៖ ប្តូរទៅជាស៊ុមពណ៌ខ្មៅដិត (2px solid black) ដើម្បីងាយស្រួលកាត់ */
+            border: 2px solid #000; 
+            position: relative; 
+            display: flex; 
+            flex-direction: column; 
+            -webkit-print-color-adjust: exact; 
+        }
         
         /* Front Design */
         .card-header-front { 
@@ -212,13 +221,12 @@ function printAll(side) {
 
     let html = `<html><head><title>Print ${side}</title>${css}</head><body>`;
     
-    // 🔥 កំណត់ Class ពិសេសសម្រាប់ផ្នែកខាងក្រោយ
+    // កំណត់ Class ពិសេសសម្រាប់ផ្នែកខាងក្រោយ
     const sheetClass = side === 'back' ? 'sheet is-back' : 'sheet';
     const perPage = 6; 
     
     for (let i = 0; i < allTeachers.length; i += perPage) {
         const chunk = allTeachers.slice(i, i + perPage);
-        // ប្រើ sheetClass ដើម្បីកំណត់ថាតើត្រូវត្រឡប់ឆ្វេងស្តាំឬអត់
         html += `<div class="${sheetClass}">`;
         
         chunk.forEach(t => {
@@ -263,6 +271,7 @@ function printAll(side) {
     w.document.close();
 }
 function printSingleCard(t, side) { printAll(side); }
+
 
 
 
