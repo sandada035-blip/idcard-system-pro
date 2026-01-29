@@ -1,9 +1,10 @@
 /* ✅ style.css - (FIXED: Role Text Cutoff Issue) */
 /* ✅ style.css - (Updated: Width 60mm) */
+/* ✅ style.css - (Updated: Size 58mm x 90mm) */
 :root {
-    /* 🔥 កែទំហំកាតនៅទីនេះ (60mm x 86mm) */
-    --cardW: 60mm; 
-    --cardH: 86mm;
+    /* 🔥 កែទំហំកាតថ្មីនៅទីនេះ */
+    --cardW: 58mm; 
+    --cardH: 90mm;
     
     --radius: 10px;
     --shadow: 0 5px 15px rgba(0,0,0,0.15);
@@ -48,7 +49,7 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
     background-image: linear-gradient(to bottom, var(--primary-red) 50%, white 50%);
     background-size: 100% 10px;
     background-repeat: no-repeat;
-    padding-top: 10px; 
+    padding-top: 12px; 
     text-align: center;
 }
 
@@ -61,7 +62,7 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
 
 /* Photo Box */
 .photo-box {
-    width: 26mm; height: 32mm; margin: 2px auto; 
+    width: 26mm; height: 32mm; margin: 3px auto; 
     border: 1px solid #ccc; border-radius: 4px; overflow: hidden; background: #f0f0f0;
 }
 .photo-box img { width: 100%; height: 100%; object-fit: cover; }
@@ -100,20 +101,6 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
 .btn-action { border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; color: white; font-size: 9px; display: flex; align-items: center; gap: 3px; }
 .btn-small-blue { background: #1976d2; } .btn-small-red { background: #d32f2f; }
 
-@media screen and (max-width: 768px) {
-    .navbar { height: auto; flex-direction: column; padding: 10px; gap: 10px; }
-    .brand { margin-bottom: 5px; }
-    .nav-buttons { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .btn { width: 100%; font-size: 12px; padding: 8px; }
-    body { padding-top: 160px; }
-    #searchInput { width: 90%; }
-    .grid { gap: 15px; }
-}
-.card-actions { display: flex; justify-content: center; gap: 10px; padding: 5px; background: #fff; border-top: 1px solid #eee; position: absolute; bottom: 18px; width: 100%;}
-.btn-action { border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; color: white; font-size: 9px; display: flex; align-items: center; gap: 3px; }
-.btn-small-blue { background: #1976d2; } .btn-small-red { background: #d32f2f; }
-
-/* 📱 Mobile Responsive */
 @media screen and (max-width: 768px) {
     .navbar { height: auto; flex-direction: column; padding: 10px; gap: 10px; }
     .brand { margin-bottom: 5px; }
