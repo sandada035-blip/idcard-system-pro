@@ -115,6 +115,8 @@ function createCard(t, config) {
 
 // ✅ script.js - (Final: Width 60mm + Perfect Alignment Fix)
 
+// ✅ script.js - (Final: 58mm x 90mm + Duplex Fix + Black Frame)
+
 function printAll(side) {
     if (!allTeachers.length) return alert("No Data");
     const w = window.open("", "_blank");
@@ -125,37 +127,41 @@ function printAll(side) {
         @page { size: A4; margin: 0; }
         body { margin: 0; background: #eee; font-family: 'Siemreap', sans-serif; }
         
-        /* 🔥 KEY FIX: ប្រើ justify-content: center ដើម្បីកុំឱ្យលំអៀង */
+        /* 🔥 KEY FIX: 58mm x 90mm Layout */
         .sheet { 
             width: 210mm; 
             height: 297mm; 
-            /* ដក Padding ឆ្វេងស្តាំចេញ (ដាក់ 0) ដើម្បីឱ្យ Center ធ្វើការ */
-            padding: 10mm 0; 
+            /* ដក Padding លើក្រោមបន្តិច ដើម្បីទុកកន្លែងឱ្យកាតដែលខ្ពស់ជាងមុន */
+            padding: 5mm 0; 
             margin: 0 auto; 
             background: white; 
             display: grid; 
-            /* 🔥 ប្តូរទំហំទៅ 60mm */
-            grid-template-columns: repeat(2, 60mm); 
-            grid-template-rows: repeat(3, 86mm); 
-            /* កំណត់គម្លាតកាត */
-            gap: 15mm 20mm; 
-            /* ដាក់ឱ្យនៅកណ្តាលដាច់ខាត */
+            
+            /* 🔥 ប្តូរទំហំទៅ 58mm */
+            grid-template-columns: repeat(2, 58mm); 
+            /* 🔥 ប្តូរទំហំទៅ 90mm */
+            grid-template-rows: repeat(3, 90mm); 
+            
+            /* 🔥 សំខាន់៖ បន្ថយគម្លាតជួរ (Gap) មកត្រឹម 5mm ព្រោះកាតខ្ពស់ហើយ */
+            gap: 5mm 20mm; 
+            
+            /* Center Alignment */
             justify-content: center; 
-            align-content: start; 
+            align-content: center; 
             page-break-after: always; 
         }
 
-        /* សម្រាប់ត្រឡប់ទិសពេលព្រីនផ្នែកខាងក្រោយ */
+        /* Duplex Logic */
         .sheet.is-back { direction: rtl; }
         .sheet.is-back .id-card-print { direction: ltr; }
         
         .id-card-print { 
-            width: 60mm; /* 🔥 ប្តូរទំហំទៅ 60mm */
-            height: 86mm; 
+            width: 58mm;  /* 🔥 58mm */
+            height: 90mm; /* 🔥 90mm */
             background: #fff; 
             border-radius: 8px; 
             overflow: hidden; 
-            border: 2px solid #000; /* ស៊ុមខ្មៅច្បាស់ */
+            border: 2px solid #000; 
             position: relative; 
             display: flex; 
             flex-direction: column; 
@@ -166,25 +172,25 @@ function printAll(side) {
         .card-header-front { 
             background-image: linear-gradient(to bottom, #d32f2f 50%, white 50%); 
             background-size: 100% 10px; background-repeat: no-repeat; 
-            padding-top: 10px; text-align: center; 
+            padding-top: 12px; text-align: center; 
         }
         
         .ministry { 
             font-family: 'Moul', serif; font-size: 8px; font-weight: normal; 
             text-align: center; line-height: 1.4; color: #333; 
-            margin-bottom: 1px; 
+            margin-bottom: 2px; 
         }
 
         .logo-print { width: 35px !important; height: 35px !important; margin: 0 auto 2px auto; display: block; object-fit: contain; }
 
         .school { 
             font-family: 'Moul'; font-size: 8px; color: #d32f2f; text-align: center; 
-            margin-bottom: 2px; 
+            margin-bottom: 3px; 
         }
         
         .photo { 
             width: 26mm; height: 32mm; 
-            margin: 2px auto 3px auto; 
+            margin: 2px auto 4px auto; 
             display: block; object-fit: cover; 
             border: 1px solid #ccc; border-radius: 4px; 
         }
@@ -198,7 +204,7 @@ function printAll(side) {
         
         .name-en { 
             font-size: 8px; font-weight: bold; color: #d32f2f; text-align: center; 
-            text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.5px; 
+            text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.5px; 
         }
         
         .role { 
@@ -281,6 +287,7 @@ function printAll(side) {
     w.document.close();
 }
 function printSingleCard(t, side) { printAll(side); }
+
 
 
 
