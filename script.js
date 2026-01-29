@@ -113,6 +113,8 @@ function createCard(t, config) {
 
 // ✅ script.js - (Final: ព្រីនសងខាងត្រូវគ្នា + ស៊ុមពណ៌ខ្មៅច្បាស់សម្រាប់កាត់)
 
+// ✅ script.js - (Final: Width 60mm + Perfect Alignment Fix)
+
 function printAll(side) {
     if (!allTeachers.length) return alert("No Data");
     const w = window.open("", "_blank");
@@ -123,29 +125,37 @@ function printAll(side) {
         @page { size: A4; margin: 0; }
         body { margin: 0; background: #eee; font-family: 'Siemreap', sans-serif; }
         
-        /* Grid Layout */
+        /* 🔥 KEY FIX: ប្រើ justify-content: center ដើម្បីកុំឱ្យលំអៀង */
         .sheet { 
-            width: 210mm; height: 297mm; padding: 10mm 15mm; margin: 0 auto; 
+            width: 210mm; 
+            height: 297mm; 
+            /* ដក Padding ឆ្វេងស្តាំចេញ (ដាក់ 0) ដើម្បីឱ្យ Center ធ្វើការ */
+            padding: 10mm 0; 
+            margin: 0 auto; 
             background: white; 
             display: grid; 
-            grid-template-columns: repeat(2, 56mm); 
+            /* 🔥 ប្តូរទំហំទៅ 60mm */
+            grid-template-columns: repeat(2, 60mm); 
             grid-template-rows: repeat(3, 86mm); 
-            gap: 15mm 25mm; 
-            justify-content: center; align-content: start; page-break-after: always; 
+            /* កំណត់គម្លាតកាត */
+            gap: 15mm 20mm; 
+            /* ដាក់ឱ្យនៅកណ្តាលដាច់ខាត */
+            justify-content: center; 
+            align-content: start; 
+            page-break-after: always; 
         }
 
-        /* កូដសម្រាប់ត្រឡប់ទិសពេលព្រីនផ្នែកខាងក្រោយ (Duplex Fix) */
+        /* សម្រាប់ត្រឡប់ទិសពេលព្រីនផ្នែកខាងក្រោយ */
         .sheet.is-back { direction: rtl; }
         .sheet.is-back .id-card-print { direction: ltr; }
         
         .id-card-print { 
-            width: 56mm; 
+            width: 60mm; /* 🔥 ប្តូរទំហំទៅ 60mm */
             height: 86mm; 
             background: #fff; 
             border-radius: 8px; 
             overflow: hidden; 
-            /* 🔥 កែត្រង់នេះ៖ ប្តូរទៅជាស៊ុមពណ៌ខ្មៅដិត (2px solid black) ដើម្បីងាយស្រួលកាត់ */
-            border: 2px solid #000; 
+            border: 2px solid #000; /* ស៊ុមខ្មៅច្បាស់ */
             position: relative; 
             display: flex; 
             flex-direction: column; 
@@ -271,6 +281,7 @@ function printAll(side) {
     w.document.close();
 }
 function printSingleCard(t, side) { printAll(side); }
+
 
 
 
