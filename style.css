@@ -1,7 +1,7 @@
-/* ✅ style.css - (Updated: Size 55mm x 85mm) */
+/* ✅ style.css - (Final Standard Size: 54mm x 85mm) */
 :root {
-    /* 🔥 កែទំហំកាតថ្មីនៅទីនេះ (55mm x 85mm) */
-    --cardW: 55mm; 
+    /* 🔥 កែទំហំកាតមកស្តង់ដារ 54mm x 85mm */
+    --cardW: 54mm; 
     --cardH: 85mm;
     
     --radius: 10px;
@@ -47,7 +47,7 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
     background-image: linear-gradient(to bottom, var(--primary-red) 50%, white 50%);
     background-size: 100% 10px;
     background-repeat: no-repeat;
-    padding-top: 12px; 
+    padding-top: 10px; 
     text-align: center;
 }
 
@@ -60,7 +60,7 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
 
 /* Photo Box */
 .photo-box {
-    width: 26mm; height: 32mm; margin: 3px auto; 
+    width: 26mm; height: 32mm; margin: 2px auto; 
     border: 1px solid #ccc; border-radius: 4px; overflow: hidden; background: #f0f0f0;
 }
 .photo-box img { width: 100%; height: 100%; object-fit: cover; }
@@ -108,5 +108,3 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
     #searchInput { width: 90%; }
     .grid { gap: 15px; }
 }
-
-
