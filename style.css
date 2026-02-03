@@ -1,10 +1,8 @@
-/* ✅ style.css - (FIXED: Role Text Cutoff Issue) */
-/* ✅ style.css - (Updated: Width 60mm) */
-/* ✅ style.css - (Updated: Size 58mm x 90mm) */
+/* ✅ style.css - (Updated: Size 57mm x 88mm) */
 :root {
-    /* 🔥 កែទំហំកាតថ្មីនៅទីនេះ */
-    --cardW: 58mm; 
-    --cardH: 90mm;
+    /* 🔥 កែទំហំកាតថ្មីនៅទីនេះ (57mm x 88mm) */
+    --cardW: 57mm; 
+    --cardH: 88mm;
     
     --radius: 10px;
     --shadow: 0 5px 15px rgba(0,0,0,0.15);
@@ -110,4 +108,3 @@ body { background: var(--bg-color); padding-top: 80px; padding-bottom: 40px; }
     #searchInput { width: 90%; }
     .grid { gap: 15px; }
 }
-
