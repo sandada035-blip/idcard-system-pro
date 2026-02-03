@@ -117,7 +117,7 @@ function createCard(t, config) {
 
 // ✅ script.js - (Final: 58mm x 90mm + Duplex Fix + Black Frame)
 
-// ✅ script.js - (Final: 57mm x 88mm + Duplex Alignment Fix)
+// ✅ script.js - (Final: 56mm x 86mm + Duplex Alignment Fix)
 
 function printAll(side) {
     if (!allTeachers.length) return alert("No Data");
@@ -129,7 +129,7 @@ function printAll(side) {
         @page { size: A4; margin: 0; }
         body { margin: 0; background: #eee; font-family: 'Siemreap', sans-serif; }
         
-        /* 🔥 KEY FIX: 57mm x 88mm Layout & Centering */
+        /* 🔥 KEY FIX: 56mm x 86mm Layout & Centering */
         .sheet { 
             width: 210mm; 
             height: 297mm; 
@@ -139,10 +139,10 @@ function printAll(side) {
             background: white; 
             display: grid; 
             
-            /* 🔥 ប្តូរទំហំទៅ 57mm */
-            grid-template-columns: repeat(2, 57mm); 
-            /* 🔥 ប្តូរទំហំទៅ 88mm */
-            grid-template-rows: repeat(3, 88mm); 
+            /* 🔥 ប្តូរទំហំទៅ 56mm */
+            grid-template-columns: repeat(2, 56mm); 
+            /* 🔥 ប្តូរទំហំទៅ 86mm */
+            grid-template-rows: repeat(3, 86mm); 
             
             /* កំណត់គម្លាតកាត (Gap) */
             gap: 10mm 20mm; /* 10mm លើក្រោម, 20mm ឆ្វេងស្តាំ */
@@ -158,8 +158,8 @@ function printAll(side) {
         .sheet.is-back .id-card-print { direction: ltr; }
         
         .id-card-print { 
-            width: 57mm;  /* 🔥 57mm */
-            height: 88mm; /* 🔥 88mm */
+            width: 56mm;  /* 🔥 56mm */
+            height: 86mm; /* 🔥 86mm */
             background: #fff; 
             border-radius: 8px; 
             overflow: hidden; 
@@ -289,6 +289,7 @@ function printAll(side) {
     w.document.close();
 }
 function printSingleCard(t, side) { printAll(side); }
+
 
 
 
