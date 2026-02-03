@@ -117,6 +117,8 @@ function createCard(t, config) {
 
 // ✅ script.js - (Final: 58mm x 90mm + Duplex Fix + Black Frame)
 
+// ✅ script.js - (Final: 57mm x 88mm + Duplex Alignment Fix)
+
 function printAll(side) {
     if (!allTeachers.length) return alert("No Data");
     const w = window.open("", "_blank");
@@ -127,41 +129,41 @@ function printAll(side) {
         @page { size: A4; margin: 0; }
         body { margin: 0; background: #eee; font-family: 'Siemreap', sans-serif; }
         
-        /* 🔥 KEY FIX: 58mm x 90mm Layout */
+        /* 🔥 KEY FIX: 57mm x 88mm Layout & Centering */
         .sheet { 
             width: 210mm; 
             height: 297mm; 
-            /* ដក Padding លើក្រោមបន្តិច ដើម្បីទុកកន្លែងឱ្យកាតដែលខ្ពស់ជាងមុន */
-            padding: 5mm 0; 
+            /* មិនប្រើ padding ទេ ទុកឱ្យ justify/align-content ធ្វើការ */
+            padding: 0; 
             margin: 0 auto; 
             background: white; 
             display: grid; 
             
-            /* 🔥 ប្តូរទំហំទៅ 58mm */
-            grid-template-columns: repeat(2, 58mm); 
-            /* 🔥 ប្តូរទំហំទៅ 90mm */
-            grid-template-rows: repeat(3, 90mm); 
+            /* 🔥 ប្តូរទំហំទៅ 57mm */
+            grid-template-columns: repeat(2, 57mm); 
+            /* 🔥 ប្តូរទំហំទៅ 88mm */
+            grid-template-rows: repeat(3, 88mm); 
             
-            /* 🔥 សំខាន់៖ បន្ថយគម្លាតជួរ (Gap) មកត្រឹម 5mm ព្រោះកាតខ្ពស់ហើយ */
-            gap: 5mm 20mm; 
+            /* កំណត់គម្លាតកាត (Gap) */
+            gap: 10mm 20mm; /* 10mm លើក្រោម, 20mm ឆ្វេងស្តាំ */
             
-            /* Center Alignment */
+            /* Center Alignment ដាច់ខាតលើក្រដាស A4 */
             justify-content: center; 
             align-content: center; 
             page-break-after: always; 
         }
 
-        /* Duplex Logic */
+        /* Duplex Logic (ត្រឡប់ទិសសម្រាប់ផ្នែកខាងក្រោយ) */
         .sheet.is-back { direction: rtl; }
         .sheet.is-back .id-card-print { direction: ltr; }
         
         .id-card-print { 
-            width: 58mm;  /* 🔥 58mm */
-            height: 90mm; /* 🔥 90mm */
+            width: 57mm;  /* 🔥 57mm */
+            height: 88mm; /* 🔥 88mm */
             background: #fff; 
             border-radius: 8px; 
             overflow: hidden; 
-            border: 2px solid #000; 
+            border: 2px solid #000; /* ស៊ុមខ្មៅសម្រាប់កាត់ */
             position: relative; 
             display: flex; 
             flex-direction: column; 
@@ -287,6 +289,7 @@ function printAll(side) {
     w.document.close();
 }
 function printSingleCard(t, side) { printAll(side); }
+
 
 
 
