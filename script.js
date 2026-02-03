@@ -121,53 +121,35 @@ function createCard(t, config) {
 
 // ✅ script.js - (Final Standard: 54mm x 85mm + Perfect Alignment)
 
+// ✅ script.js - (Final: 54x85mm + Auto PDF Trigger)
+
 function printAll(side) {
     if (!allTeachers.length) return alert("No Data");
     const w = window.open("", "_blank");
     
-    // CSS សម្រាប់ Print
+    // CSS សម្រាប់ Print (រក្សាទុកដដែល)
     const css = `<style>
         @import url('https://fonts.googleapis.com/css2?family=Moul&family=Siemreap&display=swap');
         @page { size: A4; margin: 0; }
         body { margin: 0; background: #eee; font-family: 'Siemreap', sans-serif; }
         
-        /* 🔥 KEY FIX: 54mm x 85mm Layout */
         .sheet { 
-            width: 210mm; 
-            height: 297mm; 
-            padding: 0; 
-            margin: 0 auto; 
-            background: white; 
-            display: grid; 
-            
-            /* 🔥 ប្តូរទំហំទៅ 54mm */
+            width: 210mm; height: 297mm; padding: 0; margin: 0 auto; 
+            background: white; display: grid; 
             grid-template-columns: repeat(2, 54mm); 
-            /* 🔥 ប្តូរទំហំទៅ 85mm */
             grid-template-rows: repeat(3, 85mm); 
-            
-            /* Gap សមរម្យសម្រាប់ទំហំនេះ */
             gap: 15mm 25mm; 
-            
-            /* Center Alignment ដាច់ខាត */
-            justify-content: center; 
-            align-content: center; 
+            justify-content: center; align-content: center; 
             page-break-after: always; 
         }
 
-        /* Duplex Logic (ត្រឡប់ទិសសម្រាប់ផ្នែកខាងក្រោយ) */
         .sheet.is-back { direction: rtl; }
         .sheet.is-back .id-card-print { direction: ltr; }
         
         .id-card-print { 
-            width: 54mm;  /* 🔥 54mm */
-            height: 85mm; /* 🔥 85mm */
-            background: #fff; 
-            border-radius: 8px; 
-            overflow: hidden; 
-            border: 2px solid #000; /* ស៊ុមខ្មៅសម្រាប់កាត់ */
-            position: relative; 
-            display: flex; 
-            flex-direction: column; 
+            width: 54mm; height: 85mm; background: #fff; 
+            border-radius: 8px; overflow: hidden; border: 2px solid #000; 
+            position: relative; display: flex; flex-direction: column; 
             -webkit-print-color-adjust: exact; 
         }
         
@@ -177,77 +159,31 @@ function printAll(side) {
             background-size: 100% 10px; background-repeat: no-repeat; 
             padding-top: 10px; text-align: center; 
         }
-        
-        .ministry { 
-            font-family: 'Moul', serif; font-size: 8px; font-weight: normal; 
-            text-align: center; line-height: 1.4; color: #333; 
-            margin-bottom: 1px; 
-        }
-
+        .ministry { font-family: 'Moul', serif; font-size: 8px; font-weight: normal; text-align: center; line-height: 1.4; color: #333; margin-bottom: 1px; }
         .logo-print { width: 35px !important; height: 35px !important; margin: 0 auto 2px auto; display: block; object-fit: contain; }
-
-        .school { 
-            font-family: 'Moul'; font-size: 8px; color: #d32f2f; text-align: center; 
-            margin-bottom: 2px; 
-        }
-        
-        .photo { 
-            width: 26mm; height: 32mm; 
-            margin: 2px auto 3px auto; 
-            display: block; object-fit: cover; 
-            border: 1px solid #ccc; border-radius: 4px; 
-        }
-        
+        .school { font-family: 'Moul'; font-size: 8px; color: #d32f2f; text-align: center; margin-bottom: 2px; }
+        .photo { width: 26mm; height: 32mm; margin: 2px auto 3px auto; display: block; object-fit: cover; border: 1px solid #ccc; border-radius: 4px; }
         .card-body-print { text-align: center; padding-top: 2px; }
-        
-        .name-kh { 
-            font-family: 'Moul'; font-size: 10px; color: #0d1b3e; text-align: center; 
-            margin-bottom: 3px; line-height: 1.2;
-        }
-        
-        .name-en { 
-            font-size: 8px; font-weight: bold; color: #d32f2f; text-align: center; 
-            text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.5px; 
-        }
-        
-        .role { 
-            font-size: 11px; font-weight: bold; text-align: center; color: white; 
-            background: #0d1b3e; padding: 3px 12px; border-radius: 6px; 
-            display: inline-block; margin: 0 auto; letter-spacing: 0.5px;
-        }
+        .name-kh { font-family: 'Moul'; font-size: 10px; color: #0d1b3e; text-align: center; margin-bottom: 3px; line-height: 1.2; }
+        .name-en { font-size: 8px; font-weight: bold; color: #d32f2f; text-align: center; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.5px; }
+        .role { font-size: 11px; font-weight: bold; text-align: center; color: white; background: #0d1b3e; padding: 3px 12px; border-radius: 6px; display: inline-block; margin: 0 auto; letter-spacing: 0.5px; }
         
         /* Back Design */
         .card-header-back { background: #d32f2f; height: 28px; display: flex; align-items: center; justify-content: center; color: white; }
         .header-title { font-family: 'Moul'; font-size: 9px; }
         .qr-section { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .qr-img { width: 30mm; height: 30mm; border: 1px solid #000; padding: 2px; margin-bottom: 8px;}
-        
-        /* Info Table (Big & Bold) */
-        .info-table { 
-            width: 90%; margin: 0 auto; 
-            font-size: 11px; font-weight: bold; color: #000;
-            background: #f9f9f9; padding: 5px; 
-            border-left: 4px solid #0d1b3e; line-height: 1.6; 
-        }
-        
-        .footer { 
-            position: absolute; bottom: 0; width: 100%; 
-            background: #0d1b3e; color: white; 
-            font-size: 10px; font-weight: bold; 
-            text-align: center; padding: 5px 0; 
-        }
+        .info-table { width: 90%; margin: 0 auto; font-size: 11px; font-weight: bold; color: #000; background: #f9f9f9; padding: 5px; border-left: 4px solid #0d1b3e; line-height: 1.6; }
+        .footer { position: absolute; bottom: 0; width: 100%; background: #0d1b3e; color: white; font-size: 10px; font-weight: bold; text-align: center; padding: 5px 0; }
     </style>`;
 
-    let html = `<html><head><title>Print ${side}</title>${css}</head><body>`;
-    
-    // កំណត់ Class ពិសេសសម្រាប់ផ្នែកខាងក្រោយ
+    let html = `<html><head><title>Export PDF - ${side}</title>${css}</head><body>`;
     const sheetClass = side === 'back' ? 'sheet is-back' : 'sheet';
     const perPage = 6; 
     
     for (let i = 0; i < allTeachers.length; i += perPage) {
         const chunk = allTeachers.slice(i, i + perPage);
         html += `<div class="${sheetClass}">`;
-        
         chunk.forEach(t => {
              if(side === 'front') {
                 html += `
@@ -286,10 +222,18 @@ function printAll(side) {
         html += `</div>`;
     }
     html += `</body></html>`;
+    
     w.document.write(html);
     w.document.close();
+
+    // 🔥 កូដបន្ថែម៖ រង់ចាំ ១ វិនាទីអោយរូប Load ហើយបើកផ្ទាំង Save PDF ស្វ័យប្រវត្តិ
+    setTimeout(() => {
+        w.focus();
+        w.print(); // នឹងបើកផ្ទាំង Print -> អ្នកគ្រាន់តែជ្រើសរើស "Save as PDF"
+    }, 1000);
 }
 function printSingleCard(t, side) { printAll(side); }
+
 
 
 
