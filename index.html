@@ -14,12 +14,21 @@
     <nav class="navbar">
         <div class="brand">ID PRO</div>
         <div class="nav-buttons">
+            <button class="btn btn-red" onclick="printAll('front')">
+    <i class="fas fa-file-pdf"></i> Export PDF (Front)
+</button>
+
+<button class="btn btn-red" onclick="printAll('back')">
+    <i class="fas fa-file-pdf"></i> Export PDF (Back)
+</button>
             <button class="btn btn-green" onclick="printAll('front')"><i class="fas fa-print"></i> Front A4 (All)</button>
             <button class="btn btn-blue active" id="btnFront" onclick="switchMode('front')"><i class="fas fa-id-card"></i> ខាងមុខ</button>
             <button class="btn btn-red" id="btnBack" onclick="switchMode('back')"><i class="fas fa-qrcode"></i> ខាងក្រោយ</button>
             <button class="btn btn-green" onclick="printAll('back')"><i class="fas fa-print"></i> Back A4 (All)</button>
         </div>
     </nav>
+
+    
 
     <div class="container">
         <div class="search-container">
@@ -38,5 +47,6 @@
     <script src="script.js?v=REFERRER_FIX"></script>
 </body>
 </html>
+
 
 
