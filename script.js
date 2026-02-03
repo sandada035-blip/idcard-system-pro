@@ -119,6 +119,8 @@ function createCard(t, config) {
 
 // ✅ script.js - (Final: 55mm x 85mm + Duplex Alignment Fix)
 
+// ✅ script.js - (Final Standard: 54mm x 85mm + Perfect Alignment)
+
 function printAll(side) {
     if (!allTeachers.length) return alert("No Data");
     const w = window.open("", "_blank");
@@ -129,25 +131,24 @@ function printAll(side) {
         @page { size: A4; margin: 0; }
         body { margin: 0; background: #eee; font-family: 'Siemreap', sans-serif; }
         
-        /* 🔥 KEY FIX: 56mm x 86mm Layout & Centering */
+        /* 🔥 KEY FIX: 54mm x 85mm Layout */
         .sheet { 
             width: 210mm; 
             height: 297mm; 
-            /* មិនប្រើ padding ទេ ទុកឱ្យ justify/align-content ធ្វើការ */
             padding: 0; 
             margin: 0 auto; 
             background: white; 
             display: grid; 
             
-            /* 🔥 ប្តូរទំហំទៅ 56mm */
-            grid-template-columns: repeat(2, 55mm); 
-            /* 🔥 ប្តូរទំហំទៅ 86mm */
+            /* 🔥 ប្តូរទំហំទៅ 54mm */
+            grid-template-columns: repeat(2, 54mm); 
+            /* 🔥 ប្តូរទំហំទៅ 85mm */
             grid-template-rows: repeat(3, 85mm); 
             
-            /* កំណត់គម្លាតកាត (Gap) */
-            gap: 10mm 20mm; /* 10mm លើក្រោម, 20mm ឆ្វេងស្តាំ */
+            /* Gap សមរម្យសម្រាប់ទំហំនេះ */
+            gap: 15mm 25mm; 
             
-            /* Center Alignment ដាច់ខាតលើក្រដាស A4 */
+            /* Center Alignment ដាច់ខាត */
             justify-content: center; 
             align-content: center; 
             page-break-after: always; 
@@ -158,8 +159,8 @@ function printAll(side) {
         .sheet.is-back .id-card-print { direction: ltr; }
         
         .id-card-print { 
-            width: 56mm;  /* 🔥 56mm */
-            height: 86mm; /* 🔥 86mm */
+            width: 54mm;  /* 🔥 54mm */
+            height: 85mm; /* 🔥 85mm */
             background: #fff; 
             border-radius: 8px; 
             overflow: hidden; 
@@ -174,25 +175,25 @@ function printAll(side) {
         .card-header-front { 
             background-image: linear-gradient(to bottom, #d32f2f 50%, white 50%); 
             background-size: 100% 10px; background-repeat: no-repeat; 
-            padding-top: 12px; text-align: center; 
+            padding-top: 10px; text-align: center; 
         }
         
         .ministry { 
             font-family: 'Moul', serif; font-size: 8px; font-weight: normal; 
             text-align: center; line-height: 1.4; color: #333; 
-            margin-bottom: 2px; 
+            margin-bottom: 1px; 
         }
 
         .logo-print { width: 35px !important; height: 35px !important; margin: 0 auto 2px auto; display: block; object-fit: contain; }
 
         .school { 
             font-family: 'Moul'; font-size: 8px; color: #d32f2f; text-align: center; 
-            margin-bottom: 3px; 
+            margin-bottom: 2px; 
         }
         
         .photo { 
             width: 26mm; height: 32mm; 
-            margin: 2px auto 4px auto; 
+            margin: 2px auto 3px auto; 
             display: block; object-fit: cover; 
             border: 1px solid #ccc; border-radius: 4px; 
         }
@@ -206,7 +207,7 @@ function printAll(side) {
         
         .name-en { 
             font-size: 8px; font-weight: bold; color: #d32f2f; text-align: center; 
-            text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.5px; 
+            text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.5px; 
         }
         
         .role { 
@@ -221,7 +222,7 @@ function printAll(side) {
         .qr-section { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .qr-img { width: 30mm; height: 30mm; border: 1px solid #000; padding: 2px; margin-bottom: 8px;}
         
-        /* Info Table */
+        /* Info Table (Big & Bold) */
         .info-table { 
             width: 90%; margin: 0 auto; 
             font-size: 11px; font-weight: bold; color: #000;
@@ -289,6 +290,7 @@ function printAll(side) {
     w.document.close();
 }
 function printSingleCard(t, side) { printAll(side); }
+
 
 
 
