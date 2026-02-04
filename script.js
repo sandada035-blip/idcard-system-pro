@@ -92,14 +92,7 @@ function createCard(t, config) {
     return div;
 }
 
-// ✅ Print A4 (Grid 2 Columns = Standard A4)
-// ✅ script.js - (Print A4 FIXED: ៦ កាត/ទំព័រ + Font Moul + រចនាស្អាត)
 
-// ✅ script.js - (Function printAll តែមួយគត់ដែលអ្នកត្រូវប្តូរ)
-
-// ✅ script.js - (Updated: Width 56mm + Big Role Font)
-
-// ✅ script.js - (Updated: Better Spacing for Print)
 
 // ✅ script.js - (Updated: Spacing Fix for Names & Role)
 
@@ -123,33 +116,61 @@ function createCard(t, config) {
 
 // ✅ script.js - (Final: 54x85mm + Auto PDF Trigger)
 
+// ✅ script.js - (Final: 54x85mm + Calibration Fix for Duplex)
+
 function printAll(side) {
     if (!allTeachers.length) return alert("No Data");
     const w = window.open("", "_blank");
     
-    // CSS សម្រាប់ Print (រក្សាទុកដដែល)
+    // CSS សម្រាប់ Print
     const css = `<style>
         @import url('https://fonts.googleapis.com/css2?family=Moul&family=Siemreap&display=swap');
         @page { size: A4; margin: 0; }
         body { margin: 0; background: #eee; font-family: 'Siemreap', sans-serif; }
         
         .sheet { 
-            width: 210mm; height: 297mm; padding: 0; margin: 0 auto; 
-            background: white; display: grid; 
+            width: 210mm; 
+            height: 297mm; 
+            padding: 0; 
+            margin: 0 auto; 
+            background: white; 
+            display: grid; 
+            
+            /* ទំហំស្តង់ដារ 54mm x 85mm */
             grid-template-columns: repeat(2, 54mm); 
             grid-template-rows: repeat(3, 85mm); 
+            
             gap: 15mm 25mm; 
-            justify-content: center; align-content: center; 
+            
+            /* ដាក់នៅកណ្តាល */
+            justify-content: center; 
+            align-content: center; 
             page-break-after: always; 
         }
 
-        .sheet.is-back { direction: rtl; }
+        /* 🔥 SOLUTION: កូដសម្រាប់តម្រូវកាតផ្នែកខាងក្រោយអោយត្រូវគ្នា */
+        .sheet.is-back { 
+            direction: rtl; /* រៀបកាតពីស្តាំមកឆ្វេង (Mirror) */
+            
+            /* 🔥🔥🔥 សំខាន់ណាស់៖ កន្លែងកែតម្រូវគម្លាត (Calibration) 🔥🔥🔥 */
+            /* ប្រសិនបើកាតខាងក្រោយរត់ទៅឆ្វេងពេក សូមដាក់លេខវិជ្ជមាន (ឧ. 2mm) */
+            /* ប្រសិនបើកាតខាងក្រោយរត់ទៅស្តាំពេក សូមដាក់លេខអវិជ្ជមាន (ឧ. -2mm) */
+            transform: translateX(0mm); 
+        }
+
+        /* ទោះបី Grid បញ្ច្រាស ប៉ុន្តែអក្សរក្នុងកាតត្រូវតែធម្មតាវិញ */
         .sheet.is-back .id-card-print { direction: ltr; }
         
         .id-card-print { 
-            width: 54mm; height: 85mm; background: #fff; 
-            border-radius: 8px; overflow: hidden; border: 2px solid #000; 
-            position: relative; display: flex; flex-direction: column; 
+            width: 54mm; 
+            height: 85mm; 
+            background: #fff; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            border: 2px solid #000; /* ស៊ុមខ្មៅច្បាស់ */
+            position: relative; 
+            display: flex; 
+            flex-direction: column; 
             -webkit-print-color-adjust: exact; 
         }
         
@@ -177,13 +198,16 @@ function printAll(side) {
         .footer { position: absolute; bottom: 0; width: 100%; background: #0d1b3e; color: white; font-size: 10px; font-weight: bold; text-align: center; padding: 5px 0; }
     </style>`;
 
-    let html = `<html><head><title>Export PDF - ${side}</title>${css}</head><body>`;
+    let html = `<html><head><title>Print ${side}</title>${css}</head><body>`;
+    
+    // កំណត់ Class ពិសេសសម្រាប់ផ្នែកខាងក្រោយ
     const sheetClass = side === 'back' ? 'sheet is-back' : 'sheet';
     const perPage = 6; 
     
     for (let i = 0; i < allTeachers.length; i += perPage) {
         const chunk = allTeachers.slice(i, i + perPage);
         html += `<div class="${sheetClass}">`;
+        
         chunk.forEach(t => {
              if(side === 'front') {
                 html += `
@@ -222,17 +246,17 @@ function printAll(side) {
         html += `</div>`;
     }
     html += `</body></html>`;
-    
     w.document.write(html);
     w.document.close();
 
-    // 🔥 កូដបន្ថែម៖ រង់ចាំ ១ វិនាទីអោយរូប Load ហើយបើកផ្ទាំង Save PDF ស្វ័យប្រវត្តិ
+    // Auto trigger print/save
     setTimeout(() => {
         w.focus();
-        w.print(); // នឹងបើកផ្ទាំង Print -> អ្នកគ្រាន់តែជ្រើសរើស "Save as PDF"
+        w.print();
     }, 1000);
 }
 function printSingleCard(t, side) { printAll(side); }
+
 
 
 
